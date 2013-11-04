@@ -4,9 +4,18 @@ Subastas
 Repositorio privado del **grupo 12** de Ingeniería del Software II.
 
 
+###Instrucciones de instalación
+Antes de nada aseguraros de tener Python, pip y Git instalados. Yo voy a usar un virtualenv, para que no se me mezclen la cosas, si queréis hacer lo mismo decidlo y os enseño, pero no es necesario.
 
-Integrantes
----------
+1. ```pip install django```
+2. Navegar hasta la carpeta donde queráis crear el repositorio
+3. Ejecutar en consola ```git clone git@github.com:Garinoth/subastasIS2.git``` (Antes tendréis que poneros las claves ssh, que ya os indicaré como hacerlo)
+
+
+
+
+
+###Integrantes
 
 - **Líder**         Sonia Martínez Martín
 - **Desarrollo**    Carlos David Rodríguez Peña
