@@ -3,7 +3,7 @@
 <html lang="es">
 
 <head>
-	{% load staticfiles %}
+	<!--{% load staticfiles %}-->
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<link rel="stylesheet" type="text/css" href="../static/css/style.css">
 	<!--"{% static 'css/style.css' %}"-->
@@ -17,21 +17,24 @@
 	<div class="fila">
 
 		<form class="busqueda primera_columna">
-			<input type="text" name="searchField" value="Escriba lo que desee buscar..." />
-			<input type="submit" name="searchButton" value="Buscar" />
+			<input type="text" name="searchField" class="buscar" value="Escriba lo que desee buscar..." />
+			<input type="image" name="searchButton" class="button" value="" src="../static/images/find.png" />
 		</form>
-
-		<a href='#' class="logo_principal seunda_columna">JDLS</a>
 
 		<nav class="navegacion_principal tercera_columna right">
 			<ul>
-				<li><a>Alta de usuario</a></li>
+				<li><a>Registro</a></li>
 				<li>&bull;</li>
 				<li><a>Login</a></li>
-				<li>&bull;</li>
-				<li><a>Logout</a></li>
+				<li style="display: none;"><a>Logout</a></li>
 			</ul>
 		</nav>
+
+	</div>
+
+	<div class="fila cuerpo" id="logo">
+
+		<a href='#' class="logo_principal primera_columna">JDLS</a>
 
 	</div>
 		
