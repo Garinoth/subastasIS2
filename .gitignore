@@ -11,3 +11,6 @@ venv
 # Sublime project files
 *.sublime-workspace
 *.sublime-project
+
+# Database files
+db.sqlite3

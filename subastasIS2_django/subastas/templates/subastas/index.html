@@ -1,0 +1,126 @@
+	<!DOCTYPE HTML>
+
+	<html lang="es">
+
+	<head>
+		<!--{% load staticfiles %}-->
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<link rel="stylesheet" type="text/css" href="../../static/css/style.css">
+		<!--"{% static 'css/style.css' %}"-->
+		<title>JDLS</title>
+	</head>
+
+	<body>
+
+		<header>
+			<!-- PRIMERA FILA -->
+			<div class="fila">
+
+				<!-- CUADRO DE BÚSQUEDA -->
+				<form class="busqueda primera_columna">
+					<input type="text" name="searchField" class="buscar" placeholder="Escriba lo que desee buscar..." />
+					<input type="image" name="searchButton" class="button" value="" src="../../static/images/find.png" />
+				</form>
+
+				<!-- REGISTRO/LOGIN -->
+				<nav class="navegacion_principal tercera_columna right">
+					<ul>
+						<li><a>Registro</a></li>
+						<li>&bull;</li>
+						<li><a>Login</a></li>
+						<li style="display: none;"><a>Logout</a></li>
+					</ul>
+				</nav>
+
+			</div>
+
+			<!-- SEGUNDA FILA -->
+			<div class="fila cuerpo" id="logo">
+				<a href='#' class="logo_principal primera_columna">JDLS</a>
+			</div>
+			
+		</header>
+		
+		<!-- CONTENIDO PÁGINA -->
+		<section class="cuerpo">
+			<article class="registro">
+				<header>
+					<h2>Registro de usuario</h2>
+					<p>Introduzca los datos que se le solicitan a continuación para proceder a la creación de su perfil:</p>
+				</header>
+				<form class="fregistro form-horizontal">
+					<div class="form-group">
+						<label class="freg control-label">Nombre de usuario</label><input class="stext form-control" type="text" name="user" value="" />
+					</div>
+					<div class="form-group">
+						<label class="freg control-label">Nombre</label><input class="stext form-control" type="text" name="name" value="" />
+					</div>
+					<div class="form-group">
+						<label class="freg control-label">Apellidos</label><input class="text form-control" type="text" name="surname" value="" />
+					</div>
+					<div class="form-group">
+						<label class="freg control-label">Dirección</label><input class="text form-control" type="textarea" name="address" value="" />
+					</div>
+					<div class="form-group">
+						<label class="freg control-label">Código Postal<input class="sstext form-control" type="text" name="cp" value="" />
+						</label>
+					</div>
+					<div class="form-group">
+						<label class="freg control-label">Ciudad</label><input class="stext form-control" type="text" name="city" value="" />	
+					</div>
+					<div class="form-group">			
+						<label class="freg control-label">País</label><input class="stext form-control" type="text" name="country" value="" />
+					</div>
+					<div class="form-group">
+						<label class="freg control-label">Fecha de nacimiento</label><input class="stext form-control" type="date" name="bithdate" value="" />
+					</div>
+					<div class="form-group">
+						<label class="freg control-label">Teléfono</label><input class="sstext form-control" type="text form-control" name="name" value="" />	
+					</div>
+					<div class="form-group">			
+						<label class="freg control-label">Correo electrónico</label><input class="stext form-control" type="email" name="email" value="" />
+					</div>
+					<div class="form-group">
+						<label class="freg control-label">Repita su correo electrónico</label><input class="form stext form-control" type="email" name="remail" value="" />
+					</div>
+					<div class="form-group">
+						<label class="freg control-label">Contraseña</label><input class="stext form-control" type="password" name="password" value="" />
+					</div>
+					<div class="form-group">
+						<label class="freg control-label">Repita su contraseña</label><input class="stext form-control" type="pasword" name="rpassword" value="" />
+					</div>
+				</form>
+
+
+		<!--	<article>
+				<header>
+					<h2>Article title</h2>
+					<p>Posted on <time datetime="2009-09-04T16:31:24+02:00">September 4th 2009</time> by <a href="#">Writer</a> - <a href="#comments">6 comments</a></p>
+				</header>
+				<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+			</article>
+			
+			<article>
+				<header>
+					<h2>Article title</h2>
+					<p>Posted on <time datetime="2009-09-04T16:31:24+02:00">September 4th 2009</time> by <a href="#">Writer</a> - <a href="#comments">6 comments</a></p>
+				</header>
+				<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+			</article> -->
+			
+		</section>
+
+		<aside class="cuerpo">
+			<h2>About section</h2>
+			<p>Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+		</aside>
+
+		<footer>
+			<div class="cuerpo">
+				<p>Copyright 2013 Your name</p>
+			</div>
+		</footer>
+
+	</body>
+
+	</html>

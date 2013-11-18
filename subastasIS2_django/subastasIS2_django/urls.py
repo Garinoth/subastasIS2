@@ -9,4 +9,6 @@ urlpatterns = patterns('',
     url(r'^subastas/', include('subastas.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^subastas/', include('subastas.urls')),
+
 )
