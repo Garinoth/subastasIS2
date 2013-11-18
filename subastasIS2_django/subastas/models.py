@@ -28,6 +28,12 @@ class Item(models.Model):
     first_created = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        permissions = (
+            ("can_create_item", "Can create items"),
+            ("can_change_item", "Can modify items"),
+        )
+
 
 class Auction(models.Model):
     item = models.OneToOneField(Item, primary_key=True)
