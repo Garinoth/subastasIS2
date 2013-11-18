@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-class ExternalUser(models.Model):
+class AucitonUser(models.Model):
     user = models.OneToOneField(User, primary_key=True)
     name = models.CharField(max_length=40)
     surname = models.CharField(max_length=40)
