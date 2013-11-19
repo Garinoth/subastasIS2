@@ -2,28 +2,25 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-class AucitonUser(models.Model):
+class AuctionUser(models.Model):
     user = models.OneToOneField(User, primary_key=True)
-    name = models.CharField(max_length=40)
-    surname = models.CharField(max_length=40)
     address = models.CharField(max_length=100)
     postal_code = models.CharField(max_length=5)
     city = models.CharField(max_length=40)
     country = models.CharField(max_length=40)
     birth_date = models.DateField()
-    phone_number = models.DecimalField(max_digits=9, decimal_places=None)
-    email = models.EmailField()
+    phone_number = models.DecimalField(max_digits=9, decimal_places=0, blank=True)
     points = models.PositiveIntegerField(default=0)
-    image = models.ImageField()
+    image = models.ImageField(upload_to='/profile/', blank=True)
 
     is_internal = models.BooleanField(default=False)
 
 
 class Item(models.Model):
-    owner = models.ForeignKey(InternalUser)
+    owner = models.ForeignKey(AuctionUser)
     name = models.CharField(max_length=100)
     description = models.TextField()
-    image = models.ImageField()
+    image = models.ImageField(upload_to='/items/')
     category = models.CharField(max_length=100)
     first_created = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
@@ -51,7 +48,7 @@ class Offer(models.Model):
 
 
 class Bid(models.Model):
-    user = models.OneToOneField(ExternalUser)
-    auction = models.OneToOneField(Auction)
+    user = models.ForeignKey(AuctionUser)
+    auction = models.ForeignKey(Auction)
     timestamp = models.DateTimeField(auto_now_add=True)
     points = models.PositiveIntegerField()
