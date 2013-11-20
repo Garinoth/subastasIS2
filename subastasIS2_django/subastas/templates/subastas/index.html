@@ -25,10 +25,10 @@
 				<!-- REGISTRO/LOGIN -->
 				<nav class="navegacion_principal tercera_columna right">
 					<ul>
-						<li><a>Registro</a></li>
+						<li><a href="{% url 'test' %}">Registro</a></li>
 						<li>&bull;</li>
-						<li><a>Login</a></li>
-						<li style="display: none;"><a>Logout</a></li>
+						<li><a href="{% url 'login' %}?next={{ request.path }}">Login</a></li>
+						<li><a href="{% url 'logout' %}">Logout</a></li>
 					</ul>
 				</nav>
 
@@ -38,9 +38,9 @@
 			<div class="fila cuerpo" id="logo">
 				<a href='#' class="logo_principal primera_columna">JDLS</a>
 			</div>
-			
+
 		</header>
-		
+
 		<!-- CONTENIDO PÁGINA -->
 		<section class="cuerpo">
 			<article class="registro">
@@ -66,18 +66,18 @@
 						</label>
 					</div>
 					<div class="form-group">
-						<label class="freg control-label">Ciudad</label><input class="stext form-control" type="text" name="city" value="" />	
+						<label class="freg control-label">Ciudad</label><input class="stext form-control" type="text" name="city" value="" />
 					</div>
-					<div class="form-group">			
+					<div class="form-group">
 						<label class="freg control-label">País</label><input class="stext form-control" type="text" name="country" value="" />
 					</div>
 					<div class="form-group">
 						<label class="freg control-label">Fecha de nacimiento</label><input class="stext form-control" type="date" name="bithdate" value="" />
 					</div>
 					<div class="form-group">
-						<label class="freg control-label">Teléfono</label><input class="sstext form-control" type="text form-control" name="name" value="" />	
+						<label class="freg control-label">Teléfono</label><input class="sstext form-control" type="text form-control" name="name" value="" />
 					</div>
-					<div class="form-group">			
+					<div class="form-group">
 						<label class="freg control-label">Correo electrónico</label><input class="stext form-control" type="email" name="email" value="" />
 					</div>
 					<div class="form-group">
@@ -99,7 +99,7 @@
 				</header>
 				<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
 			</article>
-			
+
 			<article>
 				<header>
 					<h2>Article title</h2>
@@ -107,7 +107,7 @@
 				</header>
 				<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
 			</article> -->
-			
+
 		</section>
 
 		<aside class="cuerpo">
