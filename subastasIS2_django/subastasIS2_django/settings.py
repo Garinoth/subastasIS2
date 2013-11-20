@@ -50,6 +50,14 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.request",
+)
+
 ROOT_URLCONF = 'subastasIS2_django.urls'
 
 WSGI_APPLICATION = 'subastasIS2_django.wsgi.application'
@@ -83,3 +91,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# LOGIN redirection page
+LOGIN_URL = 'login'
+
+# MEDIA storage location
+MEDIA_URL = '/home/garinoth/Repositories/subastasIS2/subastasIS2_django/subastas/media/'
