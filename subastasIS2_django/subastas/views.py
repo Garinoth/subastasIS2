@@ -6,7 +6,7 @@ from django.http import HttpResponse
 
 
 def index(request):
-    return render(request, 'subastas/index.html')
+    return render(request, 'subastas/base.html')
 
 
 @login_required
