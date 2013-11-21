@@ -1,0 +1,8 @@
+<form action="{% url 'register' %}" method="POST">
+  {% csrf_token %}
+  <ul>
+    {{ user_form.as_ul }}
+    {{ auction_user_form.as_ul }}
+  </ul>
+  <input type="submit" value="Save" />
+</form>
