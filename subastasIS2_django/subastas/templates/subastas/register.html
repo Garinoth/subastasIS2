@@ -1,0 +1,80 @@
+{% extends "subastas/base.html" %}
+
+{% block title %}JDLS|Registro{% endblock %}
+
+{% block content %}
+
+{% if user_form.errors %}
+<a href="" class="overlay" id="popups"></a>
+<div class="popup">
+	<h2 class="error">Error</h2>
+	<p class="error ultimo">El nombre de usuario y contraseña no son correctos. Por favor, vuelva a intentarlo.</p>
+	<a class="close" href=""></a>
+	<a href=""><input type="button" class="button close" value="Aceptar" /></a>
+</div>
+{% endif %}
+
+<header>
+    <h2>Registro de usuario</h2>
+	<p>Introduzca los datos qiue se le solicitan a continuación para proceder a la creación de su perfil:</p>
+</header>
+<form class="form-horizontal" method="post" action="{% url 'register' %}">
+{% csrf_token %}
+<table>
+<tr><div class="form-group">
+    <td><label class="freg control-label">{{ user_form.username.label_tag }}</label></td>
+    <td>{{ user_form.username }}</td>
+</div></tr>
+<tr><div class="form-group">
+    <td><label class="freg control-label">{{ user_form.first_name.label_tag }}</label></td>
+    <td>{{ user_form.first_name }}</td>
+</div></tr>
+<tr><div class="form-group">
+    <td><label class="freg control-label">{{ user_form.last_name.label_tag }}</label></td>
+    <td>{{ user_form.last_name }}</td>
+</div></tr>
+<tr><div class="form-group">
+    <td><label class="freg control-label">{{ auction_user_form.address.label_tag }}</label></td>
+    <td>{{ auction_user_form.address }}</td>
+</div></tr>
+<tr><div class="form-group">
+    <td><label class="freg control-label">{{ auction_user_form.postal_code.label_tag }}</label></td>
+    <td>{{ auction_user_form.postal_code }}</td>
+</div></tr>
+<tr><div class="form-group">
+    <td><label class="freg control-label">{{ auction_user_form.city.label_tag }}</label></td>
+    <td>{{ auction_user_form.city }}</td>
+</div></tr>
+<tr><div class="form-group">
+    <td><label class="freg control-label">{{ auction_user_form.country.label_tag }}</label></td>
+    <td>{{ auction_user_form.country }}</td>
+</div></tr>
+<tr><div class="form-group">
+    <td><label class="freg control-label">{{ auction_user_form.birth_date.label_tag }}</label></td>
+    <td>{{ auction_user_form.birth_date }}</td>
+</div></tr>
+<tr><div class="form-group">
+    <td><label class="freg control-label">{{ auction_user_form.phone_number.label_tag }}</label></td>
+    <td>{{ auction_user_form.phone_number }}</td>
+</div></tr>
+<tr><div class="form-group">
+    <td><label class="freg control-label">{{ user_form.email.label_tag }}</label></td>
+    <td>{{ user_form.email }}</td>
+</div></tr><tr><div class="form-group">
+    <td><label class="freg control-label">{{ user_form.confirm_email.label_tag }}</label></td>
+    <td>{{ user_form.confirm_email }}</td>
+</div></tr>
+<tr><div class="form-group">
+    <td><label class="freg control-label">{{ user_form.password.label_tag }}</label></td>
+    <td>{{ user_form.password }}</td>
+</div></tr>
+<tr><div class="form-group">
+    <td><label class="freg control-label">{{ user_form.confirm_password.label_tag }}</label></td>
+    <td>{{ user_form.confirm_password }}</td>
+</div></tr>
+</table>
+
+<input class="button body" type="submit" value="Aceptar" />
+</form>
+
+{% endblock %}

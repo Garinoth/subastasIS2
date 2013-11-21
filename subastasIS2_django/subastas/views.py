@@ -9,7 +9,7 @@ from subastas.forms import UserForm, AuctionUserForm, ItemForm, AuctionForm, Off
 
 
 def index(request):
-    return render(request, 'subastas/base.html')
+    return render(request, 'subastas/index.html')
 
 
 class ListUsersView(ListView):
@@ -45,7 +45,7 @@ def register_user(request):
         user_form = UserForm(prefix='user')
         auction_user_form = AuctionUserForm(prefix='auction_user')
 
-    return render(request, 'subastas/register_dummy.html', {
+    return render(request, 'subastas/register.html', {
         'user_form': user_form,
         'auction_user_form': auction_user_form})
 
