@@ -9,7 +9,7 @@ from subastas.forms import UserForm, AuctionUserForm, ItemForm, AuctionForm, Off
 
 
 def index(request):
-    return render(request, 'subastas/index.html')
+    return render(request, 'subastas/base.html')
 
 
 class ListUsersView(ListView):
