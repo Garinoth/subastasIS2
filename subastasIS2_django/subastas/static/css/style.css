@@ -355,19 +355,43 @@ footer
 
 /* ::: Formulario registro :::  */
 
-.sstext {
+.required {
+    color: red;
+}
+
+#key {
+    margin: 10px;
+    font-size: 12px;
+}
+
+.sstext,
+#id_auction_user-postal_code,
+#id_auction_user-phone_number  {
     width: 30%;
     min-width: 75px;
     max-width: 100px;
 }
 
-.stext {
+.stext,
+#id_username, 
+#id_password, 
+#id_user-username, 
+#id_user-first_name,
+#id_auction_user-city,
+#id_auction_user-country,
+#id_user-email,
+#id_user-confirm_email,
+#id_user-password,
+#id_user-confirm_password  {
     width: 30%;
     min-width: 150px;
     max-width: 250px;
 }
 
-.text {
+.text,
+#id_auction_user-address,
+#id_user-last_name
+{
     width: 75%;
     min-width: 250px;
     max-width: 500px;
@@ -429,7 +453,22 @@ textarea {
     margin-bottom: 0;
     vertical-align: middle;
   }
-  .form-inline .form-control, .form-inline #id_username, .form-inline #id_password {
+  .form-inline .form-control, 
+  .form-inline #id_username, 
+  .form-inline #id_password, 
+  .form-inline #id_user-username, 
+  .form-inline #id_user-first_name,
+  .form-inline #id_user-last_name,
+  .form-inline #id_auction_user-address,
+  .form-inline #id_auction_user_postal-code,
+  .form-inline #id_auction_user-city,
+  .form-inline #id_auction_user-country,
+  .form-inline #id_auction_user-phone_number,
+  .form-inline #id_user-email,
+  .form-inline #id_user-confirm_email,
+  .form-inline #id_user-password,
+  .form-inline #id_user-confirm_password 
+  {
     display: inline-block;
   }
   .form-inline .radio,
@@ -448,7 +487,24 @@ textarea {
 
 /* INPUTS */
 
-.form-control, #id_username, #id_password {
+.form-control, 
+#id_username, 
+#id_password, 
+#id_username, 
+#id_password, 
+#id_user-username, 
+#id_user-first_name,
+#id_user-last_name,
+#id_auction_user-address,
+#id_auction_user-postal_code,
+#id_auction_user-city,
+#id_auction_user-country,
+#id_auction_user-phone_number,
+#id_user-email,
+#id_user-confirm_email,
+#id_user-password,
+#id_user-confirm_password 
+{
   display: block;
   height: 25px;
   padding: 1px 15px;
@@ -464,7 +520,36 @@ textarea {
   -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
   transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
-.form-control:focus, #id_username:focus, #id_password:focus {
+
+select {
+    border-radius: 7px;
+    border: 1px solid #cccccc;
+    height: 25px;
+    line-height: 1.428571429;
+    color: #555555;
+    padding: 1px 3px;
+
+}
+
+.form-control:focus, 
+#id_username:focus, 
+#id_password:focus,
+#id_username:focus, 
+#id_password:focus, 
+#id_username:focus, 
+#id_password:focus, 
+#id_user-username:focus, 
+#id_user-first_name:focus,
+#id_user-last_name:focus,
+#id_auction_user-address:focus,
+#id_auction_user-postal_code:focus,
+#id_auction_user-city:focus,
+#id_auction_user-country:focus,
+#id_auction_user-phone_number:focus,
+#id_user-email:focus,
+#id_user-confirm_email:focus,
+#id_user-password:focus,
+#id_user-confirm_password:focus  {
   border-color: #66afe9;
   outline: 0;
   -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
@@ -488,8 +573,12 @@ fieldset[disabled] .form-control {
   cursor: not-allowed;
   background-color: #eeeeee;
 }
-textarea.form-control, textarea#id_username, textarea#id_password {
+textarea.form-control {
   height: auto;
+}
+
+textarea#id_auction_user-address {
+    height: 38px;
 }
 
 .form-control-static {
@@ -502,7 +591,25 @@ textarea.form-control, textarea#id_username, textarea#id_password {
     margin-bottom: 0;
     vertical-align: middle;
   }
-  .form-inline .form-control, .form-inline #id_username, .form-inline #id_password {
+  .form-inline .form-control, 
+  .form-inline #id_username, 
+  .form-inline #id_password,
+  .form-inline #id_username, 
+  .form-inline #id_password, 
+  .form-inline #id_username, 
+  .form-inline #id_password, 
+  .form-inline #id_user-username, 
+  .form-inline #id_user-first_name,
+  .form-inline #id_user-last_name,
+  .form-inline #id_auction_user-address,
+  .form-inline #id_auction_user-postal_code,
+  .form-inline #id_auction_user-city,
+  .form-inline #id_auction_user-country,
+  .form-inline #id_auction_user-phone_number,
+  .form-inline #id_user-email,
+  .form-inline #id_user-confirm_email,
+  .form-inline #id_user-password,
+  .form-inline #id_user-confirm_password  {
     display: inline-block;
   }
   .form-inline .radio,

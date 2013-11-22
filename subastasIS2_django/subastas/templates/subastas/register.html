@@ -22,57 +22,58 @@
 {% csrf_token %}
 <table>
 <tr><div class="form-group">
-    <td><label class="freg control-label">{{ user_form.username.label_tag }}</label></td>
+    <td><label class="freg control-label"><span class="required">*</span>Nombre de usuario </label></td>
     <td>{{ user_form.username }}</td>
 </div></tr>
 <tr><div class="form-group">
-    <td><label class="freg control-label">{{ user_form.first_name.label_tag }}</label></td>
+    <td><label class="freg control-label">Nombre </label></td>
     <td>{{ user_form.first_name }}</td>
 </div></tr>
 <tr><div class="form-group">
-    <td><label class="freg control-label">{{ user_form.last_name.label_tag }}</label></td>
+    <td><label class="freg control-label">Apellidos </label></td>
     <td>{{ user_form.last_name }}</td>
 </div></tr>
 <tr><div class="form-group">
-    <td><label class="freg control-label">{{ auction_user_form.address.label_tag }}</label></td>
+    <td><label class="freg control-label">Dirección</label></td>
     <td>{{ auction_user_form.address }}</td>
 </div></tr>
 <tr><div class="form-group">
-    <td><label class="freg control-label">{{ auction_user_form.postal_code.label_tag }}</label></td>
+    <td><label class="freg control-label">Código postal </label></td>
     <td>{{ auction_user_form.postal_code }}</td>
 </div></tr>
 <tr><div class="form-group">
-    <td><label class="freg control-label">{{ auction_user_form.city.label_tag }}</label></td>
+    <td><label class="freg control-label">Ciudad</label></td>
     <td>{{ auction_user_form.city }}</td>
 </div></tr>
 <tr><div class="form-group">
-    <td><label class="freg control-label">{{ auction_user_form.country.label_tag }}</label></td>
+    <td><label class="freg control-label">País</label></td>
     <td>{{ auction_user_form.country }}</td>
 </div></tr>
 <tr><div class="form-group">
-    <td><label class="freg control-label">{{ auction_user_form.birth_date.label_tag }}</label></td>
+    <td><label class="freg control-label"><span class="required">*</span>Fecha de nacimiento </label></td>
     <td>{{ auction_user_form.birth_date }}</td>
 </div></tr>
 <tr><div class="form-group">
-    <td><label class="freg control-label">{{ auction_user_form.phone_number.label_tag }}</label></td>
+    <td><label class="freg control-label">Teléfono </label></td>
     <td>{{ auction_user_form.phone_number }}</td>
 </div></tr>
 <tr><div class="form-group">
-    <td><label class="freg control-label">{{ user_form.email.label_tag }}</label></td>
+    <td><label class="freg control-label"><span class="required">*</span>Correo electrónico </label></td>
     <td>{{ user_form.email }}</td>
 </div></tr><tr><div class="form-group">
-    <td><label class="freg control-label">{{ user_form.confirm_email.label_tag }}</label></td>
+    <td><label class="freg control-label"><span class="required">*</span>Confirme su correo electrónico </label></td>
     <td>{{ user_form.confirm_email }}</td>
 </div></tr>
 <tr><div class="form-group">
-    <td><label class="freg control-label">{{ user_form.password.label_tag }}</label></td>
+    <td><label class="freg control-label"><span class="required">*</span>Contraseña </label></td>
     <td>{{ user_form.password }}</td>
 </div></tr>
 <tr><div class="form-group">
-    <td><label class="freg control-label">{{ user_form.confirm_password.label_tag }}</label></td>
+    <td><label class="freg control-label"><span class="required">*</span>Confirme su contraseña </label></td>
     <td>{{ user_form.confirm_password }}</td>
 </div></tr>
 </table>
+<p id="key">(<span class="required">*</span>) Campos obligatorios</p>
 
 <input class="button body" type="submit" value="Aceptar" />
 </form>
