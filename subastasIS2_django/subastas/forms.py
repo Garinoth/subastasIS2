@@ -1,6 +1,7 @@
+from datetime import date
 from django.core.exceptions import ValidationError
 from django.forms import ModelForm, EmailField, CharField, PasswordInput, DateField
-from django.forms.extras.widgets import SelectDateWidget 
+from django.forms.extras.widgets import SelectDateWidget
 from django.forms.widgets import Textarea
 from subastas.models import User, AuctionUser, Item, Auction, Offer, Bid
 
@@ -55,7 +56,7 @@ class UserForm(ModelForm):
 class AuctionUserForm(ModelForm):
 
     birth_date = DateField(
-        widget=SelectDateWidget(years=reversed(range(1920, 2014))),
+        widget=SelectDateWidget(years=range(date.today().year, 1920, -1)),
     )
     address = CharField(
         max_length=100,
