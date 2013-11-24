@@ -1,6 +1,7 @@
+from datetime import date
 from django.core.exceptions import ValidationError
-from django.forms import ModelForm, EmailField, CharField, PasswordInput, DateField
-from django.forms.extras.widgets import SelectDateWidget 
+from django.forms import ModelForm, EmailField, CharField, PasswordInput, DateField, BooleanField
+from django.forms.extras.widgets import SelectDateWidget
 from django.forms.widgets import Textarea
 from subastas.models import User, AuctionUser, Item, Auction, Offer, Bid
 
@@ -49,17 +50,27 @@ class UserForm(ModelForm):
                 "Passwords must match."
             )
 
+        if (len(self.cleaned_data.get('password')) < 6):
+
+          raise ValidationError(
+                "Passwords must be at least 6 characters long."
+            )
+
         return self.cleaned_data
 
 
 class AuctionUserForm(ModelForm):
 
     birth_date = DateField(
-        widget=SelectDateWidget(years=reversed(range(1920, 2014))),
+        widget=SelectDateWidget(years=range(date.today().year, 1920, -1)),
     )
     address = CharField(
         max_length=100,
         widget=Textarea,
+        required=False,
+    )
+    tos = BooleanField(
+        error_messages={'required': 'You must accept the terms and conditions'},
     )
 
     class Meta:

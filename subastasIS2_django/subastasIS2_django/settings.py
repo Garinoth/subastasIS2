@@ -97,3 +97,11 @@ LOGIN_URL = '/subastas/'
 
 # MEDIA storage location
 MEDIA_URL = '/home/garinoth/Repositories/subastasIS2/subastasIS2_django/subastas/media/'
+
+# Email settings
+DEFAULT_FROM_EMAIL = 'juegodelasubasta@gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'juegodelasubasta@gmail.com'
+EMAIL_HOST_PASSWORD = 'jdls2013'
