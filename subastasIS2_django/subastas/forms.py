@@ -50,7 +50,7 @@ class UserForm(ModelForm):
                 "Passwords must match."
             )
 
-        if (len(self.cleaned_data.get('password')) <= 6):
+        if (len(self.cleaned_data.get('password')) < 6):
 
           raise ValidationError(
                 "Passwords must be at least 6 characters long."
@@ -67,6 +67,7 @@ class AuctionUserForm(ModelForm):
     address = CharField(
         max_length=100,
         widget=Textarea,
+        required=False,
     )
     tos = BooleanField(
         error_messages={'required': 'You must accept the terms and conditions'},
