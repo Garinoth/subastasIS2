@@ -8,14 +8,14 @@ from django.views.generic import ListView
 from subastas.forms import UserForm, AuctionUserForm, ItemForm, AuctionForm, OfferForm, BidForm
 
 
-def index(request):
-    return render(request, 'subastas/index.html')
-
-
 class ListUsersView(ListView):
 
     model = User
     template_name = 'subastas/user_list_dummy.html'
+
+
+def index(request):
+    return render(request, 'subastas/index.html')
 
 
 @login_required
@@ -29,15 +29,20 @@ def register_user(request):
     # TODO Send emails
     if request.method == 'POST':
         user_form = UserForm(request.POST, prefix='user')
-        auction_user_form = AuctionUserForm(request.POST, prefix='auction_user')
+        auction_user_form = AuctionUserForm(
+            request.POST, prefix='auction_user')
 
         if user_form.is_valid() and auction_user_form.is_valid():
             user = user_form.save(commit=False)
             user.set_password(user_form.cleaned_data['password'])
+            user.is_active = False
             user.save()
+
             auction_user = auction_user_form.save(commit=False)
             auction_user.user = user
+            auction_user.set_activation_key()
             auction_user.save()
+            auction_user.send_activation_email()
 
             return HttpResponseRedirect(reverse('index'))
 
@@ -49,6 +54,9 @@ def register_user(request):
         'user_form': user_form,
         'auction_user_form': auction_user_form})
 
+
+def tos(request):
+    return render(request, 'subastas/tos.html')
 
 @login_required
 def item_detail(request, auction_id):
