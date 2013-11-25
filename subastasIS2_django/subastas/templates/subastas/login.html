@@ -16,7 +16,9 @@
 
 <header>
     <h2>Login de usuario</h2>
+    {% block subject %}
 	<p>Introduzca su nombre de usuario y su contraseña para entrar en el sistema:</p>
+	{% endblock %}
 </header>
 <form class="form-horizontal" method="post" action="{% url 'django.contrib.auth.views.login' %}">
 
