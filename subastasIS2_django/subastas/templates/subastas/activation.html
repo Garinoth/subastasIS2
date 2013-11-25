@@ -6,7 +6,22 @@
 	<p>Para finalizar el registro de su cuenta introduzca su correo electrónico y su contraseña para activarlos:</p>
 {% endblock %}
 
-{% block formtype %}
+{% block form %}
 <form class="form-horizontal" method="post" action="{% url 'activation' %}">
+{% csrf_token %}
 	<input type="hidden" name="ativation_key" value="{{ activation_key }}" />
+<table>
+<tr><div class="form-group">
+    <td><label class="freg control-label">Correo electrónico </label></td>
+    <td>{{ form.email }}</td>
+</div></tr>
+<tr><div class="form-group">
+    <td><label class="freg control-label">Contraseña </label></td>
+    <td>{{ form.password }}</td>
+</div></tr>
+</table>
+
+<input class="button body" type="submit" value="Login" />
+<input type="hidden" name="next" value="{{ next }}" />
+</form>
 {% endblock %}

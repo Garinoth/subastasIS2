@@ -1,5 +1,6 @@
 from datetime import date
 from django.core.exceptions import ValidationError
+from django.contrib.auth import authenticate
 from django.forms import Form, ModelForm, EmailField, CharField, PasswordInput, DateField, BooleanField
 from django.forms.extras.widgets import SelectDateWidget
 from django.forms.widgets import Textarea

@@ -382,7 +382,8 @@ footer
 #id_user-email,
 #id_user-confirm_email,
 #id_user-password,
-#id_user-confirm_password  {
+#id_user-confirm_password,
+#id_email  {
     width: 30%;
     min-width: 150px;
     max-width: 250px;
@@ -467,7 +468,8 @@ textarea {
   .form-inline #id_user-email,
   .form-inline #id_user-confirm_email,
   .form-inline #id_user-password,
-  .form-inline #id_user-confirm_password 
+  .form-inline #id_user-confirm_password,
+  .form-inline #id_email 
   {
     display: inline-block;
   }
@@ -503,7 +505,8 @@ textarea {
 #id_user-email,
 #id_user-confirm_email,
 #id_user-password,
-#id_user-confirm_password 
+#id_user-confirm_password,
+#id_email 
 {
   display: block;
   height: 25px;
@@ -549,7 +552,8 @@ select {
 #id_user-email:focus,
 #id_user-confirm_email:focus,
 #id_user-password:focus,
-#id_user-confirm_password:focus  {
+#id_user-confirm_password:focus,
+#id_email:focus  {
   border-color: #66afe9;
   outline: 0;
   -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
@@ -609,7 +613,8 @@ textarea#id_auction_user-address {
   .form-inline #id_user-email,
   .form-inline #id_user-confirm_email,
   .form-inline #id_user-password,
-  .form-inline #id_user-confirm_password  {
+  .form-inline #id_user-confirm_password,
+  .form-inline #id_email  {
     display: inline-block;
   }
   .form-inline .radio,

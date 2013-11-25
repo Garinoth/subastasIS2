@@ -43,6 +43,8 @@ def register_user(request):
             auction_user.save()
             auction_user.send_activation_email()
 
+            return HttpResponseRedirect(reverse('index'))
+
     else:
         user_form = UserForm(prefix='user')
         auction_user_form = AuctionUserForm(prefix='auction_user')
@@ -59,9 +61,9 @@ def tos(request):
 
 def activation(request):
     if request.method == 'POST':
-        activation_form = ActivationForm(request.POST)
+        form = ActivationForm(request.POST)
 
-        if activation_form.is_valid():
+        if form.is_valid():
             email = request.POST['email']
             password = request.POST['password']
             activation_key = request.POST['activation_key']
@@ -74,10 +76,10 @@ def activation(request):
                     return HttpResponseRedirect(reverse('index'))
 
     else:
-        activation_form = ActivationForm()
+        form = ActivationForm()
 
     return render(request, 'subastas/activation.html', {
-        'activation_form': activation_form,
+        'form': form,
         })
 
 
