@@ -1,6 +1,6 @@
 from datetime import date
 from django.core.exceptions import ValidationError
-from django.forms import ModelForm, EmailField, CharField, PasswordInput, DateField, BooleanField
+from django.forms import Form, ModelForm, EmailField, CharField, PasswordInput, DateField, BooleanField
 from django.forms.extras.widgets import SelectDateWidget
 from django.forms.widgets import Textarea
 from subastas.models import User, AuctionUser, Item, Auction, Offer, Bid
@@ -117,3 +117,8 @@ class BidForm(ModelForm):
         fields = ['user',
                   'auction',
                   'points']
+
+class ActivationForm(Form):
+    email = EmailField()
+    password = PasswordInput()
+    activation_key = CharField(max_length=40)
