@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import ListView
-from subastas.forms import UserForm, AuctionUserForm, ItemForm, AuctionForm, OfferForm, BidForm
+from subastas.forms import UserForm, AuctionUserForm, ItemForm, AuctionForm, OfferForm, BidForm, ActivationForm, ValidationError
 
 
 class ListUsersView(ListView):
@@ -26,7 +26,6 @@ def test(request):
 
 
 def register_user(request):
-    # TODO Send emails
     if request.method == 'POST':
         user_form = UserForm(request.POST, prefix='user')
         auction_user_form = AuctionUserForm(
@@ -44,19 +43,43 @@ def register_user(request):
             auction_user.save()
             auction_user.send_activation_email()
 
-            return HttpResponseRedirect(reverse('index'))
-
     else:
         user_form = UserForm(prefix='user')
         auction_user_form = AuctionUserForm(prefix='auction_user')
 
     return render(request, 'subastas/register.html', {
         'user_form': user_form,
-        'auction_user_form': auction_user_form})
+        'auction_user_form': auction_user_form
+        })
 
 
 def tos(request):
     return render(request, 'subastas/tos.html')
+
+
+def activation(request):
+    if request.method == 'POST':
+        activation_form = ActivationForm(request.POST)
+
+        if activation_form.is_valid():
+            email = request.POST['email']
+            password = request.POST['password']
+            activation_key = request.POST['activation_key']
+            user = authenticate(email=email,password=password)
+            if user is not None:
+                user.is_active = True
+                user.save()
+                if user.is_active:
+                    login(request, user)
+                    return HttpResponseRedirect(reverse('index'))
+
+    else:
+        activation_form = ActivationForm()
+
+    return render(request, 'subastas/activation.html', {
+        'activation_form': activation_form,
+        })
+
 
 @login_required
 def item_detail(request, auction_id):
