@@ -5,10 +5,10 @@
 {% block content %}
 
 {% if form.errors %}
-<a href="" class="overlay" id="popups"></a>
-<div class="popup">
+<a href="" class="logoverlay" id="popups"></a>
+<div class="logpopup">
 	<h2 class="error">Error</h2>
-	<p class="error ultimo">El nombre de usuario y contraseña no son correctos. Por favor, vuelva a intentarlo.</p>
+	<p class="error ultimo">El correo electrónico y contraseña no son correctos. Por favor, vuelva a intentarlo.</p>
 	<a class="close" href=""></a>
 	<a href=""><input type="button" class="button close" value="Aceptar" /></a>
 </div>
@@ -16,18 +16,21 @@
 
 <header>
     <h2>Login de usuario</h2>
-	<p>Introduzca su nombre de usuario y su contraseña para entrar en el sistema:</p>
+    {% block subject %}
+	<p>Introduzca su correo electrónico y su contraseña para entrar en el sistema:</p>
+	{% endblock %}
 </header>
+{% block formtype %}
 <form class="form-horizontal" method="post" action="{% url 'django.contrib.auth.views.login' %}">
-
+{% endblock %}
 {% csrf_token %}
 <table>
 <tr><div class="form-group">
-    <td><label class="freg control-label">{{ form.username.label_tag }}</label></td>
+    <td><label class="freg control-label">Correo electrónico </label></td>
     <td>{{ form.username }}</td>
 </div></tr>
 <tr><div class="form-group">
-    <td><label class="freg control-label">{{ form.password.label_tag }}</label></td>
+    <td><label class="freg control-label">Contraseña </label></td>
     <td>{{ form.password }}</td>
 </div></tr>
 </table>
