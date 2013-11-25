@@ -5,8 +5,8 @@
 {% block content %}
 
 {% if form.errors %}
-<a href="" class="overlay" id="popups"></a>
-<div class="popup">
+<a href="" class="logoverlay" id="popups"></a>
+<div class="logpopup">
 	<h2 class="error">Error</h2>
 	<p class="error ultimo">El correo electrónico y contraseña no son correctos. Por favor, vuelva a intentarlo.</p>
 	<a class="close" href=""></a>
@@ -27,7 +27,7 @@
 <table>
 <tr><div class="form-group">
     <td><label class="freg control-label">Correo electrónico </label></td>
-    <td>{{ form.email }}</td>
+    <td>{{ form.username }}</td>
 </div></tr>
 <tr><div class="form-group">
     <td><label class="freg control-label">Contraseña </label></td>
