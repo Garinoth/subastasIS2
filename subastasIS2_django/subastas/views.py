@@ -67,25 +67,11 @@ def activation(request):
             activation_key = request.POST['activation_key']
             user = authenticate(email=email,password=password)
             if user is not None:
-                if user.activation_key == activation_key:
-                    user.is_active = True
-                    user.save()
-                else:
-                    raise ValidationError(
-                        activation_form.error_messages['invalid_key'],
-                        code='invalid_key',
-                        # params={'username': self.username_field.verbose_name},
-                    )
+                user.is_active = True
+                user.save()
                 if user.is_active:
                     login(request, user)
                     return HttpResponseRedirect(reverse('index'))
-
-            else:
-                raise ValidationError(
-                    activation_form.error_messages['invalid_login'],
-                    code='invalid_login',
-                    # params={'username': self.username_field.verbose_name},
-                )
 
     else:
         activation_form = ActivationForm()

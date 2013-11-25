@@ -122,3 +122,21 @@ class ActivationForm(Form):
     email = EmailField()
     password = PasswordInput()
     activation_key = CharField(max_length=40)
+
+    def clean(self):
+        email = self.cleaned_data.get('email')
+        password = self.cleaned_data.get('password')
+        activation_key = self.cleaned_data.get('activation_key')
+        user = authenticate(email=email,password=password)
+        if user is None:
+            raise ValidationError(
+                activation_form.error_messages['invalid_login'],
+                code='invalid_login',
+            )
+        if user.activation_key != activation_key:
+            raise ValidationError(
+                activation_form.error_messages['invalid_key'],
+                code='invalid_key',
+            )
+
+        return self.cleaned_data
