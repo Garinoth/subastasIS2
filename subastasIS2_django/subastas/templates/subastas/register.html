@@ -4,15 +4,21 @@
 
 {% block content %}
 
-<!--{% if user_form.errors %}
-<a href="" class="overlay" id="popups"></a>
-<div class="popup">
+{% if user_form.errors or auction_user.form.errors %}
+<a href="#" class="logoverlay" id="popups"></a>
+<div class="logpopup">
 	<h2 class="error">Error</h2>
-	<p class="error ultimo">El nombre de usuario y contraseña no son correctos. Por favor, vuelva a intentarlo.</p>
+    <ul>{% for error in user_form.errors %}
+        <li>{{ error|escape }}</li>
+    {% endfor %}
+    {% for error in auction_user_form.errors %}
+        <li>{{ error|escape }}</li>
+    {% endfor %}
+    </ul>
 	<a class="close" href=""></a>
 	<a href=""><input type="button" class="button close" value="Aceptar" /></a>
 </div>
-{% endif %}-->
+{% endif %}
 
 <header>
     <h2>Registro de usuario</h2>
@@ -98,8 +104,8 @@
             <li>copiar, modificar o distribuir contenido de nuestros sitios Web o los derechos de autor y marcas comerciales de JDLS; ni recopilar en forma alguna información acerca de los usuarios, incluidas las direcciones de correo electrónico, sin su consentimiento.</li>
         </ul>
 
-        <a class="close" href=""></a>
-        <a href=""><input type="button" class="button close" id="tosb" value="Aceptar" /></a>
+        <a class="close" href="#"></a>
+        <a href="#"><input type="button" class="button close" id="tosb" value="Aceptar" /></a>
     </div>
 
     <p id="key">(<span class="required">*</span>) Campos obligatorios</p>
