@@ -3,5 +3,10 @@
 {% block title %}JDLS|Activation{% endblock %}
 
 {% block subject %}
-	<p>Para finalizar el registro de su cuenta introduzca su nombre de usuario y su contraseña para activarlos:</p>
+	<p>Para finalizar el registro de su cuenta introduzca su correo electrónico y su contraseña para activarlos:</p>
+{% endblock %}
+
+{% block formtype %}
+<form class="form-horizontal" method="post" action="{% url 'activation' %}">
+	<input type="hidden" name="ativation_key" value="{{ activation_key }}" />
 {% endblock %}
