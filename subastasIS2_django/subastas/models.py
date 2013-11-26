@@ -24,8 +24,6 @@ class AuctionUser(models.Model):
 
     activation_key = models.CharField(max_length=40)
 
-    is_internal = models.BooleanField(default=False)
-
     def set_activation_key(self):
         salt = hashlib.sha1(str(random.random())).hexdigest()[:5]
         email = self.user.email
