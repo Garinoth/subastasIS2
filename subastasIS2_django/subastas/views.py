@@ -103,13 +103,38 @@ def activation(request, activation_key):
 
 
 @login_required
-def item_detail(request, auction_id):
-    # TODO
-    pass
-
-
-@login_required
 @permission_required('subastas.can_create_item', raise_exception=True)
-def item_create(request):
-    # TODO
-    pass
+def create_item(request):
+    if request.method == 'POST':
+        item_form = ItemForm(request.POST, prefix='item')
+        auction_form = AuctionForm(request.POST, prefix='auction')
+        offer_form = OfferForm(request.POST, prefix='offer')
+        item_type = request.POST.item_type
+
+        if item_type:
+            if item_type == 'auction':
+                if item_form.is_valid() and auction_form.is_valid():
+                    item = item_form.save(commit=False)
+                    item.owner = request.user
+                    item.save()
+
+                    auction = auction_form.save(commit=False)
+                    auction.item = item
+                    auction.save()
+
+                    return HttpResponseRedirect(reverse('auctions'))
+
+    else:
+        item_form = ItemForm(prefix='item')
+        auction_form = AuctionForm(prefix='auction')
+        offer_form = OfferForm(prefix='offer')
+        item_type = None
+
+    ctx = {
+        'item_form': item_form,
+        'auction_form': auction_form,
+        'offer_form': offer_form,
+        'item_type': item_type,
+    }
+
+    return render(request, 'subastas/item.html', ctx)
