@@ -43,6 +43,7 @@
         <!-- SEGUNDA FILA -->
         <div class="fila cuerpo" id="logo">
             <a href='{% url 'index' %}' class="logo_principal primera_columna">JDLS</a>
+            {% if perms.subastas.can_create_item %}<span class="ultima_columna right" id="aitem"><a href="{% url 'test' %}">Dar de alta un producto</a></span>{% endif %}
         </div>
 
     </header>
