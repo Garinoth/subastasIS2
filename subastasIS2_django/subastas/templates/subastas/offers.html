@@ -1,0 +1,15 @@
+{% extends "subastas/base.html" %}
+
+{% block title %}JDLS|Ofertas{% endblock %}
+
+{% block content %}
+<header>
+    <h2>Últimas ofertas</h2>
+    <p>A continuación se muestra la lista de las últimas ofertas activas, ordenadas según el tiempo que queda para su finalización. Puede consultar cada una haciendo click en el nombre del producto en oferta:</p>
+</header>
+<ul>
+  {% for offer in offer_list %}
+    <li class="contact">{{ offer }}</li>
+  {% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "subastas/base.html" %}
+
+{% block title %}JDLS|Subastas{% endblock %}
+
+{% block content %}
+<header>
+    <h2>Últimas subastas</h2>
+    <p>A continuación se muestra la lista de las últimas subastas activas, ordenadas según el tiempo que queda para su finalización. Puede consultar cada una haciendo click en el nombre del producto a subastar:</p>
+</header>
+<ul>
+  {% for auction in auction_list %}
+    <li class="contact">{{ auction }}</li>
+  {% endfor %}
+</ul>
+{% endblock %}
