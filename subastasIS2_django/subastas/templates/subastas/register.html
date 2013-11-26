@@ -7,10 +7,10 @@
 {% if valid == "true" %}
 <a href="#" class="logoverlay" id="popups"></a>
 <div class="logpopup">
-	<h2 class="error">¡Enhorabuena!</h2>
+    <h2 class="error">¡Enhorabuena!</h2>
     <p>Te has registrado correctamente en El Juego de la Subasta. Para completar el proceso deberás entrar en el enlace del correo electrónico que te hemos enviado a la dirección que nos has proporcionado. ¡Te esperamos!</p>
-	<a class="close" href=""></a>
-	<a href=""><input type="button" class="button close" value="Aceptar" /></a>
+    <a class="close" href="{% url 'index' %}"></a>
+    <a href="{% url 'index' %}"><input type="button" class="button close" value="Aceptar" /></a>
 </div>
 {% endif %}
 
@@ -27,24 +27,24 @@
             <td>{{ field }}</td>{% if field.errors %}<td class="field_error">{% for err in field.errors %}<span class="error_msg">{{ err }}</span>{% endfor %}</td>
             {% endif %}
         </div></tr>
-        {% if field.label_tag == user_form.password.label_tag %}
+        {% if field.label_tag == user_form.confirm_password.label_tag %}
         <tr><td colspan="3" class="help">{{ field.field.help_text }}</td></tr>
         {% endif %}
         {% endfor %}
         {% for field in auction_user_form.visible_fields %}
-            {% if field.label_tag != auction_user_form.tos.label_tag %}
-            <tr><div class="form-group">
-                <td><label class="freg control-label">{% if field.field.required %}<span class="required">*</span>{% endif %}{{ field.label_tag }} </label></td>
-                <td>{{ field }}</td>{% if field.errors %}<td class="field_error">{% for err in field.errors %}<span class="error_msg">{{ err }}</span>{% endfor %}</td>{% endif %}
-            </div></tr>
-            {% endif %}
+        {% if field.label_tag != auction_user_form.tos.label_tag %}
+        <tr><div class="form-group">
+            <td><label class="freg control-label">{% if field.field.required %}<span class="required">*</span>{% endif %}{{ field.label_tag }} </label></td>
+            <td>{{ field }}</td>{% if field.errors %}<td class="field_error">{% for err in field.errors %}<span class="error_msg">{{ err }}</span>{% endfor %}</td>{% endif %}
+        </div></tr>
+        {% endif %}
         {% endfor %}
     </table>
     <p class="ptos">{{ auction_user_form.tos }} Acepto los siguientes <a href="#tos" id="tos_pop">Términos y condiciones</a></p>{% if auction_user_form.tos.errors %}{% for err in auction_user_form.tos.errors %}<span class="error_msg">{{ err }}</span>{% endfor %}{% endif %}
 
     <a href="#" class="overlay" id="tos"></a>
     <div class="popup" id="tospu">
-        
+
         <h2 class="error">Términos y condiciones</h2>
         <p>A continuación se describen las condiciones  de uso bajo las cuales El Juego de la Subasta te da acceso a nuestros servicios. La última modificación de los mismos se ha realizado en fecha 25 de noviembre de 2013. Las presentes condiciones de uso entrarán en vigor de manera inmediata para los usuarios que se den de alta a partir del día 25 de noviembre de 2013 y desde el momento de su fecha de alta. Para los usuarios registrados con anterioridad al día 25 de noviembre de 2013, las presentes condiciones de uso entrarán en vigor a partir del día 25 de diciembre de 2013.</p>
         <p>Bienvenido a El Juego de la Subasta. Al utilizar los servicios del sitio Web de El Juego de la Subasta (a partir de aquí JDLS), aceptas los siguientes términos y condiciones.</p>

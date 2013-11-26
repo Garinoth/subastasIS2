@@ -76,29 +76,28 @@ class UserForm(ModelForm):
         return super(UserForm, self).__init__(*args, **kwargs)
 
     def clean(self):
+        if 'email' in self.cleaned_data and 'confirm_email' in self.cleaned_data:
+            if (self.cleaned_data.get('email') !=
+                self.cleaned_data.get('confirm_email')):
 
-        if (self.cleaned_data.get('email') !=
-            self.cleaned_data.get('confirm_email')):
+                self._errors['email'] = [
+                    "Las direcciones de correo deben coincidir"]
+                self._errors['confirm_email'] = [
+                    "Las direcciones de correo deben coincidir"]
 
-            raise ValidationError(
-                "Las direcciones de correo deben coincidir",
-                code='confirm',
-            )
+        if 'password' in self.cleaned_data and 'confirm_password' in self.cleaned_data:
+            if (self.cleaned_data.get('password') !=
+                self.cleaned_data.get('confirm_password')):
 
-        if (self.cleaned_data.get('password') !=
-            self.cleaned_data.get('confirm_password')):
-
-            raise ValidationError(
-                "Las contraseñas deben coincidir",
-                code='confirm',
-            )
+                self._errors['password'] = [
+                    "Las contraseñas deben coincidir"]
+                self._errors['confirm_password'] = [
+                    "Las contraseñas deben coincidir"]
 
         password = self.cleaned_data.get('password')
         regex = r'^(?=.*[a-zA-Z])(?=.*\d)(?=.*[-+_!@#$%^&*.,?=]).{6,}$'
         if password and not re.match(regex, password):
-            raise ValidationError(
-                code='invalid',
-            )
+            self._errors['password'] = ["Contraseña mal formada"]
 
         return self.cleaned_data
 
