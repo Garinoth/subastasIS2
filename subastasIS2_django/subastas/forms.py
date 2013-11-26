@@ -1,4 +1,5 @@
 from datetime import date
+import re
 from django.core.exceptions import ValidationError
 from django.contrib.auth import authenticate
 from django.forms import Form, ModelForm, EmailField, CharField, PasswordInput, DateField, BooleanField
@@ -51,10 +52,11 @@ class UserForm(ModelForm):
                 "Passwords must match."
             )
 
-        if (len(self.cleaned_data.get('password')) < 6):
-
+        password = self.cleaned_data.get('password')
+        regex = r'^(?=.*[a-zA-Z])(?=.*\d)(?=.*[-+_!@#$%^&*.,?=]).{6,}$'
+        if not re.match(regex, password):
           raise ValidationError(
-                "Passwords must be at least 6 characters long."
+                "Passwords must be at least 6 characters long and contain at least a number and one of these characters: -+_!@#$%^&*.,?=."
             )
 
         return self.cleaned_data
@@ -121,23 +123,24 @@ class BidForm(ModelForm):
 
 class ActivationForm(Form):
     email = EmailField()
-    password = PasswordInput()
+    password = CharField(
+        widget=PasswordInput,
+    )
     activation_key = CharField(max_length=40)
 
     def clean(self):
         email = self.cleaned_data.get('email')
         password = self.cleaned_data.get('password')
         activation_key = self.cleaned_data.get('activation_key')
-        user = authenticate(email=email,password=password)
-        if user is None:
+        user = authenticate(email=email, password=password)
+        if not user:
             raise ValidationError(
-                activation_form.error_messages['invalid_login'],
-                code='invalid_login',
+                "Invalid login"
             )
-        if user.activation_key != activation_key:
+        auction_user = AuctionUser.objects.get(user=user)
+        if auction_user.activation_key != activation_key:
             raise ValidationError(
-                activation_form.error_messages['invalid_key'],
-                code='invalid_key',
+                "The activation key is not valid",
             )
 
         return self.cleaned_data

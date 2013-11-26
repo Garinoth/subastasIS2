@@ -2,7 +2,8 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.template.loader import render_to_string
-import hashlib, random
+import hashlib
+import random
 
 
 User._meta.get_field('email')._unique = True
@@ -22,6 +23,8 @@ class AuctionUser(models.Model):
     image = models.ImageField(upload_to='/profile/', blank=True)
 
     activation_key = models.CharField(max_length=40)
+
+    is_internal = models.BooleanField(default=False)
 
     def set_activation_key(self):
         salt = hashlib.sha1(str(random.random())).hexdigest()[:5]

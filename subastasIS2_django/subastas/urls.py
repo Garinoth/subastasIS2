@@ -10,4 +10,5 @@ urlpatterns = patterns('',
     url(r'^register/$', views.register_user, name='register'),
     url(r'^tos/$', views.tos, name='tos'),
     url(r'^activation/$', views.activation, name='activation'),
+    url(r'^activation/(?P<activation_key>\w+)/$', views.activation, name='activation'),
     )
