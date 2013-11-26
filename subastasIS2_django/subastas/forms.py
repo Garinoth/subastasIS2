@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate
 from django.forms import Form, ModelForm, EmailField, CharField, PasswordInput, DateField, BooleanField, ImageField
 from django.forms.extras.widgets import SelectDateWidget
 from django.forms.widgets import Textarea
-from subastas.models import User, AuctionUser, Item, Auction, Offer, Bid
+from subastas.models import User, AuctionUser, Item, Auction, Offer, Bid, DateTimeField
 
 
 default_error_messages = {
@@ -161,6 +161,7 @@ class ItemForm(ModelForm):
         label='Descripción',
         error_messages=default_error_messages,
         widget=Textarea,
+        required=False,
     )
     category = CharField(
         label='Categoría',
@@ -170,6 +171,7 @@ class ItemForm(ModelForm):
     image = ImageField(
         label='Imagen',
         error_messages=default_error_messages,
+        required=False,
     )
 
     class Meta:
@@ -182,9 +184,17 @@ class ItemForm(ModelForm):
 
 class AuctionForm(ModelForm):
     base_price = PositiveIntegerField(
-        label='Categoría',
+        label='Precio base',
         error_messages=default_error_messages,
         default=0,
+    )
+    start_date = DateTimeField(
+        label='Fecha de inicio',
+        error_messages=default_error_messages,
+    )
+    end_date = DateTimeField(
+        label='Fecha de fin',
+        error_messages=default_error_messages,
     )
 
     class Meta:
@@ -203,12 +213,13 @@ class OfferForm(ModelForm):
 
 
 class BidForm(ModelForm):
+    points = IntegerField(
+        label='Puntos',
+    )
 
     class Meta:
         model = Bid
-        fields = ['user',
-                  'auction',
-                  'points']
+        fields = ['points']
 
 
 class ActivationForm(Form):

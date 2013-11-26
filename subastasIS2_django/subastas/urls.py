@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, url
+from django.contrib.auth.decorators import login_required, permission_required
 
 from subastas import views
 
@@ -11,4 +12,6 @@ urlpatterns = patterns('',
     url(r'^tos/$', views.tos, name='tos'),
     url(r'^activation/$', views.activation, name='activation'),
     url(r'^activation/(?P<activation_key>\w+)/$', views.activation, name='activation'),
+    url(r'^auctions/$', login_required(views.ListAuctionsView.as_view()), name='auctions'),
+    url(r'^auctions/(?P<auction_id>\d+)$', login_required(views.DetailAuctionView.as_view()), name='auction_detail'),
     )
