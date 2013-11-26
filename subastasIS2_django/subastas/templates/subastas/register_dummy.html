@@ -2,7 +2,13 @@
   {% csrf_token %}
   <ul>
     {{ user_form.as_ul }}
-    {{ auction_user_form.as_ul }}
-  </ul>
+    {% for field in auction_user_form.visible_fields %}
+            {% if field.label_tag != auction_user_form.tos.label_tag %}
+            <tr><div class="form-group">
+                <td><label class="freg control-label">{% if field.field.required %}<span class="required">*</span>{% endif %}{{ field.label_tag }} </label></td>
+                <td>{{ field }}</td>{% if field.errors %}<td class="field_error">{% for err in field.errors %}<span class="error_msg">{{ err }}</span>{% endfor %}</td>{% endif %}
+            </div></tr>
+            {% endif %}
+        {% endfor %}  </ul>
   <input type="submit" value="Save" />
 </form>

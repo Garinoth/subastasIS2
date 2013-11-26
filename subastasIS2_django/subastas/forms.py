@@ -3,7 +3,7 @@ from datetime import date
 import re
 from django.core.exceptions import ValidationError
 from django.contrib.auth import authenticate
-from django.forms import Form, ModelForm, EmailField, CharField, PasswordInput, DateField, BooleanField
+from django.forms import Form, ModelForm, EmailField, CharField, PasswordInput, DateField, BooleanField, ImageField
 from django.forms.extras.widgets import SelectDateWidget
 from django.forms.widgets import Textarea
 from subastas.models import User, AuctionUser, Item, Auction, Offer, Bid
@@ -152,16 +152,40 @@ class AuctionUserForm(ModelForm):
 
 
 class ItemForm(ModelForm):
+    name = CharField(
+        label='Nombre',
+        error_messages=default_error_messages,
+        max_length=100,
+    )
+    description = CharField(
+        label='Descripción',
+        error_messages=default_error_messages,
+        widget=Textarea,
+    )
+    category = CharField(
+        label='Categoría',
+        error_messages=default_error_messages,
+        max_length=100,
+    )
+    image = ImageField(
+        label='Imagen',
+        error_messages=default_error_messages,
+    )
 
     class Meta:
         model = Item
         fields = ['name',
                   'description',
-                  'image',
-                  'category']
+                  'category',
+                  'image']
 
 
 class AuctionForm(ModelForm):
+    base_price = PositiveIntegerField(
+        label='Categoría',
+        error_messages=default_error_messages,
+        default=0,
+    )
 
     class Meta:
         model = Auction
