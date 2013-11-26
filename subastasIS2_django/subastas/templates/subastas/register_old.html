@@ -4,11 +4,17 @@
 
 {% block content %}
 
-{% if valid == "true" %}
+{% if user_form.errors or auction_user.form.errors %}
 <a href="#" class="logoverlay" id="popups"></a>
 <div class="logpopup">
-	<h2 class="error">¡Enhorabuena!</h2>
-    <p>Te has registrado correctamente en El Juego de la Subasta. Para completar el proceso deberás entrar en el enlace del correo electrónico que te hemos enviado a la dirección que nos has proporcionado. ¡Te esperamos!</p>
+	<h2 class="error">Error</h2>
+    <ul>{% for error in user_form.errors %}
+        <li>{{ error|escape }}</li>
+    {% endfor %}
+    {% for error in auction_user_form.errors %}
+        <li>{{ error|escape }}</li>
+    {% endfor %}
+    </ul>
 	<a class="close" href=""></a>
 	<a href=""><input type="button" class="button close" value="Aceptar" /></a>
 </div>
@@ -21,26 +27,60 @@
 <form class="form-horizontal" method="post" action="{% url 'register' %}">
     {% csrf_token %}
     <table>
-        {% for field in user_form.visible_fields %}
         <tr><div class="form-group">
-            <td><label class="freg control-label">{% if field.field.required %}<span class="required">*</span>{% endif %}{{ field.label_tag }} </label></td>
-            <td>{{ field }}</td>{% if field.errors %}<td class="field_error">{% for err in field.errors %}<span class="error_msg">{{ err }}</span>{% endfor %}</td>
-            {% endif %}
+            <td><label class="freg control-label"><span class="required">*</span>Nombre de usuario </label></td>
+            <td>{{ user_form.username }}</td>
         </div></tr>
-        {% if field.label_tag == user_form.password.label_tag %}
-        <tr><td colspan="3" class="help">{{ field.field.help_text }}</td></tr>
-        {% endif %}
-        {% endfor %}
-        {% for field in auction_user_form.visible_fields %}
-            {% if field.label_tag != auction_user_form.tos.label_tag %}
-            <tr><div class="form-group">
-                <td><label class="freg control-label">{% if field.field.required %}<span class="required">*</span>{% endif %}{{ field.label_tag }} </label></td>
-                <td>{{ field }}</td>{% if field.errors %}<td class="field_error">{% for err in field.errors %}<span class="error_msg">{{ err }}</span>{% endfor %}</td>{% endif %}
-            </div></tr>
-            {% endif %}
-        {% endfor %}
+        <tr><div class="form-group">
+            <td><label class="freg control-label">Nombre </label></td>
+            <td>{{ user_form.first_name }}</td>
+        </div></tr>
+        <tr><div class="form-group">
+            <td><label class="freg control-label">Apellidos </label></td>
+            <td>{{ user_form.last_name }}</td>
+        </div></tr>
+        <tr><div class="form-group">
+            <td><label class="freg control-label">Dirección</label></td>
+            <td>{{ auction_user_form.address }}</td>
+        </div></tr>
+        <tr><div class="form-group">
+            <td><label class="freg control-label">Código postal </label></td>
+            <td>{{ auction_user_form.postal_code }}</td>
+        </div></tr>
+        <tr><div class="form-group">
+            <td><label class="freg control-label">Ciudad</label></td>
+            <td>{{ auction_user_form.city }}</td>
+        </div></tr>
+        <tr><div class="form-group">
+            <td><label class="freg control-label">País</label></td>
+            <td>{{ auction_user_form.country }}</td>
+        </div></tr>
+        <tr><div class="form-group">
+            <td><label class="freg control-label"><span class="required">*</span>Fecha de nacimiento </label></td>
+            <td>{{ auction_user_form.birth_date }}</td>
+        </div></tr>
+        <tr><div class="form-group">
+            <td><label class="freg control-label">Teléfono </label></td>
+            <td>{{ auction_user_form.phone_number }}</td>
+        </div></tr>
+        <tr><div class="form-group">
+            <td><label class="freg control-label"><span class="required">*</span>Correo electrónico </label></td>
+            <td>{{ user_form.email }}</td>
+        </div></tr>
+        <tr><div class="form-group">
+            <td><label class="freg control-label"><span class="required">*</span>Confirme su correo electrónico </label></td>
+            <td>{{ user_form.confirm_email }}</td>
+        </div></tr>
+        <tr><div class="form-group">
+            <td><label class="freg control-label"><span class="required">*</span>Contraseña </label></td>
+            <td>{{ user_form.password }}</td>
+        </div></tr>
+        <tr><div class="form-group">
+            <td><label class="freg control-label"><span class="required">*</span>Confirme su contraseña </label></td>
+            <td>{{ user_form.confirm_password }}</td>
+        </div></tr>
     </table>
-    <p class="ptos">{{ auction_user_form.tos }} Acepto los siguientes <a href="#tos" id="tos_pop">Términos y condiciones</a></p>{% if auction_user_form.tos.errors %}{% for err in auction_user_form.tos.errors %}<span class="error_msg">{{ err }}</span>{% endfor %}{% endif %}
+    <p>{{ auction_user_form.tos }} Acepto los siguientes <a href="#tos" id="tos_pop">Términos y condiciones</a></p>
 
     <a href="#" class="overlay" id="tos"></a>
     <div class="popup" id="tospu">

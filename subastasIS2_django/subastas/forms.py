@@ -25,13 +25,13 @@ class UserForm(ModelForm):
     password = CharField(
         label='Contraseña',
         error_messages=default_error_messages,
-        help_text='La contraseña debe tener una longitud de al menos 6 caracteres y contener letras, números y alguno de los siguientes caracateres: -+_!@#$%^&*.,?=',
+        help_text='La contraseña debe ser de al menos 6 caracteres y contener letras, números y alguno de los siguientes caracateres: -+_!@#$%^&*.,?=',
         widget=PasswordInput,
     )
     confirm_password = CharField(
         label='Confirme su contraseña',
         error_messages=default_error_messages,
-        help_text='La contraseña debe tener una longitud de al menos 6 caracteres y contener letras, números y alguno de los siguientes caracateres: -+_!@#$%^&*.,?=',
+        help_text='La contraseña debe ser de al menos 6 caracteres y contener letras, números y alguno de los siguientes caracateres: -+_!@#$%^&*.,?=',
         widget=PasswordInput,
     )
     email = EmailField(
@@ -46,11 +46,13 @@ class UserForm(ModelForm):
         label='Nombre',
         error_messages=default_error_messages,
         max_length=30,
+        required=False,
     )
     last_name = CharField(
         label='Apellidos',
         error_messages=default_error_messages,
         max_length=30,
+        required=False,
     )
 
     class Meta:
@@ -93,7 +95,7 @@ class UserForm(ModelForm):
 
         password = self.cleaned_data.get('password')
         regex = r'^(?=.*[a-zA-Z])(?=.*\d)(?=.*[-+_!@#$%^&*.,?=]).{6,}$'
-        if not re.match(regex, password):
+        if password and not re.match(regex, password):
             raise ValidationError(
                 code='invalid',
             )
@@ -112,18 +114,22 @@ class AuctionUserForm(ModelForm):
     postal_code = CharField(
         label='Código Postal',
         max_length=5,
+        required=False,
     )
     city = CharField(
         label='Ciudad',
         max_length=40,
+        required=False,
     )
     country = CharField(
         label='País',
         max_length=40,
+        required=False,
     )
     phone_number = CharField(
         label='Número de teléfono',
         max_length=20,
+        required=False,
     )
     birth_date = DateField(
         label='Fecha de Nacimiento',
@@ -137,11 +143,11 @@ class AuctionUserForm(ModelForm):
 
     class Meta:
         model = AuctionUser
-        fields = ['address',
+        fields = ['birth_date',
+                  'address',
                   'postal_code',
                   'city',
                   'country',
-                  'birth_date',
                   'phone_number']
 
 

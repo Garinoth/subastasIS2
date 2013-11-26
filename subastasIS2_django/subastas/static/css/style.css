@@ -84,6 +84,9 @@ a:hover
     text-decoration:underline
 }
 
+td {
+    width: 300px;
+}
 
 /* ::: Contenido :::  */
 
@@ -302,6 +305,11 @@ nav.navegacion_principal ul li a:hover
     padding: 50px;
 }
 
+.ptos {
+    display: inline-block;
+    width: 450px;
+}
+
 
 /* ::: Inicio ::: */
 
@@ -328,6 +336,7 @@ nav.navegacion_principal ul li a:hover
 
 
 /* ::: Footer ::: */
+
 footer
 {
     background:#424242;
@@ -341,7 +350,12 @@ footer
 }
 
 
-/* ::: Formulario registro :::  */
+/* ::: Formularios :::  */
+
+.help {
+    font-size: 12px;
+    padding-left: 10px;
+}
 
 .required {
     color: red;
@@ -640,7 +654,14 @@ h2.error {
     margin-bottom: 10px;
 }
 
+.field_error {
+    color: red;
+}
 
+.error_msg{
+    color: red;
+    margin-left: -70px;
+}
 
 /* ::: Pop-ups :::  */
 

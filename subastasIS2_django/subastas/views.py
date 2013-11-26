@@ -32,6 +32,7 @@ def register_user(request):
             request.POST, prefix='auction_user')
 
         if user_form.is_valid() and auction_user_form.is_valid():
+            valid = 'true'
             user = user_form.save(commit=False)
             user.set_password(user_form.cleaned_data['password'])
             user.is_active = False
@@ -42,15 +43,21 @@ def register_user(request):
             auction_user.set_activation_key()
             auction_user.save()
             auction_user.send_activation_email()
+        else:
+            valid = 'false'
 
     else:
         user_form = UserForm(prefix='user')
         auction_user_form = AuctionUserForm(prefix='auction_user')
+        valid = 'false'
 
-    return render(request, 'subastas/register.html', {
+    ctx = {
         'user_form': user_form,
-        'auction_user_form': auction_user_form
-        })
+        'auction_user_form': auction_user_form,
+        'valid': valid,
+    }
+
+    return render(request, 'subastas/register.html', ctx)
 
 
 def tos(request):
@@ -63,7 +70,7 @@ def activation(request, activation_key):
         if form.is_valid():
             email = request.POST['email']
             password = request.POST['password']
-            user = authenticate(email=email,password=password)
+            user = authenticate(email=email, password=password)
             if user is not None:
                 user.is_active = True
                 user.save()
@@ -77,7 +84,7 @@ def activation(request, activation_key):
 
     return render(request, 'subastas/activation.html', {
         'form': form,
-        })
+    })
 
 
 @login_required
