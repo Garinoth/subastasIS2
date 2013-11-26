@@ -4,14 +4,29 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from subastas.forms import UserForm, AuctionUserForm, ItemForm, AuctionForm, OfferForm, BidForm, ActivationForm, ValidationError
+from subastas.models import Auction, Offer
 
 
 class ListUsersView(ListView):
 
     model = User
     template_name = 'subastas/user_list_dummy.html'
+
+
+class ListAuctionsView(ListView):
+
+    model = Auction
+    queryset = Auction.objects.order_by('end_date')
+    context_object_name = 'auction_list'
+    template_name = 'subastas/auctions.html'
+
+
+class DetailAuctionView(DetailView):
+
+    model = Auction
+    context_object_name = 'auction_list'
 
 
 def index(request):

@@ -3,10 +3,10 @@ from datetime import date
 import re
 from django.core.exceptions import ValidationError
 from django.contrib.auth import authenticate
-from django.forms import Form, ModelForm, EmailField, CharField, PasswordInput, DateField, BooleanField
+from django.forms import Form, ModelForm, EmailField, CharField, PasswordInput, DateField, BooleanField, ImageField
 from django.forms.extras.widgets import SelectDateWidget
 from django.forms.widgets import Textarea
-from subastas.models import User, AuctionUser, Item, Auction, Offer, Bid
+from subastas.models import User, AuctionUser, Item, Auction, Offer, Bid, DateTimeField
 
 
 default_error_messages = {
@@ -151,16 +151,50 @@ class AuctionUserForm(ModelForm):
 
 
 class ItemForm(ModelForm):
+    name = CharField(
+        label='Nombre',
+        error_messages=default_error_messages,
+        max_length=100,
+    )
+    description = CharField(
+        label='Descripción',
+        error_messages=default_error_messages,
+        widget=Textarea,
+        required=False,
+    )
+    category = CharField(
+        label='Categoría',
+        error_messages=default_error_messages,
+        max_length=100,
+    )
+    image = ImageField(
+        label='Imagen',
+        error_messages=default_error_messages,
+        required=False,
+    )
 
     class Meta:
         model = Item
         fields = ['name',
                   'description',
-                  'image',
-                  'category']
+                  'category',
+                  'image']
 
 
 class AuctionForm(ModelForm):
+    base_price = PositiveIntegerField(
+        label='Precio base',
+        error_messages=default_error_messages,
+        default=0,
+    )
+    start_date = DateTimeField(
+        label='Fecha de inicio',
+        error_messages=default_error_messages,
+    )
+    end_date = DateTimeField(
+        label='Fecha de fin',
+        error_messages=default_error_messages,
+    )
 
     class Meta:
         model = Auction
@@ -178,12 +212,13 @@ class OfferForm(ModelForm):
 
 
 class BidForm(ModelForm):
+    points = IntegerField(
+        label='Puntos',
+    )
 
     class Meta:
         model = Bid
-        fields = ['user',
-                  'auction',
-                  'points']
+        fields = ['points']
 
 
 class ActivationForm(Form):
