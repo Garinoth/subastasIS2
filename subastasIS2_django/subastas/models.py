@@ -24,6 +24,9 @@ class AuctionUser(models.Model):
 
     activation_key = models.CharField(max_length=40, blank=True)
 
+    def __unicode__(self):
+        return u'%s' % (self.user.username)
+
     def set_activation_key(self):
         salt = hashlib.sha1(str(random.random())).hexdigest()[:5]
         email = self.user.email
@@ -58,6 +61,9 @@ class Item(models.Model):
     first_created = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
 
+    def __unicode__(self):
+        return u'%s' % (self.name)
+
     class Meta:
         permissions = (
             ("can_create_item", "Can create items"),
@@ -72,6 +78,9 @@ class Auction(models.Model):
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
 
+    def __unicode__(self):
+        return u'%s' % (self.item.name)
+
 
 class Offer(models.Model):
     item = models.OneToOneField(Item, primary_key=True)
@@ -79,9 +88,15 @@ class Offer(models.Model):
     start_date = models.DateTimeField(auto_now_add=True)
     end_date = models.DateTimeField()
 
+    def __unicode__(self):
+        return u'%s' % (self.item.name)
+
 
 class Bid(models.Model):
     user = models.ForeignKey(AuctionUser)
     auction = models.ForeignKey(Auction)
     timestamp = models.DateTimeField(auto_now_add=True)
     points = models.PositiveIntegerField()
+
+    def __unicode__(self):
+        return u'user: %s at auction: %s for %s' % (self.user.name, self.auction.item.name, self.points)
