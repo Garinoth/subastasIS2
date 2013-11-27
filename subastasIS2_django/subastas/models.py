@@ -19,7 +19,8 @@ class AuctionUser(models.Model):
     country = models.CharField(max_length=40, blank=True)
     birth_date = models.DateField(blank=True)
     phone_number = models.CharField(max_length=20, blank=True)
-    points = models.PositiveIntegerField(default=0)
+    auction_points = models.PositiveIntegerField(default=0)
+    offer_points = models.PositiveIntegerField(default=0)
     image = models.ImageField(upload_to='/profile/', blank=True)
 
     activation_key = models.CharField(max_length=40, blank=True)
@@ -96,7 +97,7 @@ class Bid(models.Model):
     user = models.ForeignKey(AuctionUser)
     auction = models.ForeignKey(Auction)
     timestamp = models.DateTimeField(auto_now_add=True)
-    points = models.PositiveIntegerField()
+    quantity = models.PositiveIntegerField()
 
     def __unicode__(self):
         return u'user: %s at auction: %s for %s' % (self.user.name, self.auction.item.name, self.points)

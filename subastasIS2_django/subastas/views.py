@@ -139,3 +139,8 @@ def create_item(request):
     }
 
     return render(request, 'subastas/item.html', ctx)
+
+@login_required
+def bid(request):
+    if request.method == 'POST':
+        bid_form = BidForm(request.POST)
