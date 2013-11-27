@@ -22,7 +22,7 @@ class AuctionUser(models.Model):
     points = models.PositiveIntegerField(default=0)
     image = models.ImageField(upload_to='/profile/', blank=True)
 
-    activation_key = models.CharField(max_length=40)
+    activation_key = models.CharField(max_length=40, blank=True)
 
     def set_activation_key(self):
         salt = hashlib.sha1(str(random.random())).hexdigest()[:5]
@@ -68,7 +68,7 @@ class Item(models.Model):
 class Auction(models.Model):
     item = models.OneToOneField(Item, primary_key=True)
     base_price = models.PositiveIntegerField(default=0)
-    current_price = models.PositiveIntegerField(default=base_price)
+    current_price = models.PositiveIntegerField()
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
 

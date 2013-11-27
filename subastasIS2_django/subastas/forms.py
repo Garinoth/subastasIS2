@@ -190,10 +190,12 @@ class AuctionForm(ModelForm):
     start_date = DateField(
         label='Fecha de inicio',
         error_messages=default_error_messages,
+        widget=SelectDateWidget,
     )
     end_date = DateField(
         label='Fecha de fin',
         error_messages=default_error_messages,
+        widget=SelectDateWidget,
     )
 
     class Meta:
@@ -204,6 +206,16 @@ class AuctionForm(ModelForm):
 
 
 class OfferForm(ModelForm):
+    price = IntegerField(
+        label='Precio',
+        error_messages=default_error_messages,
+    )
+
+    end_date = DateField(
+        label='Fecha de fin',
+        error_messages=default_error_messages,
+        widget=SelectDateWidget,
+    )
 
     class Meta:
         model = Offer
