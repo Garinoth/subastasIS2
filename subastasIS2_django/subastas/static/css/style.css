@@ -734,6 +734,12 @@ textarea#id_item-description {
 
 .owner {
     display: inline-block;
+    clear: right;
+    padding-right: 15px;
+    color: red;
+    font-weight: 700;
+    font-size: 18px;
+    font-family:Rockwell, 'GeoSlb712MdBTMedium',"Courier Bold", Courier, Georgia, Times, "Times New Roman", serif;
 }
 
 .imgauction {
@@ -741,7 +747,15 @@ textarea#id_item-description {
     height: 150px;
     width: 150px;
     border: solid 1px;
+    margin: 10px;
     display: inline-block;
+}
+
+.texto {
+    display: inline-block;
+    width: 200px;
+    margin-top: 20px;
+    position: absolute;
 }
 
 .name {

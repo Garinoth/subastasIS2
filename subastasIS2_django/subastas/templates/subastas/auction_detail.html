@@ -13,7 +13,9 @@
 <div class="fila">
 	<h2>{{ auction_list.item.name }}</h2>
 	<span class="imgauction">{{ auction_list.item.image }}</span>
-	<p class="description"><span class="name">Descripción: </span>{{ auction_list.item.description }}</p>
-	<p class="category"><span class="name">Categoría: </span>{{ auction_list.item.category }}</p>
+	<div class="texto">
+		<p class="description"><span class="name">Descripción: </span>{{ auction_list.item.description }}</p>
+		<p class="category"><span class="name">Categoría: </span>{{ auction_list.item.category }}</p>
+	</div>
 </div>
 {% endblock %}
