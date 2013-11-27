@@ -3,10 +3,10 @@ from datetime import date
 import re
 from django.core.exceptions import ValidationError
 from django.contrib.auth import authenticate
-from django.forms import Form, ModelForm, EmailField, CharField, PasswordInput, DateField, BooleanField, ImageField
+from django.forms import Form, ModelForm, EmailField, CharField, PasswordInput, DateField, BooleanField, ImageField, IntegerField
 from django.forms.extras.widgets import SelectDateWidget
 from django.forms.widgets import Textarea
-from subastas.models import User, AuctionUser, Item, Auction, Offer, Bid, DateTimeField
+from subastas.models import User, AuctionUser, Item, Auction, Offer, Bid
 
 
 default_error_messages = {
@@ -182,18 +182,20 @@ class ItemForm(ModelForm):
 
 
 class AuctionForm(ModelForm):
-    base_price = PositiveIntegerField(
+    base_price = IntegerField(
         label='Precio base',
         error_messages=default_error_messages,
-        default=0,
+        initial=0,
     )
-    start_date = DateTimeField(
+    start_date = DateField(
         label='Fecha de inicio',
         error_messages=default_error_messages,
+        widget=SelectDateWidget,
     )
-    end_date = DateTimeField(
+    end_date = DateField(
         label='Fecha de fin',
         error_messages=default_error_messages,
+        widget=SelectDateWidget,
     )
 
     class Meta:
@@ -204,6 +206,16 @@ class AuctionForm(ModelForm):
 
 
 class OfferForm(ModelForm):
+    price = IntegerField(
+        label='Precio',
+        error_messages=default_error_messages,
+    )
+
+    end_date = DateField(
+        label='Fecha de fin',
+        error_messages=default_error_messages,
+        widget=SelectDateWidget,
+    )
 
     class Meta:
         model = Offer

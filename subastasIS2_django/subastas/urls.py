@@ -14,4 +14,6 @@ urlpatterns = patterns('',
     url(r'^activation/(?P<activation_key>\w+)/$', views.activation, name='activation'),
     url(r'^auctions/$', login_required(views.ListAuctionsView.as_view()), name='auctions'),
     url(r'^auctions/(?P<auction_id>\d+)$', login_required(views.DetailAuctionView.as_view()), name='auction_detail'),
+    url(r'^item/$', views.create_item, name='item'),
+
     )
