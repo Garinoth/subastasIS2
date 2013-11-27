@@ -7,9 +7,19 @@
     <h2>Últimas subastas</h2>
     <p>A continuación se muestra la lista de las últimas subastas activas, ordenadas según el tiempo que queda para su finalización. Puede consultar cada una haciendo click en el nombre del producto a subastar:</p>
 </header>
-<ul>
+<table>
+  	<thead>
+    	<tr class="list">
+    		<th class="list_head">Nombre del producto</th>
+    		<th class="list_head">Dueño del producto</th>
+    		<th class="list_head no_border">Finalización de subasta</th>
+    	</tr>
   {% for auction in auction_list %}
-    <li class="contact">{{ auction }}</li>
+    	<tr class="list">
+    		<td class="list_body"><a href="{% url 'auction_detail' auction.auction_id %}">{{ auction.item.name }}</a></td>
+    		<td class="list_body">{{ auction.item.owner.user.username }}</td>
+    		<td class="list_body no_border">{{ auction.end_date }}</td>
+    	</tr>
   {% endfor %}
-</ul>
+</table>
 {% endblock %}

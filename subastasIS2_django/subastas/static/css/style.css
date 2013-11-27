@@ -401,7 +401,8 @@ footer
 #id_user-confirm_email,
 #id_user-password,
 #id_user-confirm_password,
-#id_email  {
+#id_email  
+#id_item-name {
     width: 30%;
     min-width: 150px;
     max-width: 250px;
@@ -409,7 +410,7 @@ footer
 
 .text,
 #id_auction_user-address,
-#id_user-last_name
+#id_user-last_name,
 {
     width: 75%;
     min-width: 250px;
@@ -524,7 +525,12 @@ textarea {
 #id_user-confirm_email,
 #id_user-password,
 #id_user-confirm_password,
-#id_email 
+#id_email,
+#id_item-name,
+#id_item-description,
+#id_item-category,
+#id_auction-base_price,
+#id_offer-price
 {
   display: block;
   height: 25px;
@@ -571,7 +577,13 @@ select {
 #id_user-confirm_email:focus,
 #id_user-password:focus,
 #id_user-confirm_password:focus,
-#id_email:focus  {
+#id_email:focus,
+#id_item-name:focus,
+#id_item-description:focus,
+#id_item-category:focus,
+#id_item-image:focus,
+#id_auction-base_price:focus,
+#id_offer-price:focus {
   border-color: #66afe9;
   outline: 0;
   -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
@@ -599,7 +611,8 @@ textarea.form-control {
   height: auto;
 }
 
-textarea#id_auction_user-address {
+textarea#id_auction_user-address,
+textarea#id_item-description {
     height: 38px;
 }
 
@@ -632,7 +645,14 @@ textarea#id_auction_user-address {
   .form-inline #id_user-confirm_email,
   .form-inline #id_user-password,
   .form-inline #id_user-confirm_password,
-  .form-inline #id_email  {
+  .form-inline #id_email,
+  .form-inline #id_item-name,
+  .form-inline #id_item-description,
+  .form-inline #id_item-category,
+  .form-inline #id_item-image,
+  .form-inline #id_auction-base_price,
+  .form-inline #id_offer-price
+  {
     display: inline-block;
   }
   .form-inline .radio,
@@ -649,6 +669,28 @@ textarea#id_auction_user-address {
   }
 }
 
+
+/* ::: Tablas ::: */
+
+.list {
+    height: 20px;
+    font-family:Rockwell, 'GeoSlb712MdBTMedium',"Courier Bold", Courier, Georgia, Times, "Times New Roman", serif;
+}
+
+.list_head, .list_body {
+    width: 250px;
+    border-right: 1px solid;
+    text-align: center;
+}
+
+.list_body {
+    font-family:"HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-weight: 400;
+}
+
+.no_border {
+    border-right: none;
+}
 
 
 /* ::: Errores ::: */
