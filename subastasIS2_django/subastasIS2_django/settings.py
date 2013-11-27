@@ -93,7 +93,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # LOGIN redirection page
-LOGIN_URL = '/subastas/'
+LOGIN_URL = '/subastas/login/'
 
 # MEDIA storage location
 MEDIA_URL = '/media/'

@@ -224,13 +224,13 @@ class OfferForm(ModelForm):
 
 
 class BidForm(ModelForm):
-    points = IntegerField(
-        label='Puntos',
+    quantity = IntegerField(
+        label='Cantidad',
     )
 
     class Meta:
         model = Bid
-        fields = ['points']
+        fields = ['quantity']
 
 
 class ActivationForm(Form):
