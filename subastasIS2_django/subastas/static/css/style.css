@@ -670,7 +670,7 @@ textarea#id_item-description {
 }
 
 
-/* ::: Tablas ::: */
+/* ///////////////////////////////////::: Tablas ::://///////////////////////////////////// */
 
 .list {
     height: 20px;
@@ -683,6 +683,10 @@ textarea#id_item-description {
     text-align: center;
 }
 
+.list_head {
+    height: 30px;
+}
+
 .list_body {
     font-family:"HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
     font-weight: 400;
@@ -693,7 +697,75 @@ textarea#id_item-description {
 }
 
 
-/* ::: Errores ::: */
+/* /////////////////////////////////////::: Pujas ::://////////////////////////////////////*/
+
+.top_section {
+    display: inline-block;
+    width: 330px;
+    max-width: 330px;
+    min-width: 330px;
+    float: right;
+}
+
+.crono {
+    font-family:Rockwell, 'GeoSlb712MdBTMedium',"Courier Bold", Courier, Georgia, Times, "Times New Roman", serif;
+    display: inline-block;
+    font-size: 22px;
+}
+
+.bid {
+    height: 30px;
+    width: 150px;
+    text-align: center;
+    font-size: 18px;
+    background-color: rgba(64, 128, 128, 0.8);
+    margin-right: 0;
+}
+
+.bid:hover {
+    background-color: rgba(10, 65, 65, 0.8);
+    color: white;
+}
+
+.bid:disabled {
+    background-color: rgba(136, 180, 180, 0.8); /*#72C7C7;*/
+    color: #424242;
+}
+
+.owner {
+    display: inline-block;
+}
+
+.imgauction {
+    vertical-align: middle;
+    height: 150px;
+    width: 150px;
+    border: solid 1px;
+    display: inline-block;
+}
+
+.name {
+    color: rgba(64, 128, 128, 0.8);
+    font-weight: 700;
+    font-family:Rockwell, 'GeoSlb712MdBTMedium',"Courier Bold", Courier, Georgia, Times, "Times New Roman", serif;
+
+}
+
+.description {
+    display: inline-block;
+    width: 350px;
+    padding-left: 15px;
+}
+
+.category {
+    display: inline-block;
+    width: 300px;
+    padding-left: 15px;
+
+}
+
+
+/* /////////////////////////////////////::: Errores ::://///////////////////////////////// */
 
 .errorlist {
     border: 4px;
@@ -721,7 +793,7 @@ h2.error {
     margin-left: -70px;
 }
 
-/* ::: Pop-ups :::  */
+/* /////////////////////////////////////::: Pop-ups ::://////////////////////////////////  */
 
 .overlay {
     background-color: rgba(0,0,0,0.6);

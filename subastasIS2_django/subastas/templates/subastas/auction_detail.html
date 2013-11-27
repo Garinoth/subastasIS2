@@ -3,8 +3,17 @@
 {% block title %}JDLS|Subasta {% endblock %}
 
 {% block content %}
-<h2>HOLAAAAAAAAAAAAAAAAAAAAAA</h2>
 <div class="fila">
-	<span class="ultima_fila right crono">Cronómetro</span>
+	<div class="top_section">
+		<span class="ultima_columna right crono">{{ auction_list.end_date }}</span>
+		<input class="ultima_columna right bid button body" value="PUJAR" />
+		<span class="ultima_columna right owner">{{ auction_list.item.owner.user.username }}</span>
+	</div>
+</div>
+<div class="fila">
+	<h2>{{ auction_list.item.name }}</h2>
+	<span class="imgauction">{{ auction_list.item.image }}</span>
+	<p class="description"><span class="name">Descripción: </span>{{ auction_list.item.description }}</p>
+	<p class="category"><span class="name">Categoría: </span>{{ auction_list.item.category }}</p>
 </div>
 {% endblock %}
