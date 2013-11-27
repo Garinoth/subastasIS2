@@ -96,7 +96,7 @@ STATIC_URL = '/static/'
 LOGIN_URL = '/subastas/login/'
 
 # MEDIA storage location
-MEDIA_URL = '/media/'
+MEDIA_URL = '/subastas/media/'
 MEDIA_ROOT = '/home/garinoth/Repositories/subastasIS2/subastasIS2_django/subastas/media/'
 
 # Email settings

@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.conf.urls import patterns, url
 from django.contrib.auth.decorators import login_required, permission_required
 
@@ -15,5 +16,5 @@ urlpatterns = patterns('',
     url(r'^auctions/$', login_required(views.ListAuctionsView.as_view()), name='auctions'),
     url(r'^auctions/(?P<pk>\d+)$', login_required(views.DetailAuctionView.as_view()), name='auction_detail'),
     url(r'^item/$', views.create_item, name='item'),
-
+    (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
     )

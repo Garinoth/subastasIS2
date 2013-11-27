@@ -57,7 +57,7 @@ class Item(models.Model):
     owner = models.ForeignKey(AuctionUser)
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
-    image = models.ImageField(upload_to='/items/', blank=True)
+    image = models.ImageField(upload_to='items/', blank=True)
     category = models.CharField(max_length=100, blank=True)
     first_created = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
