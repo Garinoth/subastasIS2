@@ -231,7 +231,7 @@ class BidForm(ModelForm):
 
     class Meta:
         model = Bid
-        fields = ['item',
+        fields = ['auction',
                   'quantity']
 
 

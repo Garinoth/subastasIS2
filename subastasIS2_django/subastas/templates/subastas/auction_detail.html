@@ -19,7 +19,7 @@
 <div class="fila">
     <div class="top_section">
         <input class="ultima_columna right bid button body" value="PUJAR" />
-        <span class="ultima_columna right owner"><span id="preowner">Dueño actual: </span>{{ auction_list.item.owner.user.username }}</span>
+        <span class="ultima_columna right owner"><span id="preowner">Dueño actual: </span>{{ auction_list.item.owner.user.username }}</span><span class="ultima columna right actualbid">Puja actual: <span class="bold">{{ auction_list.current_price }}</span></span>
     </div>
     <h2 class="auctiontitle">{{ auction_list.item.name }}</h2>
 </div>
