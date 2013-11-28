@@ -707,11 +707,6 @@ textarea#id_item-description {
     float: right;
 }
 
-.crono {
-    font-family:Rockwell, 'GeoSlb712MdBTMedium',"Courier Bold", Courier, Georgia, Times, "Times New Roman", serif;
-    display: inline-block;
-    font-size: 22px;
-}
 
 .bid {
     height: 30px;
@@ -748,14 +743,20 @@ textarea#id_item-description {
     width: 150px;
     border: solid 1px;
     margin: 10px;
-    display: inline-block;
+    display: table-cell;
+}
+
+#imageauction {
+    text-align: center;
+    vertical-align: middle;
 }
 
 .texto {
     display: inline-block;
     width: 200px;
-    margin-top: 20px;
-    position: absolute;
+    position: relative;
+    left: 160px;
+    top: -150px;
 }
 
 .name {
@@ -778,7 +779,42 @@ textarea#id_item-description {
 
 }
 
+.auctiontitle {
+    padding-top: 30px;
+}
 
+/* /////////////////////////////////::: Cronómetro :::///////////////////////////////////// */
+
+.crono {
+    font-family:Rockwell, 'GeoSlb712MdBTMedium',"Courier Bold", Courier, Georgia, Times, "Times New Roman", serif;
+    display: inline-block;
+    margin-right: -10px;
+  }
+
+.cntSeparator {
+color: #000000;
+font-size: 21px;
+margin: 10px 5px;
+}
+.desc {
+margin: 7px 3px;
+}
+.desc div {
+color: #000000;
+float: left;
+text-align: right;
+font-size: 16px;
+margin-right: 35px;
+width: 50px;
+}
+
+.minseg {
+  margin-left: -10px;
+}
+
+#seg {
+  margin-left: -4px;
+}
 /* /////////////////////////////////////::: Errores ::://///////////////////////////////// */
 
 .errorlist {
