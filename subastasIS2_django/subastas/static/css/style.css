@@ -727,6 +727,11 @@ textarea#id_item-description {
     color: #424242;
 }
 
+#preowner {
+    color: black;
+    font-weight: 400;
+}
+
 .owner {
     display: inline-block;
     clear: right;
@@ -781,7 +786,18 @@ textarea#id_item-description {
 
 .auctiontitle {
     padding-top: 30px;
+    display: inline-block;
 }
+
+.actualbid {
+    padding-right: 15px;
+    font-family:Rockwell, 'GeoSlb712MdBTMedium',"Courier Bold", Courier, Georgia, Times, "Times New Roman", serif;
+    font-size: 18px;
+    color: black;
+}
+ .bold {
+    font-weight: 700;
+ }
 
 /* /////////////////////////////////::: Cronómetro :::///////////////////////////////////// */
 
