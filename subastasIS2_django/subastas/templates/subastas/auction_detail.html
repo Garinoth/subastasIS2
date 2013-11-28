@@ -38,6 +38,8 @@ var oDiff = new Object();
 
 oDiff.days = Math.floor(nTotalDiff/1000/60/60/24);
 nTotalDiff -= oDiff.days*1000*60*60*24;
+// Quicck fix, needs review
+oDiff.days -= 30;
 
 oDiff.hours = Math.floor(nTotalDiff/1000/60/60);
 nTotalDiff -= oDiff.hours*1000*60*60;
@@ -69,7 +71,7 @@ digitImages: 6,
 digitWidth: 30,
 digitHeight: 43,
 image: "{% static 'images/digits2.png' %}"
-}); 
+});
 </script>
 
 {% endblock %}
