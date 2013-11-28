@@ -7,7 +7,7 @@
     <h2>Alta de producto</h2>
     <p>Para dar de alta un producto introduzca los datos del mismo que se le piden a continuación, así como el tipo de entrada que pretende que éste sea (Subasta/Oferta):</p>
 </header>
-<form class="form-horizontal" method="post" action="{% url 'item' %}">
+<form enctype="multipart/form-data" class="form-horizontal" method="post" action="{% url 'item' %}">
     {% csrf_token %}
     <table>
         {% for field in item_form.visible_fields %}
