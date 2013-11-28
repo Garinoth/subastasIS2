@@ -707,11 +707,6 @@ textarea#id_item-description {
     float: right;
 }
 
-.crono {
-    font-family:Rockwell, 'GeoSlb712MdBTMedium',"Courier Bold", Courier, Georgia, Times, "Times New Roman", serif;
-    display: inline-block;
-    font-size: 22px;
-}
 
 .bid {
     height: 30px;
@@ -778,7 +773,37 @@ textarea#id_item-description {
 
 }
 
+/* /////////////////////////////////::: Cronómetro :::///////////////////////////////////// */
 
+.crono {
+    font-family:Rockwell, 'GeoSlb712MdBTMedium',"Courier Bold", Courier, Georgia, Times, "Times New Roman", serif;
+    display: inline-block;
+  }
+
+.cntSeparator {
+color: #000000;
+font-size: 21px;
+margin: 25px 7px;
+}
+.desc {
+margin: 7px 3px;
+}
+.desc div {
+color: #000000;
+float: left;
+text-align: right;
+font-size: 16px;
+margin-right: 50px;
+width: 70px;
+}
+
+.minseg {
+  margin-left: 15px;
+}
+
+#seg {
+  margin-right: 20px;
+}
 /* /////////////////////////////////////::: Errores ::://///////////////////////////////// */
 
 .errorlist {

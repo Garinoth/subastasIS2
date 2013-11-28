@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/style.css">
+    <script type="text/javascript" src="../../static/js/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="../../static/js/jquery.countdown.js"></script>
+
+    <title>JDLS</title>
+</head>
+
+<body>
+    <header>
+        <!-- PRIMERA FILA -->
+        <div class="fila">
+
+            <!-- CUADRO DE BÚSQUEDA -->
+            <form class="busqueda primera_columna">
+                <input type="text" name="searchField" class="buscar" placeholder="Escriba lo que desee buscar..." />
+                <input type="image" name="searchButton" class="button" value="" src="{% static 'images/find.png' %}" />
+            </form>
+
+            <!-- REGISTRO/LOGIN -->
+            <nav class="navegacion_principal tercera_columna right">
+                <ul>
+                    <li><a href="{% url 'register' %}">Registro</a></li>
+                    <li>&bull;</li>
+                    <li><a href="{% url 'login' %}?next={{ request.path }}">Login</a></li>
+                </ul>
+            </nav>
+
+        </div>
+
+        <!-- SEGUNDA FILA -->
+        <div class="fila cuerpo" id="logo">
+            <a href='{% url 'index' %}' class="logo_principal primera_columna">JDLS</a>
+            <span class="ultima_columna right" id="aitem"><a href="{% url 'item' %}">Dar de alta un producto</a></span>
+        </div>
+
+    </header>
+
+    <section class="cuerpo" id="content">
+
+        <div class="fila">
+            <div>
+                <span class="right crono">
+                    <div id="counter"></div>
+                    <div class="desc">
+                        <div>Días</div>
+                        <div>Horas</div>
+                        <div class="minseg">Minutos</div>
+                        <div class="minseg" id="seg">Segundos</div>
+                    </div>
+                </span>
+            </div>
+        </div>
+        <div class="fila">
+            <div class="top_section">
+                <input class="ultima_columna right bid button body" value="PUJAR" />
+                <span class="ultima_columna right owner">Inmakia</span>
+            </div>
+        </div>
+        <div class="fila">
+            <h2>Cronómetro para página web</h2>
+            <span class="imgauction">¡SOY UN CRONÓMETRO!</span>
+            <div class="texto">
+                <p class="description"><span class="name">Descripción: </span>Como con lo de Django esto queda fatal, te hago aquí mismo una descripción maja del cronómetro que no es un cronómetro porque después de darle vueltas me he dado cuenta de que es una vuelta atrás. ¡Mentirosos!</p>
+                <p class="category"><span class="name">Categoría: </span>Relojes de cuco claramente</p>
+            </div>
+        </div>
+
+    </section>
+
+    <footer>
+        <div class="cuerpo">
+            <p>Copyright 2013 Ingeniería del Software II, Facultad de Informática, UPM</p>
+        </div>
+    </footer>
+</body>
+
+<script>
+function get_time_difference(earlierDate, laterDate){
+var nTotalDiff = laterDate.getTime() - earlierDate.getTime();
+var oDiff = new Object();
+
+oDiff.days = Math.floor(nTotalDiff/1000/60/60/24);
+nTotalDiff -= oDiff.days*1000*60*60*24;
+
+oDiff.hours = Math.floor(nTotalDiff/1000/60/60);
+nTotalDiff -= oDiff.hours*1000*60*60;
+
+oDiff.minutes = Math.floor(nTotalDiff/1000/60);
+nTotalDiff -= oDiff.minutes*1000*60;
+
+oDiff.seconds = Math.floor(nTotalDiff/1000);
+return oDiff;
+
+}
+function use_time_difference(){
+finish = new Date(2013, 02, 15, 11, 30, 00);
+dateCurrent = new Date();
+oDiff = get_time_difference(dateCurrent, finish);
+oDiff.days<=9?days = '0'+oDiff.days: days = oDiff.days;
+oDiff.hours<=9?hours = '0'+oDiff.hours: hours = oDiff.hours;
+oDiff.minutes<=9?minutes = '0'+oDiff.minutes: minutes = oDiff.minutes;
+oDiff.seconds<=9?seconds = '0'+oDiff.seconds: seconds = oDiff.seconds;
+time = days + ":" + hours + ":" + minutes + ":" + seconds;
+}
+use_time_difference();
+$('#counter').countdown({
+stepTime: 60,
+format: 'dd:hh:mm:ss',
+startTime: '00:23:35:59',
+digitImages: 6,
+digitWidth: 53,
+digitHeight: 77,
+image: "../../static/images/digits.png"
+}); 
+</script>
+</html>
