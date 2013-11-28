@@ -727,6 +727,11 @@ textarea#id_item-description {
     color: #424242;
 }
 
+#preowner {
+    color: black;
+    font-weight: 400;
+}
+
 .owner {
     display: inline-block;
     clear: right;

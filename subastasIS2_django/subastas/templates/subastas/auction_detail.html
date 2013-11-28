@@ -19,7 +19,7 @@
 <div class="fila">
     <div class="top_section">
         <input class="ultima_columna right bid button body" value="PUJAR" />
-        <span class="ultima_columna right owner">{{ auction_list.item.owner.user.username }}</span>
+        <span class="ultima_columna right owner"><span id="preowner">Dueño actual: </span>{{ auction_list.item.owner.user.username }}</span>
     </div>
     <h2 class="auctiontitle">{{ auction_list.item.name }}</h2>
 </div>
@@ -60,6 +60,7 @@ oDiff.seconds<=9?seconds = '0'+oDiff.seconds: seconds = oDiff.seconds;
 time = days + ":" + hours + ":" + minutes + ":" + seconds;
 }
 use_time_difference();
+{% load static %}
 $('#counter').countdown({
 stepTime: 60,
 format: 'dd:hh:mm:ss',
@@ -67,7 +68,7 @@ startTime: time,
 digitImages: 6,
 digitWidth: 30,
 digitHeight: 43,
-image: "../../static/images/digits2.png"
+image: "{% static 'images/digits2.png' %}"
 }); 
 </script>
 
