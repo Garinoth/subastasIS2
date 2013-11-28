@@ -21,7 +21,7 @@ class AuctionUser(models.Model):
     phone_number = models.CharField(max_length=20, blank=True)
     auction_points = models.PositiveIntegerField(default=0)
     offer_points = models.PositiveIntegerField(default=0)
-    image = models.ImageField(upload_to='/profile/', blank=True)
+    image = models.ImageField(upload_to='profiles/', default='items/noDisponible.jpg', blank=True)
 
     activation_key = models.CharField(max_length=40, blank=True)
 
@@ -57,7 +57,7 @@ class Item(models.Model):
     owner = models.ForeignKey(AuctionUser)
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
-    image = models.ImageField(upload_to='items/', blank=True)
+    image = models.ImageField(upload_to='items/', default='items/noDisponible.jpg', blank=True)
     category = models.CharField(max_length=100, blank=True)
     first_created = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)

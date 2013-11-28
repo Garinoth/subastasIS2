@@ -56,8 +56,8 @@ def register_user(request):
             auction_user = auction_user_form.save(commit=False)
             auction_user.user = user
             auction_user.set_activation_key()
-            auction_user.save()
             auction_user.send_activation_email()
+            auction_user.save()
         else:
             valid = 'false'
 
@@ -140,7 +140,10 @@ def create_item(request):
 
     return render(request, 'subastas/item.html', ctx)
 
+
 @login_required
 def bid(request):
     if request.method == 'POST':
         bid_form = BidForm(request.POST)
+    else:
+        return HttpResponseRedirect(reverse('index'))

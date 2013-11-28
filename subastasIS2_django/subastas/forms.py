@@ -154,18 +154,19 @@ class ItemForm(ModelForm):
     name = CharField(
         label='Nombre',
         error_messages=default_error_messages,
-        max_length=100,
+        max_length=40,
     )
     description = CharField(
         label='Descripción',
         error_messages=default_error_messages,
         widget=Textarea,
+        max_length=140,
         required=False,
     )
     category = CharField(
         label='Categoría',
         error_messages=default_error_messages,
-        max_length=100,
+        max_length=40,
     )
     image = ImageField(
         label='Imagen',
@@ -230,7 +231,8 @@ class BidForm(ModelForm):
 
     class Meta:
         model = Bid
-        fields = ['quantity']
+        fields = ['item',
+                  'quantity']
 
 
 class ActivationForm(Form):
