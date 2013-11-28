@@ -4,18 +4,71 @@
 
 {% block content %}
 <div class="fila">
-	<div class="top_section">
-		<span class="ultima_columna right crono">{{ auction_list.end_date }}</span>
-		<input class="ultima_columna right bid button body" value="PUJAR" />
-		<span class="ultima_columna right owner">{{ auction_list.item.owner.user.username }}</span>
-	</div>
+    <div>
+        <span class="right crono">
+            <div id="counter"></div>
+            <div class="desc">
+                <div>Días</div>
+                <div>Horas</div>
+                <div class="minseg">Min</div>
+                <div class="minseg" id="seg">Seg</div>
+            </div>
+        </span>
+    </div>
 </div>
 <div class="fila">
-	<h2>{{ auction_list.item.name }}</h2>
-	<span class="imgauction"><img src="{{ auction_list.item.image.url }}"/></span>
+    <div class="top_section">
+        <input class="ultima_columna right bid button body" value="PUJAR" />
+        <span class="ultima_columna right owner">{{ auction_list.item.owner.user.username }}</span>
+    </div>
+    <h2 class="auctiontitle">{{ auction_list.item.name }}</h2>
+</div>
+<div class="fila">
+	<span class="imgauction"><a href="{{ auction_list.item.image.url }}"><img id="imageauction" src="{{ auction_list.item.image.url }}"/></a></span>
 	<div class="texto">
 		<p class="description"><span class="name">Descripción: </span>{{ auction_list.item.description }}</p>
 		<p class="category"><span class="name">Categoría: </span>{{ auction_list.item.category }}</p>
 	</div>
 </div>
+
+<script>
+function get_time_difference(earlierDate, laterDate){
+var nTotalDiff = laterDate.getTime() - earlierDate.getTime();
+var oDiff = new Object();
+
+oDiff.days = Math.floor(nTotalDiff/1000/60/60/24);
+nTotalDiff -= oDiff.days*1000*60*60*24;
+
+oDiff.hours = Math.floor(nTotalDiff/1000/60/60);
+nTotalDiff -= oDiff.hours*1000*60*60;
+
+oDiff.minutes = Math.floor(nTotalDiff/1000/60);
+nTotalDiff -= oDiff.minutes*1000*60;
+
+oDiff.seconds = Math.floor(nTotalDiff/1000);
+return oDiff;
+
+}
+function use_time_difference(){
+finish = new Date({{ auction_list.end_date.year }}, {{ auction_list.end_date.month }}, {{ auction_list.end_date.day }}, {{ auction_list.end_date.hour }}, {{ auction_list.end_date.minute }}, {{ auction_list.end_date.second }});
+dateCurrent = new Date();
+oDiff = get_time_difference(dateCurrent, finish);
+oDiff.days<=9?days = '0'+oDiff.days: days = oDiff.days;
+oDiff.hours<=9?hours = '0'+oDiff.hours: hours = oDiff.hours;
+oDiff.minutes<=9?minutes = '0'+oDiff.minutes: minutes = oDiff.minutes;
+oDiff.seconds<=9?seconds = '0'+oDiff.seconds: seconds = oDiff.seconds;
+time = days + ":" + hours + ":" + minutes + ":" + seconds;
+}
+use_time_difference();
+$('#counter').countdown({
+stepTime: 60,
+format: 'dd:hh:mm:ss',
+startTime: time,
+digitImages: 6,
+digitWidth: 30,
+digitHeight: 43,
+image: "../../static/images/digits2.png"
+}); 
+</script>
+
 {% endblock %}
