@@ -1,4 +1,19 @@
+# Common
 *.log
 *.pot
 *.pyc
 local_settings.py
+*.py[cod]
+
+# virtualenv
+venv
+
+# Sublime project files
+*.sublime-workspace
+*.sublime-project
+
+# Database files
+db.sqlite3
+
+# staticfiles
+staticfiles

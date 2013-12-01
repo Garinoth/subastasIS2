@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load staticfiles %}
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <script type="text/javascript" src="{% static 'js/jquery-2.0.3.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.countdown.js' %}"></script>
+    <title>{% block title %}JDLS{% endblock %}</title>
+</head>
+
+<body>
+    <header>
+        <!-- PRIMERA FILA -->
+        <div class="fila">
+
+            <!-- CUADRO DE BÚSQUEDA -->
+            <form class="busqueda primera_columna">
+                <input type="text" name="searchField" class="buscar" placeholder="Escriba lo que desee buscar..." />
+                <input type="image" name="searchButton" class="button" value="" src="{% static 'images/find.png' %}" />
+            </form>
+
+            <!-- REGISTRO/LOGIN -->
+            {% if user.is_authenticated %}
+            <nav class="navegacion_principal tercera_columna right">
+                <ul>
+                    <li><a href="{% url 'test' %}">{{ user.image }}</a></li>
+                    <li><a href="{% url 'test' %}">{{ user.username }}</a></li>
+                    <li>&bull;</li>
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                </ul>
+            </nav>
+            {% else %}
+            <nav class="navegacion_principal tercera_columna right">
+                <ul>
+                    <li><a href="{% url 'register' %}">Registro</a></li>
+                    <li>&bull;</li>
+                    <li><a href="{% url 'login' %}?next={{ request.path }}">Login</a></li>
+                </ul>
+            </nav>
+            {% endif %}
+
+        </div>
+
+        <!-- SEGUNDA FILA -->
+        <div class="fila cuerpo" id="logo">
+            <a href='{% url 'index' %}' class="logo_principal primera_columna">JDLS</a>
+            {% if perms.subastas.can_create_item %}<span class="ultima_columna right" id="aitem"><a href="{% url 'item' %}">Dar de alta un producto</a></span>{% endif %}
+        </div>
+
+    </header>
+
+    <section class="cuerpo" id="content">
+        {% block content %}{% endblock %}
+    </section>
+
+    <footer>
+        <div class="cuerpo">
+            <p>Copyright 2013 Ingeniería del Software II, Facultad de Informática, UPM</p>
+        </div>
+    </footer>
+</body>
+</html>

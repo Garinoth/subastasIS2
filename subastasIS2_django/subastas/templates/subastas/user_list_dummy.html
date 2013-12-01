@@ -1,0 +1,13 @@
+{% extends "subastas/base.html" %}
+
+{% block title %}JDLS|Contacts{% endblock %}
+
+{% block content %}
+<h2>Contacts</h2>
+
+<ul>
+  {% for contact in object_list %}
+    <li class="contact">{{ contact }}</li>
+  {% endfor %}
+</ul>
+{% endblock %}
