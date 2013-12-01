@@ -26,7 +26,7 @@ TEMPLATE_DEBUG = True
 
 TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [*]
 
 
 # Application definition
@@ -90,6 +90,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
+STATIC_ROOT = 'staticfiles'
 STATIC_URL = '/static/'
 
 # LOGIN redirection page
@@ -99,6 +100,10 @@ LOGIN_URL = '/subastas/login/'
 MEDIA_URL = '/subastas/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'subastas/media/')
 
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+
 # Email settings
 DEFAULT_FROM_EMAIL = 'juegodelasubasta@gmail.com'
 EMAIL_USE_TLS = True
@@ -106,3 +111,6 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'juegodelasubasta@gmail.com'
 EMAIL_HOST_PASSWORD = 'jdls2013'
+
+# Heroku extra
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
