@@ -145,5 +145,14 @@ def create_item(request):
 def bid(request):
     if request.method == 'POST':
         bid_form = BidForm(request.POST)
+        if bid_form.is_valid():
+            bid = bid_form.save(commit=False)
+            bid.user = AuctionUser.objects.get(user=request.user)
+            bid.user.auction_points -= 1
+            bid.user.offer_points += 1
+            bid.user.save()
+            bid.save()
+            return HttpResponseRedirect(reverse('index'))
+
     else:
         return HttpResponseRedirect(reverse('index'))

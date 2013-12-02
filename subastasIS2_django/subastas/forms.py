@@ -3,7 +3,7 @@ from datetime import date
 import re
 from django.core.exceptions import ValidationError
 from django.contrib.auth import authenticate
-from django.forms import Form, ModelForm, EmailField, CharField, PasswordInput, DateField, BooleanField, ImageField, IntegerField
+from django.forms import Form, ModelForm, EmailField, CharField, PasswordInput, DateField, BooleanField, ImageField, IntegerField, HiddenInput
 from django.forms.extras.widgets import SelectDateWidget
 from django.forms.widgets import Textarea
 from subastas.models import User, AuctionUser, Item, Auction, Offer, Bid
@@ -228,11 +228,23 @@ class BidForm(ModelForm):
     quantity = IntegerField(
         label='Cantidad',
     )
+    user = Charfield(
+        widget=HiddenInput()
+    )
 
     class Meta:
         model = Bid
         fields = ['auction',
                   'quantity']
+
+    def clean(self):
+        auction_user = AuctionUser.objects.get(
+            pk=int(self.cleaned_data.get('user'))
+        )
+        if auction_user.auction_points <= 0:
+            raise ValidationError(
+                "No dispone de puntos suficientes"
+            )
 
 
 class ActivationForm(Form):
