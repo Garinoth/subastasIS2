@@ -245,6 +245,10 @@ class BidForm(ModelForm):
             raise ValidationError(
                 "No dispone de puntos suficientes"
             )
+        if self.cleaned_data.get('quantity') <= self.cleaned_data.get('auction').current_price:
+            raise ValidationError(
+                "Su puja debe superar el precio actual"
+            )
 
 
 class ActivationForm(Form):
