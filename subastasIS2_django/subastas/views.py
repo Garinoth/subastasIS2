@@ -26,7 +26,21 @@ class ListAuctionsView(ListView):
 class DetailAuctionView(DetailView):
 
     model = Auction
-    context_object_name = 'auction_list'
+    context_object_name = 'auction'
+
+
+class ListOffersView(ListView):
+
+    model = Offer
+    queryset = Offer.objects.order_by('end_date')
+    context_object_name = 'offer_list'
+    template_name = 'subastas/auctions.html'
+
+
+class DetailOfferView(DetailView):
+
+    model = Offer
+    context_object_name = 'offer'
 
 
 def index(request):
@@ -109,7 +123,7 @@ def create_item(request):
         item_form = ItemForm(request.POST, request.FILES, prefix='item')
         auction_form = AuctionForm(request.POST, prefix='auction')
         offer_form = OfferForm(request.POST, prefix='offer')
-        # item_type = request.POST.item_type
+        item_type = request.POST.item_type
         item_type = 'auction'
         if item_type:
             if item_type == 'auction':
@@ -124,6 +138,18 @@ def create_item(request):
                     auction.save()
 
                     return HttpResponseRedirect(reverse('auctions'))
+
+            if item_type == 'offer':
+                if item_form.is_valid() and offer_form.is_valid():
+                    item = item_form.save(commit=False)
+                    item.owner = AuctionUser.objects.get(user=request.user)
+                    item.save()
+
+                    offer = offer_form.save(commit=False)
+                    offer.item = item
+                    offer.save()
+
+                    return HttpResponseRedirect(reverse('offers'))
 
     else:
         item_form = ItemForm(prefix='item')
