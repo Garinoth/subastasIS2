@@ -124,7 +124,7 @@ def create_item(request):
         auction_form = AuctionForm(request.POST, prefix='auction')
         offer_form = OfferForm(request.POST, prefix='offer')
         item_type = request.POST.item_type
-        item_type = 'auction'
+
         if item_type:
             if item_type == 'auction':
                 if item_form.is_valid() and auction_form.is_valid():
