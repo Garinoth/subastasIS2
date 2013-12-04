@@ -228,7 +228,7 @@ class BidForm(ModelForm):
     quantity = IntegerField(
         label='Cantidad',
     )
-    user = Charfield(
+    user = CharField(
         widget=HiddenInput()
     )
 
