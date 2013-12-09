@@ -1,6 +1,6 @@
 {% extends "subastas/base.html" %}
 
-{% block title %}JDLS|Subasta {% endblock %}
+{% block title %}JDLS|Oferta {% endblock %}
 
 {% block content %}
 <div class="fila">
@@ -18,16 +18,16 @@
 </div>
 <div class="fila">
     <div class="top_section">
-        <input class="ultima_columna right bid button body" value="PUJAR" />
-        <span class="ultima_columna right owner"><span id="preowner">Dueño actual: </span>{{ auction.item.owner.user.username }}</span><span class="ultima columna right actualbid">Puja actual: <span class="bold">{{ auction.current_price }}</span></span>
+        <input class="ultima_columna right bid button body" value="COMPRAR" />
+        <span class="ultima_columna right owner"><span id="preowner">Dueño: </span>{{ offer.item.owner.user.username }}</span><span class="ultima columna right actualbid">Precio: <span class="bold">{{ offer.price }}</span></span>
     </div>
-    <h2 class="auctiontitle">{{ auction.item.name }}</h2>
+    <h2 class="auctiontitle">{{ offer.item.name }}</h2>
 </div>
 <div class="fila">
-	<span class="imgauction"><a href="{{ auction.item.image.url }}"><img id="imageauction" src="{{ auction.item.image.url }}"/></a></span>
+	<span class="imgauction"><a href="{{ offer.item.image.url }}"><img id="imageauction" src="{{ offer.item.image.url }}"/></a></span>
 	<div class="texto">
-		<p class="description"><span class="name">Descripción: </span>{{ auction.item.description }}</p>
-		<p class="category"><span class="name">Categoría: </span>{{ auction.item.category }}</p>
+		<p class="description"><span class="name">Descripción: </span>{{ offer.item.description }}</p>
+		<p class="category"><span class="name">Categoría: </span>{{ offer.item.category }}</p>
 	</div>
 </div>
 
@@ -52,7 +52,7 @@ return oDiff;
 
 }
 function use_time_difference(){
-finish = new Date({{ auction.end_date.year }}, {{ auction.end_date.month }}, {{ auction.end_date.day }}, {{ auction.end_date.hour }}, {{ auction.end_date.minute }}, {{ auction.end_date.second }});
+finish = new Date({{ offer.end_date.year }}, {{ offer.end_date.month }}, {{ offer.end_date.day }}, {{ offer.end_date.hour }}, {{ offer.end_date.minute }}, {{ offer.end_date.second }});
 dateCurrent = new Date();
 oDiff = get_time_difference(dateCurrent, finish);
 oDiff.days<=9?days = '0'+oDiff.days: days = oDiff.days;
