@@ -225,30 +225,23 @@ class OfferForm(ModelForm):
 
 
 class BidForm(ModelForm):
-    quantity = IntegerField(
-        label='Cantidad',
-    )
-    user = CharField(
-        widget=HiddenInput()
-    )
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super(BidForm, self).__init__(*args, **kwargs)
 
     class Meta:
         model = Bid
-        fields = ['auction',
-                  'quantity']
+        fields = []
 
     def clean(self):
-        auction_user = AuctionUser.objects.get(
-            pk=int(self.cleaned_data.get('user'))
-        )
+        auction_user = AuctionUser.objects.get(user=self.user)
         if auction_user.auction_points <= 0:
             raise ValidationError(
-                "No dispone de puntos suficientes"
-            )
-        if self.cleaned_data.get('quantity') <= self.cleaned_data.get('auction').current_price:
-            raise ValidationError(
-                "Su puja debe superar el precio actual"
-            )
+               "No dispone de puntos suficientes"
+           )
+
+        return self.cleaned_data
 
 
 class ActivationForm(Form):

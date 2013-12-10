@@ -166,19 +166,29 @@ def create_item(request):
 
     return render(request, 'subastas/item.html', ctx)
 
-
 @login_required
-def bid(request):
+def auction(request, pk):
+    auction = Auction.objects.get(pk=pk)
+
     if request.method == 'POST':
-        bid_form = BidForm(request.POST)
+        bid_form = BidForm(request.POST, user=request.user)
         if bid_form.is_valid():
             bid = bid_form.save(commit=False)
+            bid.auction = auction
             bid.user = AuctionUser.objects.get(user=request.user)
             bid.user.auction_points -= 1
             bid.user.offer_points += 1
             bid.user.save()
             bid.save()
-            return HttpResponseRedirect(reverse('index'))
+
+            return HttpResponseRedirect(reverse('auction_detail', pk=pk))
 
     else:
-        return HttpResponseRedirect(reverse('index'))
+        bid_form = BidForm()
+
+    ctx = {
+        'auction': auction,
+        'bid_form': bid_form,
+    }
+
+    return render(request, 'subastas/auction_detail.html', ctx)
