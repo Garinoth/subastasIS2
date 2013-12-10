@@ -34,7 +34,7 @@ class ListOffersView(ListView):
     model = Offer
     queryset = Offer.objects.order_by('end_date')
     context_object_name = 'offer_list'
-    template_name = 'subastas/auctions.html'
+    template_name = 'subastas/offers.html'
 
 
 class DetailOfferView(DetailView):
@@ -123,7 +123,7 @@ def create_item(request):
         item_form = ItemForm(request.POST, request.FILES, prefix='item')
         auction_form = AuctionForm(request.POST, prefix='auction')
         offer_form = OfferForm(request.POST, prefix='offer')
-        item_type = request.POST.item_type
+        item_type = request.POST['item_type']
 
         if item_type:
             if item_type == 'auction':

@@ -19,15 +19,15 @@
         {% endfor %}
         <tr><div class="form-group">
             <td><label class="freg control-label"><span class="required">*</span>Tipo de entrada: </label></td>
-            <td><select name="select" class="form-inline" onChange="mostrar(this.value);">
+            <td><select name="item_type" class="form-inline" onChange="mostrar(this.value);">
                 <option value="none"> --- </option>
-                <option value="subasta">Subasta</option>
-                <option value="oferta">Oferta</option></select>
+                <option value="auction">Subasta</option>
+                <option value="offer">Oferta</option></select>
             </td>
         </div></tr>
     </table>
 
-    <table id="subasta" style="display: none;">
+    <table id="auction" style="display: none;">
         {% for field in auction_form.visible_fields %}
         <tr><div class="form-group">
             <td><label class="freg control-label">{% if field.field.required %}<span class="required">*</span>{% endif %}{{ field.label_tag }} </label></td>
@@ -36,7 +36,7 @@
         {% endfor %}
     </table>
 
-    <table id="oferta" style="display: none;">
+    <table id="offer" style="display: none;">
         {% for field in offer_form.visible_fields %}
         <tr><div class="form-group">
             <td><label class="freg control-label">{% if field.field.required %}<span class="required">*</span>{% endif %}{{ field.label_tag }} </label></td>
@@ -50,17 +50,17 @@
 <script type="text/javascript">
     function mostrar(id) {
         if (id == "none") {
-            $("#subasta").hide();
-            $("#oferta").hide();
+            $("#auction").hide();
+            $("#offer").hide();
         }
 
-        if (id == "subasta") {
-            $("#subasta").show();
-            $("#oferta").hide();
+        if (id == "auction") {
+            $("#auction").show();
+            $("#offer").hide();
         }
-        if (id == "oferta") {
-            $("#subasta").hide();
-            $("#oferta").show();
+        if (id == "offer") {
+            $("#auction").hide();
+            $("#offer").show();
         }
     }
 </script>
