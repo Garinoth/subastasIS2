@@ -20,7 +20,7 @@
     <div class="top_section">
     <form method="post" action="{% url 'auction_detail' auction.pk %}">
         <input class="ultima_columna right bid button body" type="submit" value="PUJAR" />
-        <span class="ultima_columna right owner"><span id="preowner">Dueño actual: </span>{{ auction.item.owner.user.username }}</span><span class="ultima columna right actualbid">Puja actual: <span class="bold">{{ auction.current_price }}</span></span>
+        <span class="ultima_columna right owner"><span id="preowner">Dueño actual: </span>{{ auction.item.winner.user.username }}</span>
         {% csrf_token %}
     </form>
     </div>

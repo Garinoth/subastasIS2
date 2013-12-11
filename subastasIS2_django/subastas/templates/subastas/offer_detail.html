@@ -18,7 +18,8 @@
 </div>
 <div class="fila">
     <div class="top_section">
-        <input class="ultima_columna right bid button body" value="COMPRAR" />
+    <form method="post" action="{% url 'offer_detail' offer.pk %}">
+        <input class="ultima_columna right bid button body" type="submit" value="COMPRAR" />
         <span class="ultima_columna right owner"><span id="preowner">Dueño: </span>{{ offer.item.owner.user.username }}</span><span class="ultima columna right actualbid">Precio: <span class="bold">{{ offer.price }}</span></span>
     </div>
     <h2 class="auctiontitle">{{ offer.item.name }}</h2>
