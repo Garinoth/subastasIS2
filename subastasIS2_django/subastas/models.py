@@ -84,9 +84,11 @@ class Auction(models.Model):
 
 class Offer(models.Model):
     item = models.OneToOneField(Item, primary_key=True)
+    winner = models.ForeignKey(AuctionUser, blank=True)
     price = models.PositiveIntegerField()
     start_date = models.DateTimeField(auto_now_add=True)
     end_date = models.DateTimeField()
+    sold = models.BooleanField(default=False)
 
     def __unicode__(self):
         return u'%s' % (self.item.name)
