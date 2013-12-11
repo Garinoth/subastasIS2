@@ -134,7 +134,7 @@ def create_item(request):
 
                     auction = auction_form.save(commit=False)
                     auction.item = item
-                    auction.current_price = auction.base_price
+                    auction.winner = item.owner
                     auction.save()
 
                     return HttpResponseRedirect(reverse('auctions'))
@@ -168,17 +168,62 @@ def create_item(request):
 
 
 @login_required
-def bid(request):
+def auction(request, pk):
+    auction = Auction.objects.get(pk=pk)
+
     if request.method == 'POST':
-        bid_form = BidForm(request.POST)
+        bid_form = BidForm(request.POST, user=request.user, auction=auction)
         if bid_form.is_valid():
             bid = bid_form.save(commit=False)
+            bid.auction = auction
             bid.user = AuctionUser.objects.get(user=request.user)
             bid.user.auction_points -= 1
             bid.user.offer_points += 1
             bid.user.save()
             bid.save()
-            return HttpResponseRedirect(reverse('index'))
+
+            return HttpResponseRedirect(reverse('auction_detail', args=pk))
 
     else:
-        return HttpResponseRedirect(reverse('index'))
+        bid_form = BidForm()
+
+    ctx = {
+        'auction': auction,
+        'bid_form': bid_form,
+    }
+
+    return render(request, 'subastas/auction_detail.html', ctx)
+
+
+@login_required
+def offer(request, pk):
+    offer = Offer.objects.get(pk=pk)
+
+    if request.method == 'POST':
+        sale_form = SaleForm(request.POST, user=request.user, offer=offer)
+        if sale_form.is_valid():
+            valid = True
+            confirm = request.POST['confirm']
+            if confirm == 'True':
+                auction_user = AuctionUser.objects.get(user=request.user)
+                auction_user.offer_points -= offer.price
+                auction_user.save()
+
+                offer.winner = auction_user
+                offer.sold = True
+                offer.save()
+
+                return HttpResponseRedirect(reverse('offers'))
+
+
+    else:
+        sale_form = SaleForm()
+        valid = False
+
+    ctx = {
+        'offer': offer,
+        'sale_form': sale_form,
+        'valid': valid,
+    }
+
+    return render(request, 'subastas/offer_detail.html', ctx)

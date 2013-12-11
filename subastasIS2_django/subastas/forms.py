@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-from datetime import date
+import datetime
 import re
 from django.core.exceptions import ValidationError
 from django.contrib.auth import authenticate
@@ -133,7 +133,8 @@ class AuctionUserForm(ModelForm):
     birth_date = DateField(
         label='Fecha de Nacimiento',
         error_messages=default_error_messages,
-        widget=SelectDateWidget(years=range(date.today().year, 1920, -1)),
+        widget=SelectDateWidget(
+            years=range(datetime.date.today().year, 1920, -1)),
     )
     tos = BooleanField(
         error_messages={
@@ -148,6 +149,34 @@ class AuctionUserForm(ModelForm):
                   'city',
                   'country',
                   'phone_number']
+
+
+class ActivationForm(Form):
+    email = EmailField(
+        label='Correo electrónico',
+    )
+    password = CharField(
+        label='Contraseña',
+        widget=PasswordInput,
+    )
+    activation_key = CharField(max_length=40)
+
+    def clean(self):
+        email = self.cleaned_data.get('email')
+        password = self.cleaned_data.get('password')
+        activation_key = self.cleaned_data.get('activation_key')
+        user = authenticate(email=email, password=password)
+        if not user:
+            raise ValidationError(
+                "El usuario y la contraseña no son válidos"
+            )
+        auction_user = AuctionUser.objects.get(user=user)
+        if auction_user.activation_key != activation_key:
+            raise ValidationError(
+                "La clave de activación no es válida",
+            )
+
+        return self.cleaned_data
 
 
 class ItemForm(ModelForm):
@@ -183,11 +212,6 @@ class ItemForm(ModelForm):
 
 
 class AuctionForm(ModelForm):
-    base_price = IntegerField(
-        label='Precio base',
-        error_messages=default_error_messages,
-        initial=0,
-    )
     start_date = DateField(
         label='Fecha de inicio',
         error_messages=default_error_messages,
@@ -201,9 +225,24 @@ class AuctionForm(ModelForm):
 
     class Meta:
         model = Auction
-        fields = ['base_price',
-                  'start_date',
+        fields = ['start_date',
                   'end_date']
+
+    def clean(self):
+        start_date = self.cleaned_data.get('start_date')
+        end_date = self.cleaned_data.get('end_date')
+
+        if start_date < datetime.date.today():
+            raise ValidationError(
+                "La fecha de inicio no puede ser anterior a hoy"
+            )
+
+        if start_date >= end_date:
+            raise ValidationError(
+                "La fecha de inicio debe ser anterior a la de fin"
+            )
+
+        return self.cleaned_data
 
 
 class OfferForm(ModelForm):
@@ -225,51 +264,58 @@ class OfferForm(ModelForm):
 
 
 class BidForm(ModelForm):
-    quantity = IntegerField(
-        label='Cantidad',
-    )
-    user = CharField(
-        widget=HiddenInput()
-    )
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        self.auction = kwargs.pop('auction', None)
+        super(BidForm, self).__init__(*args, **kwargs)
 
     class Meta:
         model = Bid
-        fields = ['auction',
-                  'quantity']
+        fields = []
 
     def clean(self):
-        auction_user = AuctionUser.objects.get(
-            pk=int(self.cleaned_data.get('user'))
-        )
+        auction_user = AuctionUser.objects.get(user=self.user)
+        if auction_user == self.auction.winner:
+            raise ValidationError(
+                "Ya es el ganador actual"
+            )
+
         if auction_user.auction_points <= 0:
             raise ValidationError(
                 "No dispone de puntos suficientes"
             )
 
+        if self.auction.end_date < datetime.now():
+            raise ValidationError(
+                "Esta subasta ya ha finalizado"
+            )
 
-class ActivationForm(Form):
-    email = EmailField(
-        label='Correo electrónico',
-    )
-    password = CharField(
-        label='Contraseña',
-        widget=PasswordInput,
-    )
-    activation_key = CharField(max_length=40)
+        return self.cleaned_data
+
+
+class SaleForm(Form):
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        self.offer = kwargs.pop('offer', None)
+        super(SaleForm, self).__init__(*args, **kwargs)
 
     def clean(self):
-        email = self.cleaned_data.get('email')
-        password = self.cleaned_data.get('password')
-        activation_key = self.cleaned_data.get('activation_key')
-        user = authenticate(email=email, password=password)
-        if not user:
+        if self.offer.sold:
             raise ValidationError(
-                "El usuario y la contraseña no son válidos"
+                "Este objeto ya ha sido vendido"
             )
-        auction_user = AuctionUser.objects.get(user=user)
-        if auction_user.activation_key != activation_key:
+
+        auction_user = AuctionUser.objects.get(user=self.user)
+        if auction_user == self.offer.item.owner:
             raise ValidationError(
-                "La clave de activación no es válida",
+                "Usted es el dueño del objeto, no puede comprarlo"
+            )
+
+        if auction_user.offer_points < self.offer.price:
+            raise ValidationError(
+                "No dispone de puntos de compra suficientes, participe en subastas para ganar puntos de compra"
             )
 
         return self.cleaned_data

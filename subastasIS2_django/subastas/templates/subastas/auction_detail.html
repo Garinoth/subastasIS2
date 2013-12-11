@@ -18,8 +18,11 @@
 </div>
 <div class="fila">
     <div class="top_section">
-        <input class="ultima_columna right bid button body" value="PUJAR" />
+    <form method="post" action="{% url 'auction_detail' auction.pk %}">
+        <input class="ultima_columna right bid button body" type="submit" value="PUJAR" />
         <span class="ultima_columna right owner"><span id="preowner">Dueño actual: </span>{{ auction.item.owner.user.username }}</span><span class="ultima columna right actualbid">Puja actual: <span class="bold">{{ auction.current_price }}</span></span>
+        {% csrf_token %}
+    </form>
     </div>
     <h2 class="auctiontitle">{{ auction.item.name }}</h2>
 </div>
