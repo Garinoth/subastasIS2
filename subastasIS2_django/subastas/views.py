@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import ListView, DetailView
-from subastas.forms import UserForm, AuctionUserForm, ItemForm, AuctionForm, OfferForm, BidForm, ActivationForm
+from subastas.forms import UserForm, AuctionUserForm, ItemForm, AuctionForm, OfferForm, BidForm, ActivationForm, SaleForm
 from subastas.models import Auction, Offer, AuctionUser
 
 
@@ -147,6 +147,8 @@ def create_item(request):
 
                     offer = offer_form.save(commit=False)
                     offer.item = item
+                    # DELETE THIS WHEN MODELS ARE UPDATED TO ACCEPT NULL VALUE
+                    offer.winner = item.owner
                     offer.save()
 
                     return HttpResponseRedirect(reverse('offers'))
@@ -180,6 +182,8 @@ def auction(request, pk):
             bid.user.auction_points -= 1
             bid.user.offer_points += 1
             bid.user.save()
+            bid.auction.winner = bid.user
+            bid.auction.save()
             bid.save()
 
             return HttpResponseRedirect(reverse('auction_detail', args=pk))

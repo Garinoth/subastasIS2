@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate
 from django.forms import Form, ModelForm, EmailField, CharField, PasswordInput, DateField, BooleanField, ImageField, IntegerField, HiddenInput
 from django.forms.extras.widgets import SelectDateWidget
 from django.forms.widgets import Textarea
+from django.utils import timezone
 from subastas.models import User, AuctionUser, Item, Auction, Offer, Bid
 
 
@@ -286,7 +287,7 @@ class BidForm(ModelForm):
                 "No dispone de puntos suficientes"
             )
 
-        if self.auction.end_date < datetime.now():
+        if self.auction.end_date < timezone.now():
             raise ValidationError(
                 "Esta subasta ya ha finalizado"
             )
