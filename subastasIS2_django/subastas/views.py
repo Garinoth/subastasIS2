@@ -207,7 +207,7 @@ def offer(request, pk):
         sale_form = SaleForm(request.POST, user=request.user, offer=offer)
         if sale_form.is_valid():
             valid = True
-            confirm = request.POST['confirm']
+            confirm = request.POST.get('confirm')
             if confirm == 'True':
                 auction_user = AuctionUser.objects.get(user=request.user)
                 auction_user.offer_points -= offer.price

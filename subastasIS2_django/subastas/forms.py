@@ -316,7 +316,8 @@ class SaleForm(Form):
 
         if auction_user.offer_points < self.offer.price:
             raise ValidationError(
-                "No dispone de puntos de compra suficientes, participe en subastas para ganar puntos de compra"
+                "No dispone de puntos de compra suficientes, participe en subastas para ganar puntos de compra",
+                code='recharge',
             )
 
         return self.cleaned_data
