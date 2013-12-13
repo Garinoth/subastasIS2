@@ -4,15 +4,19 @@
 
 {% block content %}
 {% if bid_form.errors %}
-    {% if recharge %}
     <a href="#" class="logoverlay" id="popups"></a>
     <div class="logpopup">
         <h2 class="error">¡Oops!</h2>
+    {% if recharge %}
         <p>No tienes suficientes puntos de subasta para pujar por este producto. Antes de continuar debes recargar tus puntos.</p>
         <a class="close" href="{% url 'auction_detail' auction.pk %}"></a>
         <a href="{% url 'index' %}"><input type="button" class="button close" value="Recargar" />
-    </div>
+    {% else %}
+        <p>{{ error }}</p>
+        <a class="close" href="{% url 'auction_detail' auction.pk %}"></a>
+        <a href="{% url 'auction_detail' auction.pk %}"><input type="button" class="button close" value="Cerrar" /></a>
     {% endif %}
+    </div>
 {% endif %}
 
 <div class="fila">
