@@ -284,7 +284,7 @@ class BidForm(ModelForm):
 
         if auction_user.auction_points <= 0:
             raise ValidationError(
-                "No dispone de puntos suficientes"
+                'recharge'
             )
 
         if self.auction.end_date < timezone.now():
