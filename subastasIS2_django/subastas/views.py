@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import ListView, DetailView
+from django.utils import timezone
 from subastas.forms import UserForm, AuctionUserForm, ItemForm, AuctionForm, OfferForm, BidForm, ActivationForm, SaleForm
 from subastas.models import Auction, Offer, AuctionUser
 
@@ -23,24 +24,12 @@ class ListAuctionsView(ListView):
     template_name = 'subastas/auctions.html'
 
 
-class DetailAuctionView(DetailView):
-
-    model = Auction
-    context_object_name = 'auction'
-
-
 class ListOffersView(ListView):
 
     model = Offer
     queryset = Offer.objects.order_by('end_date')
     context_object_name = 'offer_list'
     template_name = 'subastas/offers.html'
-
-
-class DetailOfferView(DetailView):
-
-    model = Offer
-    context_object_name = 'offer'
 
 
 def index(request):
@@ -206,6 +195,7 @@ def auction(request, pk):
         'bid_form': bid_form,
         'recharge': recharge,
         'error': error,
+        'now': timezone.now(),
     }
 
     return render(request, 'subastas/auction_detail.html', ctx)
@@ -244,6 +234,7 @@ def offer(request, pk):
         'sale_form': sale_form,
         'valid': valid,
         'error': error,
+        'now': timezone.now(),
     }
 
     return render(request, 'subastas/offer_detail.html', ctx)
