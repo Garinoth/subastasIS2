@@ -18,5 +18,6 @@ urlpatterns = patterns('',
     url(r'^auctions/(?P<pk>\d+)/$', views.auction, name='auction_detail'),
     url(r'^offers/$', login_required(views.ListOffersView.as_view()), name='offers'),
     url(r'^offers/(?P<pk>\d+)/$', views.offer, name='offer_detail'),
+    url(r'^recharge/$', views.recharge, name='recharge'),
     (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
     )

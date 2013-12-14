@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User
@@ -6,6 +8,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import ListView, DetailView
 from django.utils import timezone
+
 from subastas.forms import UserForm, AuctionUserForm, ItemForm, AuctionForm, OfferForm, BidForm, ActivationForm, SaleForm
 from subastas.models import Auction, Offer, AuctionUser
 
@@ -162,6 +165,7 @@ def create_item(request):
 def auction(request, pk):
     auction = Auction.objects.get(pk=pk)
     recharge = False
+    error = ''
 
     if request.method == 'POST':
         bid_form = BidForm(request.POST, user=request.user, auction=auction)
@@ -173,6 +177,7 @@ def auction(request, pk):
             bid.user.offer_points += 1
             bid.user.save()
             bid.auction.winner = bid.user
+            bid.auction.end_date += timedelta(minutes=1)
             bid.auction.save()
             bid.save()
 
@@ -188,7 +193,6 @@ def auction(request, pk):
 
     else:
         bid_form = BidForm()
-        error = ''
 
     ctx = {
         'auction': auction,
@@ -238,3 +242,16 @@ def offer(request, pk):
     }
 
     return render(request, 'subastas/offer_detail.html', ctx)
+
+
+@login_required
+def recharge(request):
+    if request.method == 'POST':
+        auction_user = AuctionUser.objects.get(user=request.user)
+        points = request.POST.get('points')
+        auction_user.auction_points += points
+        auction_user.save()
+
+        return HttpResponseRedirect(reverse('recharge'))
+
+    return render(request, 'subastas/recharge.html')
