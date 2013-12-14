@@ -19,6 +19,16 @@
 </div>
 {% endif %}
 
+{% if sale_form.errors %}
+    <a href="#" class="logoverlay" id="popups"></a>
+    <div class="logpopup">
+        <h2 class="error">¡Oops!</h2>
+        <p>{{ error }}</p>
+        <a class="close" href="{% url 'index' %}"></a>
+        <a href="{% url 'index' %}"><input type="button" class="button close" value="Cerrar" />
+    </div>
+{% endif %}
+
 <div class="fila">
     <div>
         <span class="right crono">

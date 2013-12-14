@@ -187,7 +187,16 @@ def auction(request, pk):
             bid.auction.save()
             bid.save()
 
-            return HttpResponseRedirect(reverse('auction_detail', args=pk))
+            return HttpResponseRedirect(reverse('auction_detail', kwargs={'pk': pk}))
+
+        else:
+            errors = bid_form.errors.as_text()
+            if 'recharge' in errors:
+                recharge = True
+
+            else:
+                error = errors.split(' * ')[1]
+
 
         else:
             if 'recharge' in bid_form.errors:
@@ -196,11 +205,13 @@ def auction(request, pk):
 
     else:
         bid_form = BidForm()
+        error = ''
 
     ctx = {
         'auction': auction,
         'bid_form': bid_form,
-        'recharge': recharge
+        'recharge': recharge,
+        'error': error,
     }
 
     return render(request, 'subastas/auction_detail.html', ctx)
@@ -209,6 +220,8 @@ def auction(request, pk):
 @login_required
 def offer(request, pk):
     offer = Offer.objects.get(pk=pk)
+    valid = False
+    error = ''
 
     if request.method == 'POST':
         sale_form = SaleForm(request.POST, user=request.user, offer=offer)
@@ -226,15 +239,17 @@ def offer(request, pk):
 
                 return HttpResponseRedirect(reverse('offers'))
 
+        else:
+            error = sale_form.errors.as_text().split(' * ')[1]
+
     else:
         sale_form = SaleForm()
-        valid = False
 
     ctx = {
         'offer': offer,
         'sale_form': sale_form,
         'valid': valid,
-
+        'error': error,
     }
 
     return render(request, 'subastas/offer_detail.html', ctx)

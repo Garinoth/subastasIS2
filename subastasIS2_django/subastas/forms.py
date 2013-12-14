@@ -276,19 +276,19 @@ class BidForm(ModelForm):
 
     def clean(self):
         auction_user = AuctionUser.objects.get(user=self.user)
+        if self.auction.end_date < timezone.now():
+            raise ValidationError(
+                "Esta subasta ya ha finalizado."
+            )
+
         if auction_user == self.auction.winner:
             raise ValidationError(
-                "Ya es el ganador actual"
+                "Ya eres el ganador actual, no puedes volver a pujar."
             )
 
         if auction_user.auction_points <= 0:
             raise ValidationError(
-                "recharge"
-            )
-
-        if self.auction.end_date < datetime.now():
-            raise ValidationError(
-                "Esta subasta ya ha finalizado"
+                'recharge'
             )
 
         return self.cleaned_data
@@ -302,20 +302,25 @@ class SaleForm(Form):
         super(SaleForm, self).__init__(*args, **kwargs)
 
     def clean(self):
+        if self.offer.end_date < timezone.now():
+            raise ValidationError(
+                "Esta oferta ya ha finalizado."
+            )
+
         if self.offer.sold:
             raise ValidationError(
-                "Este objeto ya ha sido vendido"
+                "Este producto ya ha sido vendido."
             )
 
         auction_user = AuctionUser.objects.get(user=self.user)
         if auction_user == self.offer.item.owner:
             raise ValidationError(
-                "Usted es el dueño del objeto, no puede comprarlo"
+                "Eres el dueño del producto, no puedes comprarlo."
             )
 
         if auction_user.offer_points < self.offer.price:
             raise ValidationError(
-                "No dispone de puntos de compra suficientes, participe en subastas para ganar puntos de compra"
+                "No tienes suficientes puntos acumulados para adquirir este producto. Sigue pujando para obtener puntos.",
             )
 
         return self.cleaned_data
