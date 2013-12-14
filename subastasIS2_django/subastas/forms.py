@@ -6,7 +6,6 @@ from django.contrib.auth import authenticate
 from django.forms import Form, ModelForm, EmailField, CharField, PasswordInput, DateField, BooleanField, ImageField, IntegerField, HiddenInput
 from django.forms.extras.widgets import SelectDateWidget
 from django.forms.widgets import Textarea
-from django.utils import timezone
 from subastas.models import User, AuctionUser, Item, Auction, Offer, Bid
 
 
@@ -284,10 +283,10 @@ class BidForm(ModelForm):
 
         if auction_user.auction_points <= 0:
             raise ValidationError(
-                "No dispone de puntos suficientes"
+                "recharge"
             )
 
-        if self.auction.end_date < timezone.now():
+        if self.auction.end_date < datetime.now():
             raise ValidationError(
                 "Esta subasta ya ha finalizado"
             )
@@ -316,8 +315,7 @@ class SaleForm(Form):
 
         if auction_user.offer_points < self.offer.price:
             raise ValidationError(
-                "No dispone de puntos de compra suficientes, participe en subastas para ganar puntos de compra",
-                code='recharge',
+                "No dispone de puntos de compra suficientes, participe en subastas para ganar puntos de compra"
             )
 
         return self.cleaned_data

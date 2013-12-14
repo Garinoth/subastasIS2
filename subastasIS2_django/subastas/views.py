@@ -172,6 +172,7 @@ def create_item(request):
 @login_required
 def auction(request, pk):
     auction = Auction.objects.get(pk=pk)
+    recharge = False
 
     if request.method == 'POST':
         bid_form = BidForm(request.POST, user=request.user, auction=auction)
@@ -188,12 +189,18 @@ def auction(request, pk):
 
             return HttpResponseRedirect(reverse('auction_detail', args=pk))
 
+        else:
+            if 'recharge' in bid_form.errors:
+                recharge = True
+
+
     else:
         bid_form = BidForm()
 
     ctx = {
         'auction': auction,
         'bid_form': bid_form,
+        'recharge': recharge
     }
 
     return render(request, 'subastas/auction_detail.html', ctx)
@@ -219,7 +226,6 @@ def offer(request, pk):
 
                 return HttpResponseRedirect(reverse('offers'))
 
-
     else:
         sale_form = SaleForm()
         valid = False
@@ -228,6 +234,7 @@ def offer(request, pk):
         'offer': offer,
         'sale_form': sale_form,
         'valid': valid,
+
     }
 
     return render(request, 'subastas/offer_detail.html', ctx)
