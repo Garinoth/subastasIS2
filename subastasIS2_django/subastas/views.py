@@ -39,6 +39,10 @@ def index(request):
     return render(request, 'subastas/index.html')
 
 
+def help(request):
+    return render(request, 'subastas/help.html')
+
+
 @login_required
 def test(request):
     context = {}
