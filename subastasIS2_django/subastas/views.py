@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import ListView, DetailView
-from subastas.forms import UserForm, AuctionUserForm, ItemForm, AuctionForm, OfferForm, BidForm, ActivationForm
+from subastas.forms import UserForm, AuctionUserForm, ItemForm, AuctionForm, OfferForm, BidForm, ActivationForm, SaleForm
 from subastas.models import Auction, Offer, AuctionUser
 
 
@@ -26,7 +26,21 @@ class ListAuctionsView(ListView):
 class DetailAuctionView(DetailView):
 
     model = Auction
-    context_object_name = 'auction_list'
+    context_object_name = 'auction'
+
+
+class ListOffersView(ListView):
+
+    model = Offer
+    queryset = Offer.objects.order_by('end_date')
+    context_object_name = 'offer_list'
+    template_name = 'subastas/offers.html'
+
+
+class DetailOfferView(DetailView):
+
+    model = Offer
+    context_object_name = 'offer'
 
 
 def index(request):
@@ -109,8 +123,8 @@ def create_item(request):
         item_form = ItemForm(request.POST, request.FILES, prefix='item')
         auction_form = AuctionForm(request.POST, prefix='auction')
         offer_form = OfferForm(request.POST, prefix='offer')
-        # item_type = request.POST.item_type
-        item_type = 'auction'
+        item_type = request.POST['item_type']
+
         if item_type:
             if item_type == 'auction':
                 if item_form.is_valid() and auction_form.is_valid():
@@ -120,10 +134,24 @@ def create_item(request):
 
                     auction = auction_form.save(commit=False)
                     auction.item = item
-                    auction.current_price = auction.base_price
+                    auction.winner = item.owner
                     auction.save()
 
                     return HttpResponseRedirect(reverse('auctions'))
+
+            if item_type == 'offer':
+                if item_form.is_valid() and offer_form.is_valid():
+                    item = item_form.save(commit=False)
+                    item.owner = AuctionUser.objects.get(user=request.user)
+                    item.save()
+
+                    offer = offer_form.save(commit=False)
+                    offer.item = item
+                    # DELETE THIS WHEN MODELS ARE UPDATED TO ACCEPT NULL VALUE
+                    offer.winner = item.owner
+                    offer.save()
+
+                    return HttpResponseRedirect(reverse('offers'))
 
     else:
         item_form = ItemForm(prefix='item')
@@ -142,8 +170,86 @@ def create_item(request):
 
 
 @login_required
-def bid(request):
+def auction(request, pk):
+    auction = Auction.objects.get(pk=pk)
+    recharge = False
+
     if request.method == 'POST':
-        bid_form = BidForm(request.POST)
+        bid_form = BidForm(request.POST, user=request.user, auction=auction)
+        if bid_form.is_valid():
+            bid = bid_form.save(commit=False)
+            bid.auction = auction
+            bid.user = AuctionUser.objects.get(user=request.user)
+            bid.user.auction_points -= 1
+            bid.user.offer_points += 1
+            bid.user.save()
+            bid.auction.winner = bid.user
+            bid.auction.save()
+            bid.save()
+
+            return HttpResponseRedirect(reverse('auction_detail', kwargs={'pk': pk}))
+
+        else:
+            errors = bid_form.errors.as_text()
+            if 'recharge' in errors:
+                recharge = True
+
+            else:
+                error = errors.split(' * ')[1]
+
+
+        else:
+            if 'recharge' in bid_form.errors:
+                recharge = True
+
+
     else:
-        return HttpResponseRedirect(reverse('index'))
+        bid_form = BidForm()
+        error = ''
+
+    ctx = {
+        'auction': auction,
+        'bid_form': bid_form,
+        'recharge': recharge,
+        'error': error,
+    }
+
+    return render(request, 'subastas/auction_detail.html', ctx)
+
+
+@login_required
+def offer(request, pk):
+    offer = Offer.objects.get(pk=pk)
+    valid = False
+    error = ''
+
+    if request.method == 'POST':
+        sale_form = SaleForm(request.POST, user=request.user, offer=offer)
+        if sale_form.is_valid():
+            valid = True
+            confirm = request.POST.get('confirm')
+            if confirm == 'True':
+                auction_user = AuctionUser.objects.get(user=request.user)
+                auction_user.offer_points -= offer.price
+                auction_user.save()
+
+                offer.winner = auction_user
+                offer.sold = True
+                offer.save()
+
+                return HttpResponseRedirect(reverse('offers'))
+
+        else:
+            error = sale_form.errors.as_text().split(' * ')[1]
+
+    else:
+        sale_form = SaleForm()
+
+    ctx = {
+        'offer': offer,
+        'sale_form': sale_form,
+        'valid': valid,
+        'error': error,
+    }
+
+    return render(request, 'subastas/offer_detail.html', ctx)

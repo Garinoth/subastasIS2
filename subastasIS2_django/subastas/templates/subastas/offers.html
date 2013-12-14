@@ -15,12 +15,15 @@
     		<th class="list_head">Precio</th>
     		<th class="list_head no_border">Fin de oferta</th>
     	</tr>
-  {% for auction in auction_list %}
+    </thead>
+
+  {% for offer in offer_list %}
     	<tr class="list">
-    		<td class="list_body"><a href="{% url 'offer_detail' offer.pk %}">{{ auction.item.name }}</a></td>
+    		<td class="list_body"><a href="{% url 'offer_detail' offer.pk %}">{{ offer.item.name }}</a></td>
     		<td class="list_body">{{ offer.item.owner.user.username }}</td>
     		<td class="list_body">{{ offer.price }}</td>
     		<td class="list_body no_border">{{ offer.end_date }}</td>
     	</tr>
   {% endfor %}
+</table>
 {% endblock %}

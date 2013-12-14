@@ -74,8 +74,7 @@ class Item(models.Model):
 
 class Auction(models.Model):
     item = models.OneToOneField(Item, primary_key=True)
-    base_price = models.PositiveIntegerField(default=0)
-    current_price = models.PositiveIntegerField()
+    winner = models.ForeignKey(AuctionUser)
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
 
@@ -85,9 +84,11 @@ class Auction(models.Model):
 
 class Offer(models.Model):
     item = models.OneToOneField(Item, primary_key=True)
+    winner = models.ForeignKey(AuctionUser, blank=True, null=True)
     price = models.PositiveIntegerField()
     start_date = models.DateTimeField(auto_now_add=True)
     end_date = models.DateTimeField()
+    sold = models.BooleanField(default=False)
 
     def __unicode__(self):
         return u'%s' % (self.item.name)
@@ -97,7 +98,6 @@ class Bid(models.Model):
     user = models.ForeignKey(AuctionUser)
     auction = models.ForeignKey(Auction)
     timestamp = models.DateTimeField(auto_now_add=True)
-    quantity = models.PositiveIntegerField()
 
     def __unicode__(self):
         return u'user: %s at auction: %s for %s' % (self.user.name, self.auction.item.name, self.points)
