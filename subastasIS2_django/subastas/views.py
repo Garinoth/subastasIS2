@@ -197,12 +197,6 @@ def auction(request, pk):
             else:
                 error = errors.split(' * ')[1]
 
-
-        else:
-            if 'recharge' in bid_form.errors:
-                recharge = True
-
-
     else:
         bid_form = BidForm()
         error = ''
