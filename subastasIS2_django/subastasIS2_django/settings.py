@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'subastasIS2_django.wsgi.application'
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Madrid'
 
 USE_I18N = True
 
