@@ -359,10 +359,12 @@ footer
     width:100%;
     clear:both;
     display:block;
+    text-align: center;
     text-shadow:none;
     color:#bcbcbc;
     margin:0 auto;
     padding:50px 0 0;
+    height: 80px;
 }
 
 
@@ -669,6 +671,45 @@ textarea#id_item-description {
   }
 }
 
+
+/* ///////////////////////////////////::: Ayuda ::://///////////////////////////////////// */
+
+.top {
+  padding-top: 15px;
+  padding-bottom: 20px;
+  font-family:Rockwell, 'GeoSlb712MdBTMedium',"Courier Bold", Courier, Georgia, Times, "Times New Roman", serif;
+  color: rgba(64, 128, 128, 1);
+  font-weight:700;
+  font-style: normal;
+  font-size:16px;
+  line-height:21px;
+  text-shadow:none;
+}
+
+.preg {
+    font-family:Rockwell, 'GeoSlb712MdBTMedium',"Courier Bold", Courier, Georgia, Times, "Times New Roman", serif;
+    font-size:18px;
+    color:#3b3b3b;
+    text-shadow:#fff 0 1px 0;
+    line-height:35px;
+    font-weight:400;
+}
+
+.lpreg {
+    font-family:Rockwell, 'GeoSlb712MdBTMedium',"Courier Bold", Courier, Georgia, Times, "Times New Roman", serif;
+    font-size:18px;
+    color:#3b3b3b;
+    text-shadow:#fff 0 1px 0;
+    line-height:25px;
+    font-weight:400;
+    border:thin solid #e9e9e9;
+    border-width:0;
+    margin:0px 10px 20px;
+    display: block;
+  }
+ ul.lpreg {
+    list-style: square outside none;
+ }
 
 /* ///////////////////////////////////::: Tablas ::://///////////////////////////////////// */
 
