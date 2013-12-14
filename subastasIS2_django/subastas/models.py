@@ -84,7 +84,7 @@ class Auction(models.Model):
 
 class Offer(models.Model):
     item = models.OneToOneField(Item, primary_key=True)
-    winner = models.ForeignKey(AuctionUser, blank=True)
+    winner = models.ForeignKey(AuctionUser, blank=True, null=True)
     price = models.PositiveIntegerField()
     start_date = models.DateTimeField(auto_now_add=True)
     end_date = models.DateTimeField()

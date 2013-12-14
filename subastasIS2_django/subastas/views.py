@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import ListView, DetailView
-from subastas.forms import UserForm, AuctionUserForm, ItemForm, AuctionForm, OfferForm, BidForm, ActivationForm
+from subastas.forms import UserForm, AuctionUserForm, ItemForm, AuctionForm, OfferForm, BidForm, ActivationForm, SaleForm
 from subastas.models import Auction, Offer, AuctionUser
 
 
@@ -147,6 +147,8 @@ def create_item(request):
 
                     offer = offer_form.save(commit=False)
                     offer.item = item
+                    # DELETE THIS WHEN MODELS ARE UPDATED TO ACCEPT NULL VALUE
+                    offer.winner = item.owner
                     offer.save()
 
                     return HttpResponseRedirect(reverse('offers'))
@@ -170,6 +172,7 @@ def create_item(request):
 @login_required
 def auction(request, pk):
     auction = Auction.objects.get(pk=pk)
+    recharge = False
 
     if request.method == 'POST':
         bid_form = BidForm(request.POST, user=request.user, auction=auction)
@@ -180,16 +183,35 @@ def auction(request, pk):
             bid.user.auction_points -= 1
             bid.user.offer_points += 1
             bid.user.save()
+            bid.auction.winner = bid.user
+            bid.auction.save()
             bid.save()
 
-            return HttpResponseRedirect(reverse('auction_detail', args=pk))
+            return HttpResponseRedirect(reverse('auction_detail', kwargs={'pk': pk}))
+
+        else:
+            errors = bid_form.errors.as_text()
+            if 'recharge' in errors:
+                recharge = True
+
+            else:
+                error = errors.split(' * ')[1]
+
+
+        else:
+            if 'recharge' in bid_form.errors:
+                recharge = True
+
 
     else:
         bid_form = BidForm()
+        error = ''
 
     ctx = {
         'auction': auction,
         'bid_form': bid_form,
+        'recharge': recharge,
+        'error': error,
     }
 
     return render(request, 'subastas/auction_detail.html', ctx)
@@ -198,12 +220,14 @@ def auction(request, pk):
 @login_required
 def offer(request, pk):
     offer = Offer.objects.get(pk=pk)
+    valid = False
+    error = ''
 
     if request.method == 'POST':
         sale_form = SaleForm(request.POST, user=request.user, offer=offer)
         if sale_form.is_valid():
             valid = True
-            confirm = request.POST['confirm']
+            confirm = request.POST.get('confirm')
             if confirm == 'True':
                 auction_user = AuctionUser.objects.get(user=request.user)
                 auction_user.offer_points -= offer.price
@@ -215,15 +239,17 @@ def offer(request, pk):
 
                 return HttpResponseRedirect(reverse('offers'))
 
+        else:
+            error = sale_form.errors.as_text().split(' * ')[1]
 
     else:
         sale_form = SaleForm()
-        valid = False
 
     ctx = {
         'offer': offer,
         'sale_form': sale_form,
         'valid': valid,
+        'error': error,
     }
 
     return render(request, 'subastas/offer_detail.html', ctx)
