@@ -4,6 +4,7 @@
     {% load staticfiles %}
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="../../static/css/style.css">
     <script type="text/javascript" src="{% static 'js/jquery-2.0.3.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/jquery.countdown.js' %}"></script>
     <title>{% block title %}JDLS{% endblock %}</title>
@@ -46,6 +47,11 @@
         <!-- SEGUNDA FILA -->
         <div class="fila cuerpo" id="logo">
             <a href='{% url 'index' %}' class="logo_principal primera_columna">JDLS</a>
+            {% if user.is_authenticated %}
+            <span class="points">PS: {{ user.auction_points }}</span>
+            <span class="points">PO: {{ user.offer_ponts }}</span>
+            <span class="points"><a href="{% url 'recharge' %}">Recargar PS</a></span>
+            {% endif %}
             {% if perms.subastas.can_create_item %}<span class="ultima_columna right" id="aitem"><a href="{% url 'item' %}">Dar de alta un producto</a></span>{% endif %}
         </div>
 
@@ -59,6 +65,9 @@
         <div class="cuerpo">
             <p>Copyright 2013 Ingeniería del Software II, Facultad de Informática, UPM</p>
         </div>
+    <div class="help" id="help">
+        <a href="{% url 'help' %}">Ayuda</a>
+    </div>
     </footer>
 </body>
 </html>

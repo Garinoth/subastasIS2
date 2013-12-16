@@ -326,6 +326,10 @@ nav.navegacion_principal ul li a:hover, #aitem a:hover
     width: 450px;
 }
 
+.points {
+  font-size: 12px;
+}
+
 
 /* ::: Inicio ::: */
 
@@ -373,6 +377,10 @@ footer
 .help {
     font-size: 12px;
     padding-left: 10px;
+}
+
+#help {
+  margin: -20px;
 }
 
 .required {
