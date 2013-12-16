@@ -255,7 +255,7 @@ def recharge(request):
     if request.method == 'POST':
         auction_user = AuctionUser.objects.get(user=request.user)
         points = request.POST.get('points')
-        auction_user.auction_points += points
+        auction_user.auction_points += int(points)
         auction_user.save()
 
         return HttpResponseRedirect(reverse('recharge'))

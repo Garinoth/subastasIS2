@@ -4,7 +4,6 @@
     {% load staticfiles %}
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" type="text/css" href="../../static/css/style.css">
     <script type="text/javascript" src="{% static 'js/jquery-2.0.3.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/jquery.countdown.js' %}"></script>
     <title>{% block title %}JDLS{% endblock %}</title>
@@ -48,9 +47,9 @@
         <div class="fila cuerpo" id="logo">
             <a href='{% url 'index' %}' class="logo_principal primera_columna">JDLS</a>
             {% if user.is_authenticated %}
-            <span class="points">PS: {{ user.auctionuser.auction_points }}</span>
-            <span class="points">PO: {{ user.auctionuser.offer_points }}</span>
-            <span class="points"><a href="{% url 'recharge' %}">Recargar PS</a></span>
+            <span class="points ultima_columna right">PO: {{ user.auctionuser.offer_points }}</span>
+            <span class="points ultima_columna right">PS: {{ user.auctionuser.auction_points }}</span>
+            <span class="points recharge ultima_columna right"><a href="{% url 'recharge' %}">Recargar PS</a></span><br />
             {% endif %}
             {% if perms.subastas.can_create_item %}<span class="ultima_columna right" id="aitem"><a href="{% url 'item' %}">Dar de alta un producto</a></span>{% endif %}
         </div>
