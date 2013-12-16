@@ -1,0 +1,33 @@
+{% extends "subastas/base.html" %}
+
+{% block title %}JDLS|Recarga {% endblock %}
+
+{% block content %}
+<header>
+    <h2>Recarga de puntos</h2>
+	<p>Selecciona el pack de puntos que quieres e introduce tu tarjeta de crédito para comprar los puntos de subasta seleccionados.</p>
+</header>
+<form class="form-horizontal" method="post" action="{% url 'recharge' %}">
+    {% csrf_token %}
+    <table>
+        {% for field in user_form.visible_fields %}
+        <tr><div class="form-group">
+            <td><label class="freg control-label">{% if field.field.required %}<span class="required">*</span>{% endif %}{{ field.label_tag }} </label></td>
+            <td>{{ field }}</td>{% if field.errors %}<td class="field_error">{% for err in field.errors %}<span class="error_msg">{{ err }}</span>{% endfor %}</td>
+            {% endif %}
+        </div></tr>
+        {% if field.label_tag == user_form.confirm_password.label_tag %}
+        <tr><td colspan="3" class="help">{{ field.field.help_text }}</td></tr>
+        {% endif %}
+        {% endfor %}
+        {% for field in auction_user_form.visible_fields %}
+        {% if field.label_tag != auction_user_form.tos.label_tag %}
+        <tr><div class="form-group">
+            <td><label class="freg control-label">{% if field.field.required %}<span class="required">*</span>{% endif %}{{ field.label_tag }} </label></td>
+            <td>{{ field }}</td>{% if field.errors %}<td class="field_error">{% for err in field.errors %}<span class="error_msg">{{ err }}</span>{% endfor %}</td>{% endif %}
+        </div></tr>
+        {% endif %}
+        {% endfor %}
+    </table>
+
+{% endblock %}
