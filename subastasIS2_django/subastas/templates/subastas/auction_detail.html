@@ -10,7 +10,7 @@
     {% if recharge %}
         <p>No tienes suficientes puntos de subasta para pujar por este producto. Antes de continuar debes recargar tus puntos.</p>
         <a class="close" href="{% url 'auction_detail' auction.pk %}"></a>
-        <a href="{% url 'index' %}"><input type="button" class="button close" value="Recargar" />
+        <a href="{% url 'recharge' %}"><input type="button" class="button close" value="Recargar" />
     {% else %}
         <p>{{ error }}</p>
         <a class="close" href="{% url 'auction_detail' auction.pk %}"></a>

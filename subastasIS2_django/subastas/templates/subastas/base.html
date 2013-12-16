@@ -48,8 +48,8 @@
         <div class="fila cuerpo" id="logo">
             <a href='{% url 'index' %}' class="logo_principal primera_columna">JDLS</a>
             {% if user.is_authenticated %}
-            <span class="points">PS: {{ user.auction_points }}</span>
-            <span class="points">PO: {{ user.offer_ponts }}</span>
+            <span class="points">PS: {{ user.auctionuser.auction_points }}</span>
+            <span class="points">PO: {{ user.auctionuser.offer_points }}</span>
             <span class="points"><a href="{% url 'recharge' %}">Recargar PS</a></span>
             {% endif %}
             {% if perms.subastas.can_create_item %}<span class="ultima_columna right" id="aitem"><a href="{% url 'item' %}">Dar de alta un producto</a></span>{% endif %}
