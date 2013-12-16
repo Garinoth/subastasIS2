@@ -28,8 +28,8 @@
     function autojump_keyUp()
     {
     if (
-       (this == downStrokeField) && 
-       (this.value.length > this.beforeLength) && 
+       (this == downStrokeField) &&
+       (this.value.length > this.beforeLength) &&
        (this.value.length >= this.maxLength)
        )
        this.nextField.focus();
@@ -44,9 +44,10 @@
 <form class="form-horizontal" method="post" action="{% url 'recharge' %}">
     {% csrf_token %}
     <input class="radiopoints" type="radio" name="points" value="10" checked="checked" />10 Puntos (5€)
-    <input class="radiopoints" type="radio" name="points" value="30" />30 Puntos (25€)
-    <input class="radiopoints" type="radio" name="points" value="50" />50 Puntos (40€)
-    <input class="radiopoints" type="radio" name="points" value="100" />100 Puntos (75€)
+    <input class="radiopoints" type="radio" name="points" value="15" />15 Puntos (7€)
+    <input class="radiopoints" type="radio" name="points" value="30" />30 Puntos (20€)
+    <input class="radiopoints" type="radio" name="points" value="50" />50 Puntos (35€)
+    <input class="radiopoints" type="radio" name="points" value="100" />100 Puntos (60€)
     <br />
     <div class="cc">
         <span>Tarjeta de crédito: </span>
@@ -69,7 +70,7 @@
             <option value='10'>Octubre</option>
             <option value='11'>Noviembre</option>
             <option value='12'>Diciembre</option>
-        </select> 
+        </select>
         <select name='expireYY' id='expireYY'>
             <option value=''>Año</option>
             <option value='13'>2013</option>
@@ -79,7 +80,7 @@
             <option value='17'>2017</option>
             <option value='18'>2018</option>
             <option value='19'>2019</option>
-        </select> 
+        </select>
         <input class="inputCard" type="hidden" name="expiry" id="expiry" maxlength="4"/>
     </div>
     <input class="button body" type="submit" value="Comprar" />
@@ -93,5 +94,5 @@
     //-->
 </script>
 
-    
+
     {% endblock %}
