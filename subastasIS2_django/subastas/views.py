@@ -4,13 +4,15 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import ListView, DetailView
 from django.utils import timezone
 
 from subastas.forms import UserForm, AuctionUserForm, ItemForm, AuctionForm, OfferForm, BidForm, ActivationForm, SaleForm
-from subastas.models import Auction, Offer, AuctionUser
+from subastas.models import Auction, Offer, AuctionUser, Item
+
+from django_simple_search.utils import generic_search
 
 
 class ListUsersView(ListView):
@@ -259,3 +261,21 @@ def recharge(request):
         return HttpResponseRedirect(reverse('recharge'))
 
     return render(request, 'subastas/recharge.html')
+
+
+@login_required
+def search(request):
+    QUERY = "searchField"
+    MODEL_MAP = {Item: ["name"]}
+
+    objects = []
+
+    for model, fields in MODEL_MAP.iteritems():
+        objects += generic_search(request, model, fields, QUERY)
+
+    # auction = Item.objects.select_related('auction').get(pk=objects[0].pk)
+
+    return render_to_response("subastas/search_results.html",
+                              {"objects": objects,
+                               "search_string": request.GET.get(QUERY, ""),
+                               })

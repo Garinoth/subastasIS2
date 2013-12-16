@@ -16,9 +16,9 @@
         <div class="fila">
 
             <!-- CUADRO DE BÚSQUEDA -->
-            <form class="busqueda primera_columna">
+            <form class="busqueda primera_columna" action="{% url 'search' %}" method="get">
                 <input type="text" name="searchField" class="buscar" placeholder="Escriba lo que desee buscar..." />
-                <input type="image" name="searchButton" class="button" value="" src="{% static 'images/find.png' %}" />
+                <button type="submit" name="searchButton" class="button" value=""><image src="{% static 'images/find.png' %}"></image></button>
             </form>
 
             <!-- REGISTRO/LOGIN -->
