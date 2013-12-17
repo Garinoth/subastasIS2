@@ -1,0 +1,44 @@
+{% extends "subastas/base.html" %}
+
+{% block title %}JDLS|Resultados de búsqueda{% endblock %}
+
+{% block content %}
+<header>
+    <h2>Resultados de la búsqueda</h2>
+    <p>A continuación se muestra la lista de los resultados a la búsqueda realizada: "{{ search_string }}"</p>
+</header>
+<table>
+    <thead>
+        <tr class="list">
+            <th class="list_head">Nombre del producto</th>
+            <th class="list_head">Descripción</th>
+            <th class="list_head">Imagen</th>
+            <th class="list_head">Tiempo restante de subasta</th>
+            <th class="list_head">Puntos para adquirir oferta</th>
+            <th class="list_head no_border">Fecha de creación</th>
+        </tr>
+    </thead>
+
+  {% for o in objects %}
+        <tr class="list">
+        <td class="list_body">{% if o.auction %}<a href="{% url 'auction_detail' o.auction.pk %}">{% else %}<a href="{% url 'offer_detail' o.offer.pk %}">{{ o.item.name }}</a></td>
+        {% endif %}
+        <td class="list_body">{{ o.description }}</td>
+        <td class="list_body">{{ o.image }}</td>
+        {% if o.auction %}
+        <td class="list_body">{{ o.end_date }}</td>
+        {% else %}
+        <td class="list_body">-</td>
+        {% endif %}
+        {% if o.offer %}
+        <td class="list_body">{{ o.price }}</td>
+        {% else %}
+        <td class="list_body">-</td>
+        {% endif %}
+        <td class="list_body no_border">{{ o.start_date }}</td>
+        </tr>
+  {% endfor %}
+</table>
+           <li> {{ objects }}}</li>
+
+{% endblock %}
