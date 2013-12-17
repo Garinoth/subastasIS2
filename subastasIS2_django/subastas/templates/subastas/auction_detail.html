@@ -19,24 +19,39 @@
     </div>
 {% endif %}
 
-<div class="fila">
-    <div>
-        <span class="right crono">
-            <div id="counter"></div>
-            <div class="desc">
-                <div>Días</div>
-                <div>Horas</div>
-                <div class="minseg">Min</div>
-                <div class="minseg" id="seg">Seg</div>
-            </div>
-        </span>
+{% if auction.end_date >= now %}
+    <div class="fila">
+        <div>
+            <span class="right crono">
+                <div id="counter"></div>
+                <div class="desc">
+                    <div>Días</div>
+                    <div>Horas</div>
+                    <div class="minseg">Min</div>
+                    <div class="minseg" id="seg">Seg</div>
+                </div>
+            </span>
+        </div>
     </div>
-</div>
-<div class="fila">
-    <div class="top_section">
-    <form method="post" action="{% url 'auction_detail' auction.pk %}">
-        <input class="ultima_columna right bid button body" type="submit" value="PUJAR" />
+    <div class="fila">
+        <div class="top_section">
+        <form method="post" action="{% url 'auction_detail' auction.pk %}">
+            <input class="ultima_columna right bid button body" type="submit" value="PUJAR" />
         <span class="ultima_columna right owner"><span id="preowner">Dueño actual: </span>{{ auction.winner.user.username }}</span>
+{% else %}
+    <div class="fila">
+        <div>
+            <span class="right msg">Esta subasta ha finalizado</span>
+            <span class="ultima_columna right owner"><span id="preowner">Ganador: </span>{{ auction.winner.user.username }}</span>
+            <span class="ultima columna right actualbid">Pujas: <span class="bold">X pujas</span></span>
+        </div>
+    </div>
+    <div class="fila">
+        <div class="top_section">
+        <form method="post" action="{% url 'auction_detail' auction.pk %}">
+            <input class="ultima_columna right bid button body" type="submit" value="PUJAR" disabled />
+{% endif %}
+
         {% csrf_token %}
     </form>
     </div>

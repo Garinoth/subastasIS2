@@ -114,6 +114,8 @@ td {
 	max-width: 500px;
 	margin: 15px;
 	float: left;
+  position: relative;
+  top: -10px;
 }
 
 .buscar
@@ -123,7 +125,7 @@ td {
 	padding: 5px;
 	padding-left: 15px;
 	padding-right: 15px;
-	color: #D8D8D8;
+	color: #8B8888;
 	border: 0;
 	border-radius: 20px;
 	box-shadow: 3px 3px 5px #848484;
@@ -294,13 +296,15 @@ nav.navegacion_principal ul li a:hover, #aitem a:hover
 #aitem {
     font-family:Rockwell, 'GeoSlb712MdBTMedium',"Courier Bold", Courier, Georgia, Times, "Times New Roman", serif;
     color: rgba(64, 128, 128, 1);
-    margin-top: 50px;
+    margin-top: 30px;
     margin-right: 30px;
     font-weight:700;
     font-style: normal;
     font-size:16px;
     line-height:21px;
     text-shadow:none;
+    position: relative;
+    left: 235px;
 }
 
 #imagen_principal
@@ -329,9 +333,17 @@ nav.navegacion_principal ul li a:hover, #aitem a:hover
 }
 
 .points {
-  font-size: 12px;
+  font-size: 13px;
+  float: right;
+  text-shadow: none;
+  color: #bcbcbc;
+  margin-right: 20px;
+  margin-top: 5px;
 }
 
+.recharge a:hover {
+  color: #bcbcbc;
+}
 
 /* ::: Inicio ::: */
 
@@ -377,8 +389,12 @@ footer
 /* ::: Formularios :::  */
 
 .help {
-    font-size: 12px;
+    font-size: 13px;
     padding-left: 10px;
+}
+
+.help a:hover {
+  color: #bcbcbc;
 }
 
 #help {
@@ -681,6 +697,11 @@ textarea#id_item-description {
   }
 }
 
+.radiopoints {
+  margin-left: 50px;
+  margin-right: 5px;
+}
+
 
 /* ///////////////////////////////////::: Ayuda ::://///////////////////////////////////// */
 
@@ -701,8 +722,8 @@ textarea#id_item-description {
     font-size:18px;
     color:#3b3b3b;
     text-shadow:#fff 0 1px 0;
+    font-weight: 700;
     line-height:35px;
-    font-weight:400;
 }
 
 .lpreg {
@@ -717,9 +738,37 @@ textarea#id_item-description {
     margin:0px 10px 20px;
     display: block;
   }
- ul.lpreg {
+ul.lpreg {
     list-style: square outside none;
  }
+
+.inputCard {
+    display: inline-block;
+    width: 29px;
+ }
+
+#creditCard1, #expireMM {
+  margin-left: 10px;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.cc {
+  margin-top: 35px;
+  margin-left: 45px;
+}
+
+#expiration {
+  margin-left: 30px;
+}
+
+.links {
+  display: inline-block;
+}
 
 /* ///////////////////////////////////::: Tablas ::://///////////////////////////////////// */
 
@@ -747,6 +796,9 @@ textarea#id_item-description {
     border-right: none;
 }
 
+.imageresults {
+  width: 150px;
+}
 
 /* /////////////////////////////////////::: Pujas ::://////////////////////////////////////*/
 
@@ -774,8 +826,8 @@ textarea#id_item-description {
 }
 
 .bid:disabled {
-    background-color: rgba(136, 180, 180, 0.8); /*#72C7C7;*/
-    color: #424242;
+    background-color: rgba(181, 204, 204, 0.8); /*#72C7C7;*/
+    color: #AAA4A4;
 }
 
 #preowner {
@@ -787,6 +839,7 @@ textarea#id_item-description {
     display: inline-block;
     clear: right;
     padding-right: 15px;
+    margin-top: 15px;
     color: red;
     font-weight: 700;
     font-size: 18px;
@@ -797,6 +850,8 @@ textarea#id_item-description {
     vertical-align: middle;
     height: 150px;
     width: 150px;
+    max-width: 150px;
+    max-height: 150px;
     border: solid 1px;
     margin: 10px;
     display: table-cell;
@@ -805,6 +860,8 @@ textarea#id_item-description {
 #imageauction {
     text-align: center;
     vertical-align: middle;
+    max-width: 150px;
+    max-height: 150px;
 }
 
 .texto {
@@ -845,6 +902,7 @@ textarea#id_item-description {
     font-family:Rockwell, 'GeoSlb712MdBTMedium',"Courier Bold", Courier, Georgia, Times, "Times New Roman", serif;
     font-size: 18px;
     color: black;
+    margin-top: 15px;
 }
  .bold {
     font-weight: 700;
@@ -882,6 +940,15 @@ width: 50px;
 #seg {
   margin-left: -4px;
 }
+
+.msg {
+  color: red;
+  margin-right: 15px;
+  font-size: 20px;
+  font-weight: 700;
+  font-family:Rockwell, 'GeoSlb712MdBTMedium',"Courier Bold", Courier, Georgia, Times, "Times New Roman", serif;
+}
+
 /* /////////////////////////////////////::: Errores ::://///////////////////////////////// */
 
 .errorlist {
