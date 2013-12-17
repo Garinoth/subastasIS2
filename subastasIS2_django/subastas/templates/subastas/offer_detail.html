@@ -29,23 +29,47 @@
     </div>
 {% endif %}
 
+{% if offer.end_date >= now %}
+    {% if offer.sold %}
+    <div class="fila">
+        <div>
+            <span class="right msg">Este producto ha sido comprado por {{ offer.winner }}</span>
+        </div>
+    </div>
+    <div class="fila">
+        <div class="top_section">
+            <form method="post" action="{% url 'offer_detail' offer.pk %}">
+                <input class="ultima_columna right bid button body" type="submit" value="COMPRAR" disabled />
+    {% else %}
+    <div class="fila">
+        <div>
+            <span class="right crono">
+                <div id="counter"></div>
+                <div class="desc">
+                    <div>Días</div>
+                    <div>Horas</div>
+                    <div class="minseg">Min</div>
+                    <div class="minseg" id="seg">Seg</div>
+                </div>
+            </span>
+        </div>
+    </div>
+    <div class="fila">
+        <div class="top_section">
+        <form method="post" action="{% url 'offer_detail' offer.pk %}">
+            <input class="ultima_columna right bid button body" type="submit" value="COMPRAR" />
+    {% endif %}
+{% else %}
 <div class="fila">
     <div>
-        <span class="right crono">
-            <div id="counter"></div>
-            <div class="desc">
-                <div>Días</div>
-                <div>Horas</div>
-                <div class="minseg">Min</div>
-                <div class="minseg" id="seg">Seg</div>
-            </div>
-        </span>
+        <span class="right msg">Esta oferta ha expirado</span>
     </div>
 </div>
 <div class="fila">
     <div class="top_section">
     <form method="post" action="{% url 'offer_detail' offer.pk %}">
-        <input class="ultima_columna right bid button body" type="submit" value="COMPRAR" />
+        <input class="ultima_columna right bid button body" type="submit" value="COMPRAR" disabled />
+{% endif %}
         <span class="ultima_columna right owner"><span id="preowner">Dueño: </span>{{ offer.item.owner.user.username }}</span><span class="ultima columna right actualbid">Precio: <span class="bold">{{ offer.price }}</span></span>
         {% csrf_token %}
     </form>
@@ -95,6 +119,10 @@
         time = days + ":" + hours + ":" + minutes + ":" + seconds;
     }
 
+    function ended(){
+        alert('Esta oferta ha expirado');
+    }
+
     use_time_difference();
     {% load static %}
     $('#counter').countdown({
@@ -104,7 +132,7 @@
         digitImages: 6,
         digitWidth: 30,
         digitHeight: 43,
-        image: "{% static 'images/digits2.png' %}"
+        image: "{% static 'images/digits2.png' %}",
     });
 </script>
 

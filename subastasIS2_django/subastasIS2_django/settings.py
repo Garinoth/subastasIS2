@@ -94,10 +94,10 @@ STATIC_ROOT = 'staticfiles'
 STATIC_URL = '/static/'
 
 # LOGIN redirection page
-LOGIN_URL = '/subastas/login/'
+LOGIN_URL = '/login/'
 
 # MEDIA storage location
-MEDIA_URL = '/subastas/media/'
+MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'subastas/media/')
 
 STATICFILES_DIRS = (

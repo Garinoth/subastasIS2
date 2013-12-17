@@ -125,7 +125,7 @@ td {
 	padding: 5px;
 	padding-left: 15px;
 	padding-right: 15px;
-	color: #D8D8D8;
+	color: #8B8888;
 	border: 0;
 	border-radius: 20px;
 	box-shadow: 3px 3px 5px #848484;
@@ -766,6 +766,10 @@ input[type=number]::-webkit-outer-spin-button {
   margin-left: 30px;
 }
 
+.links {
+  display: inline-block;
+}
+
 /* ///////////////////////////////////::: Tablas ::://///////////////////////////////////// */
 
 .list {
@@ -792,6 +796,9 @@ input[type=number]::-webkit-outer-spin-button {
     border-right: none;
 }
 
+.imageresults {
+  width: 150px;
+}
 
 /* /////////////////////////////////////::: Pujas ::://////////////////////////////////////*/
 
@@ -819,8 +826,8 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .bid:disabled {
-    background-color: rgba(136, 180, 180, 0.8); /*#72C7C7;*/
-    color: #424242;
+    background-color: rgba(181, 204, 204, 0.8); /*#72C7C7;*/
+    color: #AAA4A4;
 }
 
 #preowner {
@@ -832,6 +839,7 @@ input[type=number]::-webkit-outer-spin-button {
     display: inline-block;
     clear: right;
     padding-right: 15px;
+    margin-top: 15px;
     color: red;
     font-weight: 700;
     font-size: 18px;
@@ -842,6 +850,8 @@ input[type=number]::-webkit-outer-spin-button {
     vertical-align: middle;
     height: 150px;
     width: 150px;
+    max-width: 150px;
+    max-height: 150px;
     border: solid 1px;
     margin: 10px;
     display: table-cell;
@@ -850,6 +860,8 @@ input[type=number]::-webkit-outer-spin-button {
 #imageauction {
     text-align: center;
     vertical-align: middle;
+    max-width: 150px;
+    max-height: 150px;
 }
 
 .texto {
@@ -890,6 +902,7 @@ input[type=number]::-webkit-outer-spin-button {
     font-family:Rockwell, 'GeoSlb712MdBTMedium',"Courier Bold", Courier, Georgia, Times, "Times New Roman", serif;
     font-size: 18px;
     color: black;
+    margin-top: 15px;
 }
  .bold {
     font-weight: 700;
@@ -927,6 +940,15 @@ width: 50px;
 #seg {
   margin-left: -4px;
 }
+
+.msg {
+  color: red;
+  margin-right: 15px;
+  font-size: 20px;
+  font-weight: 700;
+  font-family:Rockwell, 'GeoSlb712MdBTMedium',"Courier Bold", Courier, Georgia, Times, "Times New Roman", serif;
+}
+
 /* /////////////////////////////////////::: Errores ::://///////////////////////////////// */
 
 .errorlist {

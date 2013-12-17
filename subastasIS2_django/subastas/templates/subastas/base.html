@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
     <script type="text/javascript" src="{% static 'js/jquery-2.0.3.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/jquery.countdown.js' %}"></script>
+
     <title>{% block title %}JDLS{% endblock %}</title>
 </head>
 
@@ -25,7 +26,6 @@
             {% if user.is_authenticated %}
             <nav class="navegacion_principal tercera_columna right">
                 <ul>
-                    <li><a href="{% url 'test' %}">{{ user.image }}</a></li>
                     <li><a href="{% url 'test' %}">{{ user.username }}</a></li>
                     <li>&bull;</li>
                     <li><a href="{% url 'logout' %}">Logout</a></li>
@@ -65,7 +65,11 @@
             <p>Copyright 2013 Ingeniería del Software II, Facultad de Informática, UPM</p>
         </div>
     <div class="help" id="help">
-        <a href="{% url 'help' %}">Ayuda</a>
+        <ul>
+            <li class="links"><a href="{% url 'help' %}">Ayuda </a></li>
+            <li class="links">&bull;</li>
+            <li class="links"><a href="mailto:juegodelasubasta@gmail.com?subject=Contacto%20JDLS"> Contacto</a></li>
+        </ul>
     </div>
     </footer>
 </body>
