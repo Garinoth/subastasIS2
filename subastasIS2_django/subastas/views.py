@@ -44,6 +44,9 @@ def index(request):
 def help(request):
     return render(request, 'subastas/help.html')
 
+def success(request):
+    return render(request, 'subastas/sale_successful.html')
+
 
 @login_required
 def test(request):
@@ -231,7 +234,7 @@ def offer(request, pk):
                 offer.sold = True
                 offer.save()
 
-                return HttpResponseRedirect(reverse('offers'))
+                return HttpResponseRedirect(reverse('success'))
 
         else:
             error = sale_form.errors.as_text().split(' * ')[1]
@@ -258,7 +261,7 @@ def recharge(request):
         auction_user.auction_points += int(points)
         auction_user.save()
 
-        return HttpResponseRedirect(reverse('recharge'))
+        return HttpResponseRedirect(reverse('success'))
 
     return render(request, 'subastas/recharge.html')
 
