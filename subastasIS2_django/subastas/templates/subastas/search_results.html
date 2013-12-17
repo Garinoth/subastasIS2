@@ -13,7 +13,11 @@
             <th class="list_head">Nombre del producto</th>
             <th class="list_head">Descripción</th>
             <th class="list_head">Imagen</th>
+<<<<<<< HEAD
             <th class="list_head">Tiempo restante de subasta</th>
+=======
+            <th class="list_head">Fin de subasta</th>
+>>>>>>> 218df31ef5c1c4aec25737753119be4db412687a
             <th class="list_head">Puntos para adquirir oferta</th>
             <th class="list_head no_border">Fecha de creación</th>
         </tr>
@@ -21,22 +25,22 @@
 
   {% for o in objects %}
         <tr class="list">
-        <td class="list_body">{% if o.auction %}<a href="{% url 'auction_detail' o.auction.pk %}">{% else %}<a href="{% url 'offer_detail' o.offer.pk %}">{{ o.item.name }}</a></td>
-        {% endif %}
+        <td class="list_body">{% if o.auction %}<a href="{% url 'auction_detail' o.auction.pk %}">{% else %}<a href="{% url 'offer_detail' o.offer.pk %}">{% endif %}{{ o.name }}</a></td>
         <td class="list_body">{{ o.description }}</td>
-        <td class="list_body">{{ o.image }}</td>
+        <td class="list_body"><a href="{{ o.image.url }}"><img class="imageresults" src="{{ o.image.url }}"/></a></td>
         {% if o.auction %}
-        <td class="list_body">{{ o.end_date }}</td>
+        <td class="list_body">{{ o.auction.end_date }}</td>
         {% else %}
         <td class="list_body">-</td>
         {% endif %}
         {% if o.offer %}
-        <td class="list_body">{{ o.price }}</td>
+        <td class="list_body">{{ o.offer.price }}</td>
         {% else %}
         <td class="list_body">-</td>
         {% endif %}
-        <td class="list_body no_border">{{ o.start_date }}</td>
+        <td class="list_body no_border">{% if o.auction %}{{ o.auction.start_date }}{% else %}{{ o.offer.start_date }}{% endif %}</td>
         </tr>
   {% endfor %}
 </table>
+
 {% endblock %}
