@@ -1,4 +1,4 @@
-html, body, div, span, h1, h2, h3, h4, h5, h6, p, img, strong, ul, li, article, footer, header, nav, section
+fhtml, body, div, span, h1, h2, h3, h4, h5, h6, p, img, strong, ul, li, article, footer, header, nav, section
 {
     margin: 0;
     padding: 0;
@@ -132,10 +132,12 @@ td {
 .button
 {
 	padding: 5px;
+  padding-bottom: 0;
+  position: relative;
+  top: 12px;
 	border: 0;
 	border-radius: 20px;
 	background: #BCBCBC;
-	margin-bottom: -15px;
 	margin-left: 3px;
 	margin-right: 3px;
     font-family:Rockwell, 'GeoSlb712MdBTMedium',"Courier Bold", Courier, Georgia, Times, "Times New Roman", serif;
@@ -326,6 +328,10 @@ nav.navegacion_principal ul li a:hover, #aitem a:hover
     width: 450px;
 }
 
+.points {
+  font-size: 12px;
+}
+
 
 /* ::: Inicio ::: */
 
@@ -373,6 +379,10 @@ footer
 .help {
     font-size: 12px;
     padding-left: 10px;
+}
+
+#help {
+  margin: -20px;
 }
 
 .required {

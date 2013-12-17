@@ -47,6 +47,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'subastas',
+    'django_simple_search',
 )
 
 MIDDLEWARE_CLASSES = (

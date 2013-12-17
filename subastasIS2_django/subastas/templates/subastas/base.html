@@ -4,6 +4,7 @@
     {% load staticfiles %}
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="../../static/css/style.css">
     <script type="text/javascript" src="{% static 'js/jquery-2.0.3.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/jquery.countdown.js' %}"></script>
     <title>{% block title %}JDLS{% endblock %}</title>
@@ -16,9 +17,9 @@
         <div class="fila">
 
             <!-- CUADRO DE BÚSQUEDA -->
-            <form class="busqueda primera_columna">
+            <form class="busqueda primera_columna" action="{% url 'search' %}" method="get">
                 <input type="text" name="searchField" class="buscar" placeholder="Escriba lo que desee buscar..." />
-                <input type="image" name="searchButton" class="button" value="" src="{% static 'images/find.png' %}" />
+                <button type="submit" name="searchButton" class="button" value=""><image src="{% static 'images/find.png' %}"></image></button>
             </form>
 
             <!-- REGISTRO/LOGIN -->
@@ -46,6 +47,11 @@
         <!-- SEGUNDA FILA -->
         <div class="fila cuerpo" id="logo">
             <a href='{% url 'index' %}' class="logo_principal primera_columna">JDLS</a>
+            {% if user.is_authenticated %}
+            <span class="points">PS: {{ user.auctionuser.auction_points }}</span>
+            <span class="points">PO: {{ user.auctionuser.offer_points }}</span>
+            <span class="points"><a href="{% url 'recharge' %}">Recargar PS</a></span>
+            {% endif %}
             {% if perms.subastas.can_create_item %}<span class="ultima_columna right" id="aitem"><a href="{% url 'item' %}">Dar de alta un producto</a></span>{% endif %}
         </div>
 
@@ -59,6 +65,9 @@
         <div class="cuerpo">
             <p>Copyright 2013 Ingeniería del Software II, Facultad de Informática, UPM</p>
         </div>
+    <div class="help" id="help">
+        <a href="{% url 'help' %}">Ayuda</a>
+    </div>
     </footer>
 </body>
 </html>
