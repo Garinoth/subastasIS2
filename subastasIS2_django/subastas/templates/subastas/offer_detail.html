@@ -29,8 +29,8 @@
     </div>
 {% endif %}
 
-{% if offer.end_date >= now %}
-    {% if offer.sold %}
+{% if offer.sold %}
+<span id="offersold">
     <div class="fila">
         <div>
             <span class="right msg">Este producto ha sido comprado por {{ offer.winner }}</span>
@@ -40,42 +40,60 @@
         <div class="top_section">
             <form method="post" action="{% url 'offer_detail' offer.pk %}">
                 <input class="ultima_columna right bid button body" type="submit" value="COMPRAR" disabled />
-    {% else %}
-    <div class="fila">
-        <div>
-            <span class="right crono">
-                <div id="counter"></div>
-                <div class="desc">
-                    <div>Días</div>
-                    <div>Horas</div>
-                    <div class="minseg">Min</div>
-                    <div class="minseg" id="seg">Seg</div>
-                </div>
-            </span>
+                <span class="ultima_columna right owner"><span id="preowner">Dueño: </span>{{ offer.item.owner.user.username }}</span><span class="ultima columna right actualbid">Precio: <span class="bold">{{ offer.price }}</span></span>
+                {% csrf_token %}
+            </form>
         </div>
+        <h2 class="auctiontitle">{{ offer.item.name }}</h2>
     </div>
-    <div class="fila">
-        <div class="top_section">
-        <form method="post" action="{% url 'offer_detail' offer.pk %}">
-            <input class="ultima_columna right bid button body" type="submit" value="COMPRAR" />
-    {% endif %}
+</span>
 {% else %}
+
+<span id="offercronoshow">
 <div class="fila">
     <div>
-        <span class="right msg">Esta oferta ha expirado</span>
+        <span class="right crono">
+            <div id="counter"></div>
+            <div class="desc">
+                <div>Días</div>
+                <div>Horas</div>
+                <div class="minseg">Min</div>
+                <div class="minseg" id="seg">Seg</div>
+            </div>
+        </span>
     </div>
 </div>
 <div class="fila">
     <div class="top_section">
     <form method="post" action="{% url 'offer_detail' offer.pk %}">
-        <input class="ultima_columna right bid button body" type="submit" value="COMPRAR" disabled />
-{% endif %}
+        <input class="ultima_columna right bid button body" type="submit" value="COMPRAR" />
         <span class="ultima_columna right owner"><span id="preowner">Dueño: </span>{{ offer.item.owner.user.username }}</span><span class="ultima columna right actualbid">Precio: <span class="bold">{{ offer.price }}</span></span>
-        {% csrf_token %}
-    </form>
+            {% csrf_token %}
+        </form>
     </div>
     <h2 class="auctiontitle">{{ offer.item.name }}</h2>
 </div>
+</span>
+{% endif %}
+
+<span id="offercronohide" style="display: none;">
+    <div class="fila">
+        <div>
+            <span class="right msg">Esta oferta ha expirado</span>
+        </div>
+    </div>
+    <div class="fila">
+        <div class="top_section">
+            <form method="post" action="{% url 'offer_detail' offer.pk %}">
+                <input class="ultima_columna right bid button body" type="submit" value="COMPRAR" disabled />
+                <span class="ultima_columna right owner"><span id="preowner">Dueño: </span>{{ offer.item.owner.user.username }}</span><span class="ultima columna right actualbid">Precio: <span class="bold">{{ offer.price }}</span></span>
+                {% csrf_token %}
+            </form>
+        </div>
+        <h2 class="auctiontitle">{{ offer.item.name }}</h2>
+    </div>
+</span>
+
 <div class="fila">
 	<span class="imgauction"><a href="{{ offer.item.image.url }}"><img id="imageauction" src="{{ offer.item.image.url }}"/></a></span>
 	<div class="texto">
@@ -120,6 +138,14 @@
     }
 
     function ended(){
+        {% if offer.sold %}
+            $('#offersold').show();
+            $('#offercronohide').hide();
+        {% else %}
+            $('#offersold').hide();
+            $('#offercronohide').show();
+        {% endif %}
+        $('#offercronoshow').hide();
         alert('Esta oferta ha expirado');
     }
 
@@ -133,6 +159,7 @@
         digitWidth: 30,
         digitHeight: 43,
         image: "{% static 'images/digits2.png' %}",
+        timerEnd: ended
     });
 </script>
 
