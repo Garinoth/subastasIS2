@@ -142,6 +142,7 @@
     var update = function(){
         $.getJSON("{% url 'poll_auction' %}", { "pk": "{{ auction.pk }}" }, function(a) {
             $("#winner").html(a.winner);
+
             time_change = false;
             for (var k in a.end_date) {
                 if (a.end_date.hasOwnProperty(k)){
@@ -158,8 +159,6 @@
             }
         });
     }
-
-
 
     setInterval(update, 1000);
 

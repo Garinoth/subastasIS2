@@ -29,6 +29,16 @@
     </div>
 {% endif %}
 
+    <div id="sold" style="display: none;">
+        <a href="#" class="logoverlay" id="popups"></a>
+        <div class="logpopup">
+            <h2 class="error">¡Oops!</h2>
+            <p>El producto ya ha sido adquirido</p>
+            <a class="close" href="{% url 'index' %}"></a>
+            <a href="{% url 'index' %}"><input type="button" class="button close" value="Cerrar" />
+        </div>
+    </div>
+
 {% if offer.end_date >= now %}
     {% if offer.sold %}
     <div class="fila">
@@ -134,6 +144,21 @@
         digitHeight: 43,
         image: "{% static 'images/digits2.png' %}",
     });
+
+    run_once = true;
+    var update = function(){
+        $.getJSON("{% url 'poll_offer' %}", { "pk": "{{ offer.pk }}" }, function(a) {
+            if (run_once){
+                if ((a.sold == 'true') && (a.winner != {{ user.username }})) {
+                    $("#sold").show();
+                }
+                run_once = false;
+            }
+        });
+    }
+
+    setInterval(update, 1000);
+
 </script>
 
 {% endblock %}

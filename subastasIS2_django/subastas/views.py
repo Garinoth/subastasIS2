@@ -312,3 +312,19 @@ def poll_auction(request):
     }
 
     return HttpResponse(json.dumps(res))
+
+
+@login_required
+def poll_offer(request):
+    offer = Offer.objects.get(pk=request.GET["pk"])
+
+    sold = 'false'
+    if offer.sold:
+        sold = 'true'
+
+    res = { "winner": offer.winner.user.username,
+            "winner_id": offer.winner.user.pk,
+            "sold": sold,
+    }
+
+    return HttpResponse(json.dumps(res))

@@ -23,5 +23,6 @@ urlpatterns = patterns('',
     url(r'^recharge/$', views.recharge, name='recharge'),
     url(r'^success/$', views.success, name='success'),
     url(r'^poll_auction/$', views.poll_auction, name='poll_auction'),
+    url(r'^poll_offer/$', views.poll_offer, name='poll_offer'),
     (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
     )
