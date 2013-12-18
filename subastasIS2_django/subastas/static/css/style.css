@@ -10,18 +10,27 @@ html, body, div, span, h1, h2, h3, h4, h5, h6, p, img, strong, ul, li, article, 
 
 article, footer, header, nav, section
 {
-  display: block
+  display: block;
 }
 
 body
 {
-  font:13px/1.231 sans-serif; *font-size:small
+  font:13px/1.231 sans-serif; *font-size:small;
 }
 
 html
 {
-  background:#3b3b3b;
-  overflow-y: scroll
+  background:#f4f4f4;
+  overflow: scroll;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  height: auto !important;
+
+
 }
 
 article
@@ -31,29 +40,29 @@ article
 
 a, a:hover, a:active
 {
-  outline: none
+  outline: none;
 }
 
 ul
 {
-  margin-left: 2em
+  margin-left: 2em;
 }
 
 nav ul, nav li
 {
   margin: 0;
   list-style:none;
-  list-style-image: none
+  list-style-image: none;
 }
 
 strong
 {
-  font-weight: 700
+  font-weight: 700;
 }
 
 a:link
 {
-  -webkit-tap-highlight-color: #a7dbd8
+  -webkit-tap-highlight-color: #a7dbd8;
 }
 
 body
@@ -65,8 +74,6 @@ body
   line-height:21px;
   color:#424242;
   text-shadow:#fff 0 1px 0;
-  width: 100%;
-  height: 100%;
 }
 
 h1, h2, h3, h4, h5, h6
@@ -77,13 +84,13 @@ h1, h2, h3, h4, h5, h6
 a, a:active, a:visited
 {
   color: #3299bb;
-  text-decoration:none
+  text-decoration:none;
 }
 
 a:hover
 {
   color: #424242;
-  text-decoration:underline
+  text-decoration:underline;
 }
 
 td {
@@ -104,10 +111,10 @@ td {
 .fila
 {
   width: 100%;
-  max-width: 1800px;
+  max-width: 1950px;
   min-width: 755px;
   margin: 0 auto;
-  overflow: hidden
+  overflow: hidden;
 }
 
 .busqueda
@@ -226,7 +233,6 @@ h2
 body
 {
   background:#f4f4f4;
-  height:auto
 }
 
 a.logo_principal
@@ -255,7 +261,7 @@ nav.navegacion_principal
   font-weight:400;
   border:thin solid #e9e9e9;
   border-width:0 0 0 1px;
-  margin:20px 10px 0;
+  margin:20px 20px 0;
 }
 
 nav.right
@@ -337,7 +343,7 @@ nav.navegacion_principal ul li a:hover, #aitem a:hover
   float: right;
   text-shadow: none;
   color: #bcbcbc;
-  margin-right: 25px;
+  margin-right: 35px;
   margin-top: 5px;
 }
 
@@ -370,19 +376,38 @@ nav.navegacion_principal ul li a:hover, #aitem a:hover
 
 
 /* ::: Footer ::: */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+#page-wrap {
+  margin: 0 0 80px;
+}
+
+#page-wrap:after {
+  width: 100%;
+  height: 80px;
+  display: block;
+  clear: both;
+}
 
 footer
 {
-  background:#424242;
-  width:100%;
-  clear:both;
-  display:block;
-  text-align: center;
-  text-shadow:none;
-  color:#bcbcbc;
-  margin:0 auto;
   padding:50px 0 0;
   height: 80px;
+  background:#424242;
+  text-align: center;
+  color:#bcbcbc;
+  text-shadow:none;
+  overflow: hidden;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  max-width: 1920px;
+  min-width: 755px;
+  margin: 0 auto;
 }
 
 
