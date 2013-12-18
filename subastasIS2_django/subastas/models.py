@@ -23,6 +23,9 @@ class AuctionUser(models.Model):
     offer_points = models.PositiveIntegerField(default=0)
     image = models.ImageField(upload_to='profiles/', default='items/noDisponible.jpg', blank=True)
 
+    description = models.TextField(blank=True)
+    interests = models.TextField(blank=True)
+
     activation_key = models.CharField(max_length=40, blank=True)
 
     def __unicode__(self):

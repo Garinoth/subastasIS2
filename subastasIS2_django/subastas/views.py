@@ -255,6 +255,38 @@ def offer(request, pk):
 
 
 @login_required
+def user(request, pk):
+    auction_user = AuctionUser.objects.get(pk=pk)
+
+    if request.method == 'POST':
+        edit_form = SaleForm(request.POST, user=request.user)
+        if edit_form.is_valid():
+            return HttpResponseRedirect(reverse('index'))
+
+    else:
+        edit_form = UpdateAuctionUserForm()
+
+        bids = Bid.objects.filter(user=auction_user)
+        auctions_bid = []
+        for b in bids:
+            if not b.auction in auctions_bid:
+                auctions_bid.append(b.auction)
+
+        auctions_won = Auction.objects.filter(winner=auction_user)
+        offers_won = Offer.objects.filter(winner=auction_user)
+
+    ctx = {
+        'auction_user': auction_user,
+        'edit_form': edit_form,
+        'auctions_bid': auctions_bid,
+        'auctions_won': auctions_won,
+        'offers_won': offers_won,
+    }
+
+    return render(request, 'subastas/profile.html', ctx)
+
+
+@login_required
 def recharge(request):
     if request.method == 'POST':
         auction_user = AuctionUser.objects.get(user=request.user)

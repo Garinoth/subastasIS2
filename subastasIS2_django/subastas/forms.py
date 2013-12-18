@@ -325,3 +325,10 @@ class SaleForm(Form):
             )
 
         return self.cleaned_data
+
+
+class UpdateAuctionUserForm(ModelForm):
+    class Meta:
+        model = AuctionUser
+        fields = ['description',
+                  'interests']
