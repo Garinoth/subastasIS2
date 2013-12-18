@@ -728,6 +728,30 @@ textarea#id_item-description {
   margin-right: 5px;
 }
 
+/* //////////////////////////////::: Perfil :::////////////////////////////////////*/
+
+.imgauction {
+  vertical-align: middle;
+  height: 300px;
+  width: 150px;
+  max-width: 300px;
+  max-height: 150px;
+  border: solid 1px;
+  margin: 10px;
+  display: table-cell;
+}
+
+#imageauction {
+  text-align: center;
+  vertical-align: middle;
+  max-width: 150px;
+  max-height: 300px;
+}
+
+.listas {
+  clear: both;
+}
+
 
 /* ///////////////////////////////////::: Ayuda ::://///////////////////////////////////// */
 

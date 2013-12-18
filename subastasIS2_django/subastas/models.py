@@ -21,7 +21,7 @@ class AuctionUser(models.Model):
     phone_number = models.CharField(max_length=20, blank=True)
     auction_points = models.PositiveIntegerField(default=0)
     offer_points = models.PositiveIntegerField(default=0)
-    image = models.ImageField(upload_to='profiles/', default='items/noDisponible.jpg', blank=True)
+    image = models.ImageField(upload_to='profiles/', default='items/noImagen.jpg', blank=True)
 
     description = models.TextField(blank=True)
     interests = models.TextField(blank=True)
