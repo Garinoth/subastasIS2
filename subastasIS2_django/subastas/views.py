@@ -9,7 +9,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import ListView, DetailView
 from django.utils import timezone, simplejson as json
 
-from subastas.forms import UserForm, AuctionUserForm, ItemForm, AuctionForm, OfferForm, BidForm, ActivationForm, SaleForm
+from subastas.forms import UserForm, AuctionUserForm, ItemForm, AuctionForm, OfferForm, BidForm, ActivationForm, SaleForm, UpdateAuctionUserForm
 from subastas.models import Auction, Offer, AuctionUser, Item, Bid
 
 from django_simple_search.utils import generic_search
