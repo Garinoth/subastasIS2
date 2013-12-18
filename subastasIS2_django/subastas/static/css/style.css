@@ -408,6 +408,7 @@ footer
   max-width: 1920px;
   min-width: 755px;
   margin: 0 auto;
+  overflow: hidden;
 }
 
 
