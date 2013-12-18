@@ -3,6 +3,18 @@
 {% block title %}JDLS|Oferta {% endblock %}
 
 {% block content %}
+
+<div id="sold" style="display: none;">
+<a href="#" class="logoverlay" id="popups"></a>
+<div class="logpopup">
+    <h2 class="error">Lo sentimos</h2>
+    <p>EL producto ya ha sido adquirido.</p>
+    <a class="close" href="{% url 'index' %}"></a>
+    <a href="{% url 'offers' %}"><input type="button" class="button close" id="boffers" value="Más ofertas" /></a>
+    <a href="{% url 'index' %}"><input type="button" class="button close" value="Cerrar" /></a>
+</div>
+</div>
+
 {% if valid %}
 <a href="#" class="logoverlay" id="popups"></a>
 <div class="logpopup">
@@ -161,6 +173,23 @@
         image: "{% static 'images/digits2.png' %}",
         timerEnd: ended
     });
+
+    run_once = true;
+    var update = function(){
+        $.getJSON("{% url 'poll_offer' %}", { "pk": "{{ offer.pk }}" }, function(a) {
+            if (run_once){
+                if (a.sold == 'true') {
+                    $("#sold").show();
+                    run_once = false;
+                }
+            }
+        });
+    }
+
+    {% if not offer.sold %}
+    setInterval(update, 1000);
+    {% endif %}
+
 </script>
 
 {% endblock %}

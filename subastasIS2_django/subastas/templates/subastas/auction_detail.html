@@ -37,7 +37,7 @@
         <div class="top_section">
             <form method="post" action="{% url 'auction_detail' auction.pk %}">
                 <input class="ultima_columna right bid button body" type="submit" value="PUJAR" />
-                <span class="ultima_columna right owner"><span id="preowner">Dueño actual: </span>{{ auction.winner.user.username }}</span>
+                <span class="ultima_columna right owner"><span id="preowner">Dueño actual: </span><span class="winner">{{ auction.winner.user.username }}</span></span>
                 {% csrf_token %}
             </form>
         </div>
@@ -49,8 +49,8 @@
     <div class="fila">
         <div>
             <span class="right msg">Esta subasta ha finalizado</span>
-            <span class="ultima_columna right owner"><span id="preowner">Ganador: </span>{{ auction.winner.user.username }}</span>
-            <span class="ultima columna right actualbid">Pujas: <span class="bold">X pujas</span></span>
+            <span class="ultima_columna right owner"><span id="preowner">Ganador: </span><span class="winner">{{ auction.winner.user.username }}</span></span>
+            <span class="ultima columna right actualbid">Pujas: <span id="bids" class="bold">X pujas</span></span>
         </div>
     </div>
     <div class="fila">
@@ -91,9 +91,9 @@
 
     }
 
-    function use_time_difference(){
-        finish = new Date({{ auction.end_date.year }}, {{ auction.end_date.month }}, {{ auction.end_date.day }}, {{ auction.end_date.hour }}, {{ auction.end_date.minute }}, {{ auction.end_date.second }});
-        dateCurrent = new Date({{ now.year }}, {{ now.month }}, {{ now.day }}, {{ now.hour }}, {{ now.minute }}, {{ now.second }});
+    function use_time_difference(end_date, now){
+        finish = new Date(end_date.year, end_date.month, end_date.day, end_date.hour, end_date.minute, end_date.second);
+        dateCurrent = new Date(now.year, now.month, now.day, now.hour, now.minute, now.second)
         if (finish > dateCurrent){
             oDiff = get_time_difference(dateCurrent, finish);
         }
@@ -107,24 +107,81 @@
         time = days + ":" + hours + ":" + minutes + ":" + seconds;
     }
 
+
+    var startCounter = function( end_date, now ) {
+        use_time_difference(end_date, now);
+        {% load static %}
+        $('#counter').countdown({
+            stepTime: 60,
+            format: 'dd:hh:mm:ss',
+            startTime: time,
+            digitImages: 6,
+            digitWidth: 30,
+            digitHeight: 43,
+            image: "{% static 'images/digits2.png' %}",
+            timerEnd: ended,
+        });
+    }
+
+    var restartCounter = function(end_date, now) {
+        $('#counter').html('');
+        startCounter(end_date, now);
+    }
+
+    var end_date = {
+        "year": {{ auction.end_date.year }},
+        "month": {{ auction.end_date.month }},
+        "day": {{ auction.end_date.day }},
+        "hour": {{ auction.end_date.hour }},
+        "minute": {{ auction.end_date.minute }},
+        "second": {{ auction.end_date.second }},
+    }
+
+    var now = {
+        "year": {{ now.year }},
+        "month": {{ now.month }},
+        "day": {{ now.day }},
+        "hour": {{ now.hour }},
+        "minute": {{ now.minute }},
+        "second": {{ now.second }},
+    }
+
+    var winner = "{{ auction.winner.user.username }}";
+    var bids = 0;
+
+    startCounter(end_date, now);
+    var update = function(){
+        $.getJSON("{% url 'poll_auction' %}", { "pk": "{{ auction.pk }}" }, function(a) {
+            winner = a.winner;
+            bids = a.bids;
+            $(".winner").html(a.winner);
+            $("#bids").html(a.bids);
+
+            time_change = false;
+            for (var k in a.end_date) {
+                if (a.end_date.hasOwnProperty(k)){
+                    if (a.end_date[k] != end_date[k]) {
+                        time_change = true;
+                    }
+                }
+            }
+
+            if (time_change) {
+                end_date = a.end_date;
+                now = a.now;
+                restartCounter(end_date, now);
+            }
+        });
+    }
+
+    setInterval(update, 1000);
+
     function ended(){
         $('#cronoshow').hide();
         $('#cronohide').show();
-        alert('La subasta ha acabado. El usuario ganador ha sido {{ auction.winner.user.username }} con X pujas.');
+        alert('La subasta ha acabado. El usuario ganador ha sido '+ winner +' con '+ bids +' pujas.');
     }
 
-    use_time_difference();
-    {% load static %}
-    $('#counter').countdown({
-        stepTime: 60,
-        format: 'dd:hh:mm:ss',
-        startTime: time,
-        digitImages: 6,
-        digitWidth: 30,
-        digitHeight: 43,
-        image: "{% static 'images/digits2.png' %}",
-        timerEnd: ended
-    });
 </script>
 
 {% endblock %}

@@ -7,10 +7,10 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import ListView, DetailView
-from django.utils import timezone
+from django.utils import timezone, simplejson as json
 
 from subastas.forms import UserForm, AuctionUserForm, ItemForm, AuctionForm, OfferForm, BidForm, ActivationForm, SaleForm
-from subastas.models import Auction, Offer, AuctionUser, Item
+from subastas.models import Auction, Offer, AuctionUser, Item, Bid
 
 from django_simple_search.utils import generic_search
 
@@ -43,6 +43,7 @@ def index(request):
 
 def help(request):
     return render(request, 'subastas/help.html')
+
 
 def success(request):
     return render(request, 'subastas/sale_successful.html')
@@ -276,9 +277,56 @@ def search(request):
     for model, fields in MODEL_MAP.iteritems():
         objects += generic_search(request, model, fields, QUERY)
 
-    # auction = Item.objects.select_related('auction').get(pk=objects[0].pk)
-
     return render_to_response("subastas/search_results.html",
                               {"objects": objects,
                                "search_string": request.GET.get(QUERY, ""),
                                })
+
+@login_required
+def poll_auction(request):
+    auction = Auction.objects.get(pk=request.GET["pk"])
+    bids = len(Bid.objects.filter(auction=auction))
+
+    end_date = {
+        "year": auction.end_date.year,
+        "month": auction.end_date.month,
+        "day": auction.end_date.day,
+        "hour": auction.end_date.hour,
+        "minute": auction.end_date.minute,
+        "second": auction.end_date.second,
+    }
+
+    n = timezone.now()
+    now = {
+        "year": n.year,
+        "month": n.month,
+        "day": n.day,
+        "hour": n.hour,
+        "minute": n.minute,
+        "second": n.second,
+    }
+
+    res = { "winner": auction.winner.user.username,
+            "winner_id": auction.winner.user.pk,
+            "bids": bids,
+            "end_date": end_date,
+            "now": now,
+    }
+
+    return HttpResponse(json.dumps(res))
+
+
+@login_required
+def poll_offer(request):
+    offer = Offer.objects.get(pk=request.GET["pk"])
+
+    sold = 'false'
+    if offer.sold:
+        sold = 'true'
+
+    res = { "winner": offer.winner.user.username,
+            "winner_id": offer.winner.user.pk,
+            "sold": sold,
+    }
+
+    return HttpResponse(json.dumps(res))
