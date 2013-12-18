@@ -3,6 +3,7 @@
 {% block title %}JDLS|Resultados de búsqueda{% endblock %}
 
 {% block content %}
+{% if objects %}
 <header>
     <h2>Resultados de la búsqueda</h2>
     <p>A continuación se muestra la lista de los resultados a la búsqueda realizada: "{{ search_string }}"</p>
@@ -38,5 +39,11 @@
         </tr>
   {% endfor %}
 </table>
+{% else %}
+<header>
+    <h2>Resultados de la búsqueda</h2>
+    <p>No se ha encontrado ningún resultado para la búsqueda realizada: "{{ search_string }}"</p>
+</header>
+{% endif %}
 
 {% endblock %}

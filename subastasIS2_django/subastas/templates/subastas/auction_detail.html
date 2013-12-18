@@ -4,22 +4,22 @@
 
 {% block content %}
 {% if bid_form.errors %}
-    <a href="#" class="logoverlay" id="popups"></a>
-    <div class="logpopup">
-        <h2 class="error">¡Oops!</h2>
+<a href="#" class="logoverlay" id="popups"></a>
+<div class="logpopup">
+    <h2 class="error">¡Oops!</h2>
     {% if recharge %}
-        <p>No tienes suficientes puntos de subasta para pujar por este producto. Antes de continuar debes recargar tus puntos.</p>
-        <a class="close" href="{% url 'auction_detail' auction.pk %}"></a>
-        <a href="{% url 'recharge' %}"><input type="button" class="button close" value="Recargar" />
+    <p>No tienes suficientes puntos de subasta para pujar por este producto. Antes de continuar debes recargar tus puntos.</p>
+    <a class="close" href="{% url 'auction_detail' auction.pk %}"></a>
+    <a href="{% url 'recharge' %}"><input type="button" class="button close" value="Recargar" />
     {% else %}
-        <p>{{ error }}</p>
-        <a class="close" href="{% url 'auction_detail' auction.pk %}"></a>
-        <a href="{% url 'auction_detail' auction.pk %}"><input type="button" class="button close" value="Cerrar" /></a>
+    <p>{{ error }}</p>
+    <a class="close" href="{% url 'auction_detail' auction.pk %}"></a>
+    <a href="{% url 'auction_detail' auction.pk %}"><input type="button" class="button close" value="Cerrar" /></a>
     {% endif %}
-    </div>
+</div>
 {% endif %}
 
-{% if auction.end_date >= now %}
+<span id="cronoshow">
     <div class="fila">
         <div>
             <span class="right crono">
@@ -35,37 +35,44 @@
     </div>
     <div class="fila">
         <div class="top_section">
-        <form method="post" action="{% url 'auction_detail' auction.pk %}">
-            <input class="ultima_columna right bid button body" type="submit" value="PUJAR" />
-        <span class="ultima_columna right owner"><span id="preowner">Dueño actual: </span><span id="winner">{{ auction.winner.user.username }}</span></span>
-{% else %}
+            <form method="post" action="{% url 'auction_detail' auction.pk %}">
+                <input class="ultima_columna right bid button body" type="submit" value="PUJAR" />
+                <span class="ultima_columna right owner"><span id="preowner">Dueño actual: </span><span class="winner">{{ auction.winner.user.username }}</span></span>
+                {% csrf_token %}
+            </form>
+        </div>
+        <h2 class="auctiontitle">{{ auction.item.name }}</h2>
+    </div>
+</span>
+
+<span id="cronohide" style="display: none;">
     <div class="fila">
         <div>
             <span class="right msg">Esta subasta ha finalizado</span>
-            <span class="ultima_columna right owner"><span id="preowner">Ganador: </span>{{ auction.winner.user.username }}</span>
-            <span class="ultima columna right actualbid">Pujas: <span class="bold">X pujas</span></span>
+            <span class="ultima_columna right owner"><span id="preowner">Ganador: </span><span class="winner">{{ auction.winner.user.username }}</span></span>
+            <span class="ultima columna right actualbid">Pujas: <span id="bids" class="bold">X pujas</span></span>
         </div>
     </div>
     <div class="fila">
         <div class="top_section">
-        <form method="post" action="{% url 'auction_detail' auction.pk %}">
-            <input class="ultima_columna right bid button body" type="submit" value="PUJAR" disabled />
-{% endif %}
-
-        {% csrf_token %}
-    </form>
-    </div>
+            <form method="post" action="{% url 'auction_detail' auction.pk %}">
+                <input class="ultima_columna right bid button body" type="submit" value="PUJAR" disabled />
+                {% csrf_token %}
+            </form>
+        </div>
     <h2 class="auctiontitle">{{ auction.item.name }}</h2>
-</div>
+    </div>
+</span>
+
 <div class="fila">
-	<span class="imgauction"><a href="{{ auction.item.image.url }}"><img id="imageauction" src="{{ auction.item.image.url }}"/></a></span>
-	<div class="texto">
-		<p class="description"><span class="name">Descripción: </span>{{ auction.item.description }}</p>
-		<p class="category"><span class="name">Categoría: </span>{{ auction.item.category }}</p>
-	</div>
+    <a href="{{ auction.item.image.url }}"><img class="imgauction" id="imageauction" src="{{ auction.item.image.url }}"/></a>
+    <div class="texto">
+      <p class="description"><span class="name">Descripción: </span>{{ auction.item.description }}</p>
+      <p class="category"><span class="name">Categoría: </span>{{ auction.item.category }}</p>
+    </div>
 </div>
 
-<script>
+  <script>
     function get_time_difference(earlierDate, laterDate){
         var nTotalDiff = laterDate.getTime() - earlierDate.getTime();
         var oDiff = new Object();
@@ -111,7 +118,8 @@
             digitImages: 6,
             digitWidth: 30,
             digitHeight: 43,
-            image: "{% static 'images/digits2.png' %}"
+            image: "{% static 'images/digits2.png' %}",
+            timerEnd: ended,
         });
     }
 
@@ -138,10 +146,16 @@
         "second": {{ now.second }},
     }
 
+    var winner = "{{ auction.winner.user.username }}";
+    var bids = 0;
+
     startCounter(end_date, now);
     var update = function(){
         $.getJSON("{% url 'poll_auction' %}", { "pk": "{{ auction.pk }}" }, function(a) {
-            $("#winner").html(a.winner);
+            winner = a.winner;
+            bids = a.bids;
+            $(".winner").html(a.winner);
+            $("#bids").html(a.bids);
 
             time_change = false;
             for (var k in a.end_date) {
@@ -161,6 +175,12 @@
     }
 
     setInterval(update, 1000);
+
+    function ended(){
+        $('#cronoshow').hide();
+        $('#cronohide').show();
+        alert('La subasta ha acabado. El usuario ganador ha sido '+ winner +' con '+ bids +' pujas.');
+    }
 
 </script>
 

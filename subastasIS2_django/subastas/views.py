@@ -10,7 +10,7 @@ from django.views.generic import ListView, DetailView
 from django.utils import timezone, simplejson as json
 
 from subastas.forms import UserForm, AuctionUserForm, ItemForm, AuctionForm, OfferForm, BidForm, ActivationForm, SaleForm
-from subastas.models import Auction, Offer, AuctionUser, Item
+from subastas.models import Auction, Offer, AuctionUser, Item, Bid
 
 from django_simple_search.utils import generic_search
 
@@ -285,6 +285,7 @@ def search(request):
 @login_required
 def poll_auction(request):
     auction = Auction.objects.get(pk=request.GET["pk"])
+    bids = len(Bid.objects.filter(auction=auction))
 
     end_date = {
         "year": auction.end_date.year,
@@ -307,6 +308,7 @@ def poll_auction(request):
 
     res = { "winner": auction.winner.user.username,
             "winner_id": auction.winner.user.pk,
+            "bids": bids,
             "end_date": end_date,
             "now": now,
     }
