@@ -95,6 +95,18 @@ class UserForm(ModelForm):
                 self._errors['confirm_password'] = [
                     "Las contraseñas deben coincidir"]
 
+        if 'username' in self.cleaned_data:
+            username = self.cleaned_data.get('username')
+            if User.objects.get(username=username):
+                self._errors['username'] = [
+                    "Este nombre de usuario ya existe"]
+
+        if 'email' in self.cleaned_data:
+            email = self.cleaned_data.get('email')
+            if User.objects.get(email=email):
+                self._errors['email'] = [
+                    "Este correo electrónico ya existe"]
+
         password = self.cleaned_data.get('password')
         regex = r'^(?=.*[a-zA-Z])(?=.*\d)(?=.*[-+_!@#$%^&*.,?=]).{6,}$'
         if password and not re.match(regex, password):
