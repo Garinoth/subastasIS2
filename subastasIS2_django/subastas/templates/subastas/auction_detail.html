@@ -37,7 +37,7 @@
         <div class="top_section">
             <form method="post" action="{% url 'auction_detail' auction.pk %}">
                 <input class="ultima_columna right bid button body" type="submit" value="PUJAR" />
-                <span class="ultima_columna right owner"><span id="preowner">Dueño actual: </span><span class="winner">{{ auction.winner.user.username }}</span></span>
+                <span class="ultima_columna right owner"><span id="preowner">Dueño actual: </span><span><a class="winner" href="{% url 'profile' auction.winner.user.pk %}">{{ auction.item.owner.user.username }}</a></span></span>
                 {% csrf_token %}
             </form>
         </div>
@@ -49,7 +49,7 @@
     <div class="fila">
         <div>
             <span class="right msg">Esta subasta ha finalizado</span>
-            <span class="ultima_columna right owner"><span id="preowner">Ganador: </span><span class="winner">{{ auction.winner.user.username }}</span></span>
+            <span class="ultima_columna right owner"><span id="preowner">Ganador: </span><span><a class="winner" href="{% url 'profile' auction.winner.user.pk %}">{{ auction.item.owner.user.username }}</a></span></span>
             <span class="ultima columna right actualbid">Pujas: <span id="bids" class="bold">X pujas</span></span>
         </div>
     </div>
