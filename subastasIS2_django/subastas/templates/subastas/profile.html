@@ -12,55 +12,63 @@
 <div class="fila">
 <form method="post" action="{% url 'profile' user.pk %}">
     <a href="{{ auction_user.image.url }}"><img class="imguser" id="imageuser" src="{{ auction_user.image.url }}"/></a>
-    <div class="texto">
-        <p class="description"><span class="name">Descripción personal: </span>{{ auction_user.description }}</p>
-        <p class="category"><span class="name">Intereses: </span>{{ auction_user.interests }}</p>
+    <div class="ptexto">
+        <p class="user_description"><span class="name">Descripción personal: </span>{{ auction_user.description }}</p>
+        <p class="user_category"><span class="name">Intereses: </span>{{ auction_user.interests }}</p>
     </div>
 {% else %}
 <form enctype="multipart/form-data" class="form-horizontal" method="post" action="{% url 'profile' user.pk %}">
     {% csrf_token %}
     <table>
         <tr><div class="form-group">
-            <td><label class="freg control-label">Descripción personal: </label></td>
-            <td class="formuser_desc">{{ edit_form.description }}</td>
+            <td><label class="freg control-label name">Descripción personal: </label></td>
+            <td  colspan="2" class="formuser">{{ edit_form.description }}</td>
         </div></tr>
         <tr><div class="form-group">
-            <td><label class="freg control-label">Foto de perfil: </label>{{ edit_form.image }}</td>
-            <td><a href="{{ auction_user.image.url }}"><img class="formuser_pho" src="{{ auction_user.image.url }}"/></a></td>
+            <td><label class="freg control-label name">Foto de perfil: </label></td>
+            <td class="picuser"><a href="{{ auction_user.image.url }}"><img class="formuser_pho" src="{{ auction_user.image.url }}"/></a><td id="pickphoto">{{ edit_form.image }}</td></td>
         </div></tr>
         <tr><div class="form-group">
-            <td><label class="freg control-label">Intereses: </label></td>
-            <td class="formuser_int">{{ edit_form.interests }}</td>
+            <td><label class="freg control-label name">Intereses: </label></td>
+            <td colspan="2" class="formuser">{{ edit_form.interests }}</td>
         </div></tr>
     </table>
-    <input class="button body" type="submit" value="Guardar" />
+    <input class="button body end" type="submit" value="Guardar" />
 {% endif %}
 
     <div class="listas">
-        <p class="description"><span class="name">Subastas en las que ha participado: </span>
-        <ul>
+        <p class="description" id="auctions_bid"><span class="name">Subastas en las que ha participado: </span>
         {% if auctions_bid %}
+        <ul class="profile_list">
         {% for auction in auctions_bid %}
             <li>{{ auction.item.name }}</li>
         {% endfor %}
-        {% else %}
-        	<p>EL usuario no ha participado en subastas</p>
-        {% endif %}
         </ul>
+        {% else %}
+        	<p class="noitems">El usuario no ha participado en subastas</p>
+        {% endif %}
 
-        <p class="description"><span class="name">Productos ganados en subastas: </span>
-        <ul>
+        <p class="description" id="auctions_won"><span class="name">Productos ganados en subastas: </span>
+        {% if auctions_bid %}
+        <ul class="profile_list">
         {% for auction in auctions_won %}
             <li><a href="{% url 'auction_detail' auction.pk %}">{{ auction.item.name }}</a></li>
         {% endfor %}
         </ul>
+        {% else %}
+        	<p class="noitems">El usuario no ha ganado ningún producto en una subasta</p>
+        {% endif %}
 
-        <p class="description"><span class="name">Productos adquiridos por puntos acumulados: </span>
-        <ul>
+        <p class="description" id="offers_won"><span class="name">Productos adquiridos por puntos acumulados: </span>
+        {% if offers_won %}
+        <ul class="profile_list">
         {% for offer in offers_won %}
             <li><a href="{% url 'offer_detail' offer.pk %}">{{ offer.item.name }}</a></li>
         {% endfor %}
         </ul>
+        {% else %}
+        	<p class="noitems">El usuario no ha adquirido ningún producto por puntos acumulados</p>
+        {% endif %}
     </div>
     {% csrf_token %}
 </form>
