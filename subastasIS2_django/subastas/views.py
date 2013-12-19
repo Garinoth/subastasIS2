@@ -259,14 +259,22 @@ def user(request, pk):
     auction_user = AuctionUser.objects.get(pk=pk)
 
     if request.method == 'POST':
-        edit_form = UpdateAuctionUserForm(request.POST, request.FILES, instance=auction_user)
+        edit_form = UpdateAuctionUserForm(request.POST, request.FILES,
+                                          instance=auction_user,
+                                          initial={
+                                          'description': auction_user.description,
+                                          'interests': auction_user.interests}
+                                          )
         if edit_form.is_valid():
             edit_form.save()
 
             return HttpResponseRedirect(reverse('profile', kwargs={'pk': pk}))
 
     else:
-        edit_form = UpdateAuctionUserForm()
+        edit_form = UpdateAuctionUserForm(initial={
+                                          'description': auction_user.description,
+                                          'interests': auction_user.interests}
+                                          )
 
         bids = Bid.objects.filter(user=auction_user)
         auctions_bid = []
@@ -316,6 +324,7 @@ def search(request):
                                "search_string": request.GET.get(QUERY, ""),
                                })
 
+
 @login_required
 def poll_auction(request):
     auction = Auction.objects.get(pk=request.GET["pk"])
@@ -340,12 +349,12 @@ def poll_auction(request):
         "second": n.second,
     }
 
-    res = { "winner": auction.winner.user.username,
-            "winner_id": auction.winner.user.pk,
-            "bids": bids,
-            "end_date": end_date,
-            "now": now,
-    }
+    res = {"winner": auction.winner.user.username,
+           "winner_id": auction.winner.user.pk,
+           "bids": bids,
+           "end_date": end_date,
+           "now": now,
+           }
 
     return HttpResponse(json.dumps(res))
 
@@ -358,9 +367,9 @@ def poll_offer(request):
     if offer.sold:
         sold = 'true'
 
-    res = { "winner": offer.winner.user.username,
-            "winner_id": offer.winner.user.pk,
-            "sold": sold,
-    }
+    res = {"winner": offer.winner.user.username,
+           "winner_id": offer.winner.user.pk,
+           "sold": sold,
+           }
 
     return HttpResponse(json.dumps(res))
