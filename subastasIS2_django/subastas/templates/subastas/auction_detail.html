@@ -19,6 +19,17 @@
 </div>
 {% endif %}
 
+<div id="time_ended" style="display: none;">
+<a href="#" class="logoverlay" id="popups"></a>
+<div class="logpopup">
+    <h2 class="error">Lo sentimos</h2>
+    <p>La subasta ha acabado. El usuario ganador ha sido <span id="awinner"></span> con <span id="abids"></span> pujas.</p>
+    <a class="close" href="{% url 'index' %}"></a>
+    <a href="{% url 'auctions' %}"><input type="button" class="button close" id="boffers" value="Más subastas" /></a>
+    <a href="{% url 'index' %}"><input type="button" class="button close" value="Cerrar" /></a>
+</div>
+</div>
+
 <span id="cronoshow">
     <div class="fila">
         <div>
@@ -179,7 +190,9 @@
     function ended(){
         $('#cronoshow').hide();
         $('#cronohide').show();
-        alert('La subasta ha acabado. El usuario ganador ha sido '+ winner +' con '+ bids +' pujas.');
+        $('#awinner').html(winner);
+        $('#abids').html(bids);
+        $('#time_ended').show();
     }
 
 </script>

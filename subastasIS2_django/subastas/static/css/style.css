@@ -949,6 +949,16 @@ input[type=number]::-webkit-outer-spin-button {
   font-family:Rockwell, 'GeoSlb712MdBTMedium',"Courier Bold", Courier, Georgia, Times, "Times New Roman", serif;
 }
 
+a.winner {
+  text-decoration: none;
+  color: red;
+}
+
+a.winner:hover{
+  text-decoration: underline;
+  color: #3299bb;
+}
+
 .imgauction {
   vertical-align: middle;
   height: 150px;
