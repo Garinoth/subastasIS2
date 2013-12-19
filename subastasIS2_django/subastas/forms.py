@@ -97,13 +97,13 @@ class UserForm(ModelForm):
 
         if 'username' in self.cleaned_data:
             username = self.cleaned_data.get('username')
-            if User.objects.get(username=username):
+            if User.objects.filter(username=username):
                 self._errors['username'] = [
                     "Este nombre de usuario ya existe"]
 
         if 'email' in self.cleaned_data:
             email = self.cleaned_data.get('email')
-            if User.objects.get(email=email):
+            if User.objects.filter(email=email):
                 self._errors['email'] = [
                     "Este correo electrónico ya existe"]
 
