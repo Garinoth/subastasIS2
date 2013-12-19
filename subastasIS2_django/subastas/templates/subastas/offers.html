@@ -20,7 +20,7 @@
   {% for offer in offer_list %}
     	<tr class="list">
     		<td class="list_body"><a href="{% url 'offer_detail' offer.pk %}">{{ offer.item.name }}</a></td>
-    		<td class="list_body">{{ offer.item.owner.user.username }}</td>
+    		<td class="list_body"><a class="winner" href="{% url 'profile' offer.item.owner.user.pk %}">{{ offer.item.owner.user.username }}</a></td>
     		<td class="list_body">{{ offer.price }}</td>
     		<td class="list_body no_border">{{ offer.end_date }}</td>
     	</tr>

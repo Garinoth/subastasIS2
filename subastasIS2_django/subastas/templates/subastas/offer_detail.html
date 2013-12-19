@@ -8,12 +8,24 @@
 <a href="#" class="logoverlay" id="popups"></a>
 <div class="logpopup">
     <h2 class="error">Lo sentimos</h2>
-    <p>EL producto ya ha sido adquirido.</p>
+    <p>El producto ya ha sido adquirido.</p>
     <a class="close" href="{% url 'index' %}"></a>
     <a href="{% url 'offers' %}"><input type="button" class="button close" id="boffers" value="Más ofertas" /></a>
     <a href="{% url 'index' %}"><input type="button" class="button close" value="Cerrar" /></a>
 </div>
 </div>
+
+<div id="offer_ended" style="display: none;">
+<a href="#" class="logoverlay" id="popups"></a>
+<div class="logpopup">
+    <h2 class="error">Lo sentimos</h2>
+    <p>Esta oferta ha expirado.</p>
+    <a class="close" href="{% url 'index' %}"></a>
+    <a href="{% url 'offers' %}"><input type="button" class="button close" id="boffers" value="Más ofertas" /></a>
+    <a href="{% url 'index' %}"><input type="button" class="button close" value="Cerrar" /></a>
+</div>
+</div>
+
 
 {% if valid %}
 <a href="#" class="logoverlay" id="popups"></a>
@@ -52,7 +64,7 @@
         <div class="top_section">
             <form method="post" action="{% url 'offer_detail' offer.pk %}">
                 <input class="ultima_columna right bid button body" type="submit" value="COMPRAR" disabled />
-                <span class="ultima_columna right owner"><span id="preowner">Dueño: </span>{{ offer.item.owner.user.username }}</span><span class="ultima columna right actualbid">Precio: <span class="bold">{{ offer.price }}</span></span>
+                <span class="ultima_columna right owner"><span id="preowner">Dueño: </span><a class="winner" href="{% url 'profile' offer.item.owner.user.pk %}">{{ offer.item.owner.user.username }}</a></span><span class="ultima columna right actualbid">Precio: <span class="bold">{{ offer.price }}</span></span>
                 {% csrf_token %}
             </form>
         </div>
@@ -79,7 +91,7 @@
     <div class="top_section">
     <form method="post" action="{% url 'offer_detail' offer.pk %}">
         <input class="ultima_columna right bid button body" type="submit" value="COMPRAR" />
-        <span class="ultima_columna right owner"><span id="preowner">Dueño: </span>{{ offer.item.owner.user.username }}</span><span class="ultima columna right actualbid">Precio: <span class="bold">{{ offer.price }}</span></span>
+        <span class="ultima_columna right owner"><span id="preowner">Dueño: </span><a  class="winner" href="{% url 'profile' offer.item.owner.user.pk %}">{{ offer.item.owner.user.username }}</a></span><span class="ultima columna right actualbid">Precio: <span class="bold">{{ offer.price }}</span></span>
             {% csrf_token %}
         </form>
     </div>
@@ -98,7 +110,7 @@
         <div class="top_section">
             <form method="post" action="{% url 'offer_detail' offer.pk %}">
                 <input class="ultima_columna right bid button body" type="submit" value="COMPRAR" disabled />
-                <span class="ultima_columna right owner"><span id="preowner">Dueño: </span>{{ offer.item.owner.user.username }}</span><span class="ultima columna right actualbid">Precio: <span class="bold">{{ offer.price }}</span></span>
+                <span class="ultima_columna right owner"><span id="preowner">Dueño: </span><a  class="winner" href="{% url 'profile' offer.item.owner.user.pk %}">{{ offer.item.owner.user.username }}</a></span><span class="ultima columna right actualbid">Precio: <span class="bold">{{ offer.price }}</span></span>
                 {% csrf_token %}
             </form>
         </div>
@@ -158,7 +170,7 @@
             $('#offercronohide').show();
         {% endif %}
         $('#offercronoshow').hide();
-        alert('Esta oferta ha expirado');
+        $('#offer_ended').show();
     }
 
     use_time_difference();

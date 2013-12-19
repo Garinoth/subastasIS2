@@ -19,6 +19,17 @@
 </div>
 {% endif %}
 
+<div id="time_ended" style="display: none;">
+<a href="#" class="logoverlay" id="popups"></a>
+<div class="logpopup">
+    <h2 class="error">Lo sentimos</h2>
+    <p>La subasta ha acabado. El usuario ganador ha sido <span id="awinner"></span> con <span id="abids"></span> pujas.</p>
+    <a class="close" href="{% url 'index' %}"></a>
+    <a href="{% url 'auctions' %}"><input type="button" class="button close" id="boffers" value="Más subastas" /></a>
+    <a href="{% url 'index' %}"><input type="button" class="button close" value="Cerrar" /></a>
+</div>
+</div>
+
 <span id="cronoshow">
     <div class="fila">
         <div>
@@ -37,7 +48,7 @@
         <div class="top_section">
             <form method="post" action="{% url 'auction_detail' auction.pk %}">
                 <input class="ultima_columna right bid button body" type="submit" value="PUJAR" />
-                <span class="ultima_columna right owner"><span id="preowner">Dueño actual: </span><span class="winner">{{ auction.winner.user.username }}</span></span>
+                <span class="ultima_columna right owner"><span id="preowner">Dueño actual: </span><span><a class="winner" href="{% url 'profile' auction.winner.user.pk %}">{{ auction.item.owner.user.username }}</a></span></span>
                 {% csrf_token %}
             </form>
         </div>
@@ -49,7 +60,7 @@
     <div class="fila">
         <div>
             <span class="right msg">Esta subasta ha finalizado</span>
-            <span class="ultima_columna right owner"><span id="preowner">Ganador: </span><span class="winner">{{ auction.winner.user.username }}</span></span>
+            <span class="ultima_columna right owner"><span id="preowner">Ganador: </span><span><a class="winner" href="{% url 'profile' auction.winner.user.pk %}">{{ auction.item.owner.user.username }}</a></span></span>
             <span class="ultima columna right actualbid">Pujas: <span id="bids" class="bold">X pujas</span></span>
         </div>
     </div>
@@ -179,7 +190,9 @@
     function ended(){
         $('#cronoshow').hide();
         $('#cronohide').show();
-        alert('La subasta ha acabado. El usuario ganador ha sido '+ winner +' con '+ bids +' pujas.');
+        $('#awinner').html(winner);
+        $('#abids').html(bids);
+        $('#time_ended').show();
     }
 
 </script>

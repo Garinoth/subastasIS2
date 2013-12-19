@@ -5,38 +5,74 @@
 {% block content %}
 
 <header>
-    <h2>Perfil de usuario</h2>
+    <h2>Perfil de {{ auction_user.user.username }}</h2>
 </header>
 
-<ul>
-	<li>Descripción personal:</li>
-	<li>Intereses:</li>
-	<li>Productos que le gustaría adquirir:</li>
-</ul>
-<form class="form-horizontal" method="post" action="{% url 'profile' %}">
+{% if auction_user.user != user %}
+<div class="fila">
+<form method="post" action="{% url 'profile' user.pk %}">
+    <a href="{{ auction_user.image.url }}"><img class="imguser" id="imageuser" src="{{ auction_user.image.url }}"/></a>
+    <div class="ptexto">
+        <p class="user_description"><span class="name">Descripción personal: </span>{{ auction_user.description }}</p>
+        <p class="user_category"><span class="name">Intereses: </span>{{ auction_user.interests }}</p>
+    </div>
+{% else %}
+<form enctype="multipart/form-data" class="form-horizontal" method="post" action="{% url 'profile' user.pk %}">
     {% csrf_token %}
     <table>
         <tr><div class="form-group">
-            <td><label class="freg control-label">{% if field.field.required %}<span class="required">*</span>{% endif %}{{ field.label_tag }} </label></td>
-            <td>{{ field }}</td>{% if field.errors %}<td class="field_error">{% for err in field.errors %}<span class="error_msg">{{ err }}</span>{% endfor %}</td>
-            {% endif %}
+            <td><label class="freg control-label name">Descripción personal: </label></td>
+            <td  colspan="2" class="formuser">{{ edit_form.description }}</td>
         </div></tr>
-        {% if field.label_tag == user_form.confirm_password.label_tag %}
-        <tr><td colspan="3" class="help">{{ field.field.help_text }}</td></tr>
-        {% endif %}
-        {% endfor %}
-        {% for field in auction_user_form.visible_fields %}
-        {% if field.label_tag != auction_user_form.tos.label_tag %}
         <tr><div class="form-group">
-            <td><label class="freg control-label">{% if field.field.required %}<span class="required">*</span>{% endif %}{{ field.label_tag }} </label></td>
-            <td>{{ field }}</td>{% if field.errors %}<td class="field_error">{% for err in field.errors %}<span class="error_msg">{{ err }}</span>{% endfor %}</td>{% endif %}
+            <td><label class="freg control-label name">Foto de perfil: </label></td>
+            <td class="picuser"><a href="{{ auction_user.image.url }}"><img class="formuser_pho" src="{{ auction_user.image.url }}"/></a><td id="pickphoto">{{ edit_form.image }}</td></td>
         </div></tr>
-        {% endif %}
+        <tr><div class="form-group">
+            <td><label class="freg control-label name">Intereses: </label></td>
+            <td colspan="2" class="formuser">{{ edit_form.interests }}</td>
+        </div></tr>
     </table>
-    <p class="ptos">{{ auction_user_form.tos }} Acepto los siguientes <a href="#tos" id="tos_pop">Términos y condiciones</a></p>{% if auction_user_form.tos.errors %}{% for err in auction_user_form.tos.errors %}<span class="error_msg">{{ err }}</span>{% endfor %}{% endif %}
+    <input class="button body end" type="submit" value="Guardar" />
+{% endif %}
 
-    <p id="key">(<span class="required">*</span>) Campos obligatorios</p>
+    <div class="listas">
+        <p class="description" id="auctions_bid"><span class="name">Subastas en las que ha participado: </span>
+        {% if auctions_bid %}
+        <ul class="profile_list">
+        {% for auction in auctions_bid %}
+            <li>{{ auction.item.name }}</li>
+        {% endfor %}
+        </ul>
+        {% else %}
+        	<p class="noitems">El usuario no ha participado en subastas</p>
+        {% endif %}
 
-    <input class="button body" type="submit" value="Aceptar" />
+        <p class="description" id="auctions_won"><span class="name">Productos ganados en subastas: </span>
+        {% if auctions_bid %}
+        <ul class="profile_list">
+        {% for auction in auctions_won %}
+            <li><a href="{% url 'auction_detail' auction.pk %}">{{ auction.item.name }}</a></li>
+        {% endfor %}
+        </ul>
+        {% else %}
+        	<p class="noitems">El usuario no ha ganado ningún producto en una subasta</p>
+        {% endif %}
+
+        <p class="description" id="offers_won"><span class="name">Productos adquiridos por puntos acumulados: </span>
+        {% if offers_won %}
+        <ul class="profile_list">
+        {% for offer in offers_won %}
+            <li><a href="{% url 'offer_detail' offer.pk %}">{{ offer.item.name }}</a></li>
+        {% endfor %}
+        </ul>
+        {% else %}
+        	<p class="noitems">El usuario no ha adquirido ningún producto por puntos acumulados</p>
+        {% endif %}
+    </div>
+    {% csrf_token %}
 </form>
+</div>
+
+
 {% endblock %}
