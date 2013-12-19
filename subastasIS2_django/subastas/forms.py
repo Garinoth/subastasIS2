@@ -340,7 +340,25 @@ class SaleForm(Form):
 
 
 class UpdateAuctionUserForm(ModelForm):
+
+    description = CharField(
+        widget=Textarea,
+        max_length=140,
+        required=False,
+    )
+
+    interests = CharField(
+        widget=Textarea,
+        max_length=140,
+        required=False,
+    )
+
+    image = ImageField(
+        required=False,
+    )
+
     class Meta:
         model = AuctionUser
         fields = ['description',
+                  'image',
                   'interests']

@@ -26,7 +26,7 @@
             {% if user.is_authenticated %}
             <nav class="navegacion_principal tercera_columna right">
                 <ul>
-                    <li><a href="{% url 'test' %}">{{ user.username }}</a></li>
+                    <li><a href="{% url 'profile' user.pk %}">{{ user.username }}</a></li>
                     <li>&bull;</li>
                     <li><a href="{% url 'logout' %}">Logout</a></li>
                 </ul>

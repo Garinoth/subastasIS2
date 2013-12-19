@@ -259,9 +259,11 @@ def user(request, pk):
     auction_user = AuctionUser.objects.get(pk=pk)
 
     if request.method == 'POST':
-        edit_form = UpdateAuctionUserForm(request.POST, instance=auction_user)
+        edit_form = UpdateAuctionUserForm(request.POST, request.FILES, instance=auction_user)
         if edit_form.is_valid():
-            return HttpResponseRedirect(reverse('index'))
+            edit_form.save()
+
+            return HttpResponseRedirect(reverse('profile', kwargs={'pk': pk}))
 
     else:
         edit_form = UpdateAuctionUserForm()

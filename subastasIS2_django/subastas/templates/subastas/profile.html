@@ -17,20 +17,20 @@
         <p class="category"><span class="name">Intereses: </span>{{ auction_user.interests }}</p>
     </div>
 {% else %}
-<form class="form-horizontal" method="post" action="{% url 'profile' user.pk %}">
+<form enctype="multipart/form-data" class="form-horizontal" method="post" action="{% url 'profile' user.pk %}">
     {% csrf_token %}
     <table>
         <tr><div class="form-group">
             <td><label class="freg control-label">Descripción personal: </label></td>
-            <td class="formuser_desc">{{ auction_user.description }}</td>
+            <td class="formuser_desc">{{ edit_form.description }}</td>
         </div></tr>
         <tr><div class="form-group">
-            <td><label class="freg control-label">Foto de perfil: </label></td>
-            <td class="formuser_pho"><a href="{{ auction_user.image.url }}"><img src="{{ auction_user.image.url }}"/></a></td>
+            <td><label class="freg control-label">Foto de perfil: </label>{{ edit_form.image }}</td>
+            <td><a href="{{ auction_user.image.url }}"><img class="formuser_pho" src="{{ auction_user.image.url }}"/></a></td>
         </div></tr>
         <tr><div class="form-group">
             <td><label class="freg control-label">Intereses: </label></td>
-            <td class="formuser_int">{{ auction_user.interests }}</td>
+            <td class="formuser_int">{{ edit_form.interests }}</td>
         </div></tr>
     </table>
     <input class="button body" type="submit" value="Guardar" />
@@ -39,9 +39,13 @@
     <div class="listas">
         <p class="description"><span class="name">Subastas en las que ha participado: </span>
         <ul>
+        {% if auctions_bid %}
         {% for auction in auctions_bid %}
             <li>{{ auction.item.name }}</li>
         {% endfor %}
+        {% else %}
+        	<p>EL usuario no ha participado en subastas</p>
+        {% endif %}
         </ul>
 
         <p class="description"><span class="name">Productos ganados en subastas: </span>
