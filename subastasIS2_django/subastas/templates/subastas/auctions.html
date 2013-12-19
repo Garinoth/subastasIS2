@@ -11,16 +11,14 @@
     <thead>
         <tr class="list">
             <th class="list_head">Nombre del producto</th>
-            <th class="list_head">Dueño del producto</th>
-            <th class="list_head">Puja actual</th>
+            <th class="list_head">Máximo pujador actual</th>
             <th class="list_head no_border">Fin de subasta</th>
         </tr>
     </thead>
   {% for auction in auction_list %}
         <tr class="list">
             <td class="list_body"><a href="{% url 'auction_detail' auction.pk %}">{{ auction.item.name }}</a></td>
-            <td class="list_body">{{ auction.item.owner.user.username }}</td>
-            <td class="list_body">{{ auction.current_price }}</td>
+            <td class="list_body"><a class="winner" href="{% url 'profile' auction.winner.user.pk %}">{{ auction.winner.user.username }}</a></td>
             <td class="list_body no_border">{{ auction.end_date }}</td>
         </tr>
   {% endfor %}

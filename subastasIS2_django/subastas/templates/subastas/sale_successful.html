@@ -1,0 +1,11 @@
+{% extends "subastas/base.html" %}
+
+{% block title %}JDLS|Compra finalizada{% endblock %}
+
+{% block content %}
+
+<header>
+    <h2>¡Enhorabuena!</h2>
+    <p>Has finalizado tu compra correctamente. Puedes seguir participando en El Juego de la Subasta viendo las <a href="{% url 'auctions' %}">subastas</a> y <a href="{% url 'offers' %}">ofertas</a> activas.</p>
+</header>
+{% endblock %}
