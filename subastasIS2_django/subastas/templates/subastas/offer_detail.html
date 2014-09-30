@@ -3,6 +3,30 @@
 {% block title %}JDLS|Oferta {% endblock %}
 
 {% block content %}
+
+<div id="sold" style="display: none;">
+<a href="#" class="logoverlay" id="popups"></a>
+<div class="logpopup">
+    <h2 class="error">Lo sentimos</h2>
+    <p>El producto ya ha sido adquirido.</p>
+    <a class="close" href="{% url 'index' %}"></a>
+    <a href="{% url 'offers' %}"><input type="button" class="button close" id="boffers" value="Más ofertas" /></a>
+    <a href="{% url 'index' %}"><input type="button" class="button close" value="Cerrar" /></a>
+</div>
+</div>
+
+<div id="offer_ended" style="display: none;">
+<a href="#" class="logoverlay" id="popups"></a>
+<div class="logpopup">
+    <h2 class="error">Lo sentimos</h2>
+    <p>Esta oferta ha expirado.</p>
+    <a class="close" href="{% url 'index' %}"></a>
+    <a href="{% url 'offers' %}"><input type="button" class="button close" id="boffers" value="Más ofertas" /></a>
+    <a href="{% url 'index' %}"><input type="button" class="button close" value="Cerrar" /></a>
+</div>
+</div>
+
+
 {% if valid %}
 <a href="#" class="logoverlay" id="popups"></a>
 <div class="logpopup">
@@ -29,6 +53,27 @@
     </div>
 {% endif %}
 
+{% if offer.sold %}
+<span id="offersold">
+    <div class="fila">
+        <div>
+            <span class="right msg">Este producto ha sido comprado por {{ offer.winner }}</span>
+        </div>
+    </div>
+    <div class="fila">
+        <div class="top_section">
+            <form method="post" action="{% url 'offer_detail' offer.pk %}">
+                <input class="ultima_columna right bid button body" type="submit" value="COMPRAR" disabled />
+                <span class="ultima_columna right owner"><span id="preowner">Dueño: </span><a class="winner" href="{% url 'profile' offer.item.owner.user.pk %}">{{ offer.item.owner.user.username }}</a></span><span class="ultima columna right actualbid">Precio: <span class="bold">{{ offer.price }}</span></span>
+                {% csrf_token %}
+            </form>
+        </div>
+        <h2 class="auctiontitle">{{ offer.item.name }}</h2>
+    </div>
+</span>
+{% else %}
+
+<span id="offercronoshow">
 <div class="fila">
     <div>
         <span class="right crono">
@@ -46,14 +91,35 @@
     <div class="top_section">
     <form method="post" action="{% url 'offer_detail' offer.pk %}">
         <input class="ultima_columna right bid button body" type="submit" value="COMPRAR" />
-        <span class="ultima_columna right owner"><span id="preowner">Dueño: </span>{{ offer.item.owner.user.username }}</span><span class="ultima columna right actualbid">Precio: <span class="bold">{{ offer.price }}</span></span>
-        {% csrf_token %}
-    </form>
+        <span class="ultima_columna right owner"><span id="preowner">Dueño: </span><a  class="winner" href="{% url 'profile' offer.item.owner.user.pk %}">{{ offer.item.owner.user.username }}</a></span><span class="ultima columna right actualbid">Precio: <span class="bold">{{ offer.price }}</span></span>
+            {% csrf_token %}
+        </form>
     </div>
     <h2 class="auctiontitle">{{ offer.item.name }}</h2>
 </div>
+</span>
+{% endif %}
+
+<span id="offercronohide" style="display: none;">
+    <div class="fila">
+        <div>
+            <span class="right msg">Esta oferta ha expirado</span>
+        </div>
+    </div>
+    <div class="fila">
+        <div class="top_section">
+            <form method="post" action="{% url 'offer_detail' offer.pk %}">
+                <input class="ultima_columna right bid button body" type="submit" value="COMPRAR" disabled />
+                <span class="ultima_columna right owner"><span id="preowner">Dueño: </span><a  class="winner" href="{% url 'profile' offer.item.owner.user.pk %}">{{ offer.item.owner.user.username }}</a></span><span class="ultima columna right actualbid">Precio: <span class="bold">{{ offer.price }}</span></span>
+                {% csrf_token %}
+            </form>
+        </div>
+        <h2 class="auctiontitle">{{ offer.item.name }}</h2>
+    </div>
+</span>
+
 <div class="fila">
-	<span class="imgauction"><a href="{{ offer.item.image.url }}"><img id="imageauction" src="{{ offer.item.image.url }}"/></a></span>
+	<a href="{{ offer.item.image.url }}"><img class="imgauction" id="imageauction" src="{{ offer.item.image.url }}"/></a>
 	<div class="texto">
 		<p class="description"><span class="name">Descripción: </span>{{ offer.item.description }}</p>
 		<p class="category"><span class="name">Categoría: </span>{{ offer.item.category }}</p>
@@ -95,6 +161,18 @@
         time = days + ":" + hours + ":" + minutes + ":" + seconds;
     }
 
+    function ended(){
+        {% if offer.sold %}
+            $('#offersold').show();
+            $('#offercronohide').hide();
+        {% else %}
+            $('#offersold').hide();
+            $('#offercronohide').show();
+        {% endif %}
+        $('#offercronoshow').hide();
+        $('#offer_ended').show();
+    }
+
     use_time_difference();
     {% load static %}
     $('#counter').countdown({
@@ -104,8 +182,26 @@
         digitImages: 6,
         digitWidth: 30,
         digitHeight: 43,
-        image: "{% static 'images/digits2.png' %}"
+        image: "{% static 'images/digits2.png' %}",
+        timerEnd: ended
     });
+
+    run_once = true;
+    var update = function(){
+        $.getJSON("{% url 'poll_offer' %}", { "pk": "{{ offer.pk }}" }, function(a) {
+            if (run_once){
+                if (a.sold == 'true') {
+                    $("#sold").show();
+                    run_once = false;
+                }
+            }
+        });
+    }
+
+    {% if not offer.sold %}
+    setInterval(update, 1000);
+    {% endif %}
+
 </script>
 
 {% endblock %}

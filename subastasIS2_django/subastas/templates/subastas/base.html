@@ -6,26 +6,27 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
     <script type="text/javascript" src="{% static 'js/jquery-2.0.3.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/jquery.countdown.js' %}"></script>
+
     <title>{% block title %}JDLS{% endblock %}</title>
 </head>
 
 <body>
+<div id="page-wrap">
     <header>
         <!-- PRIMERA FILA -->
         <div class="fila">
 
             <!-- CUADRO DE BÚSQUEDA -->
-            <form class="busqueda primera_columna">
+            <form class="busqueda primera_columna" action="{% url 'search' %}" method="get">
                 <input type="text" name="searchField" class="buscar" placeholder="Escriba lo que desee buscar..." />
-                <input type="image" name="searchButton" class="button" value="" src="{% static 'images/find.png' %}" />
+                <button type="submit" name="searchButton" class="button" value=""><image src="{% static 'images/find.png' %}"></image></button>
             </form>
 
             <!-- REGISTRO/LOGIN -->
             {% if user.is_authenticated %}
             <nav class="navegacion_principal tercera_columna right">
                 <ul>
-                    <li><a href="{% url 'test' %}">{{ user.image }}</a></li>
-                    <li><a href="{% url 'test' %}">{{ user.username }}</a></li>
+                    <li><a href="{% url 'profile' user.pk %}">{{ user.username }}</a></li>
                     <li>&bull;</li>
                     <li><a href="{% url 'logout' %}">Logout</a></li>
                 </ul>
@@ -45,6 +46,11 @@
         <!-- SEGUNDA FILA -->
         <div class="fila cuerpo" id="logo">
             <a href='{% url 'index' %}' class="logo_principal primera_columna">JDLS</a>
+            {% if user.is_authenticated %}
+            <span class="points ultima_columna right">PO: {{ user.auctionuser.offer_points }}</span>
+            <span class="points ultima_columna right">PS: {{ user.auctionuser.auction_points }}</span>
+            <span class="points recharge ultima_columna right"><a href="{% url 'recharge' %}">Recargar PS</a></span><br />
+            {% endif %}
             {% if perms.subastas.can_create_item %}<span class="ultima_columna right" id="aitem"><a href="{% url 'item' %}">Dar de alta un producto</a></span>{% endif %}
         </div>
 
@@ -53,11 +59,18 @@
     <section class="cuerpo" id="content">
         {% block content %}{% endblock %}
     </section>
-
-    <footer>
+</div>
+    <footer id="footer">
         <div class="cuerpo">
             <p>Copyright 2013 Ingeniería del Software II, Facultad de Informática, UPM</p>
         </div>
+    <div class="help" id="help">
+        <ul>
+            <li class="links"><a href="{% url 'help' %}">Ayuda </a></li>
+            <li class="links">&bull;</li>
+            <li class="links"><a href="mailto:juegodelasubasta@gmail.com?subject=Contacto%20JDLS"> Contacto</a></li>
+        </ul>
+    </div>
     </footer>
 </body>
 </html>

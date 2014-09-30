@@ -1,4 +1,4 @@
 Bienvenido a El Juego de la Subasta {{ username }},
 
 Haga click en el siguiente link para activar su cuenta:
-http://localhost:8000/subastas/activation/{{ activation_key }}
+http://juegodelasubasta.herokuapp.com/activation/{{ activation_key }}

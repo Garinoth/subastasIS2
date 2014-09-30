@@ -1,13 +1,18 @@
+from datetime import timedelta
+
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import ListView, DetailView
-from django.utils import timezone
-from subastas.forms import UserForm, AuctionUserForm, ItemForm, AuctionForm, OfferForm, BidForm, ActivationForm, SaleForm
-from subastas.models import Auction, Offer, AuctionUser
+from django.utils import timezone, simplejson as json
+
+from subastas.forms import UserForm, AuctionUserForm, ItemForm, AuctionForm, OfferForm, BidForm, ActivationForm, SaleForm, UpdateAuctionUserForm
+from subastas.models import Auction, Offer, AuctionUser, Item, Bid
+
+from django_simple_search.utils import generic_search
 
 
 class ListUsersView(ListView):
@@ -34,6 +39,14 @@ class ListOffersView(ListView):
 
 def index(request):
     return render(request, 'subastas/index.html')
+
+
+def help(request):
+    return render(request, 'subastas/help.html')
+
+
+def success(request):
+    return render(request, 'subastas/sale_successful.html')
 
 
 @login_required
@@ -162,6 +175,7 @@ def create_item(request):
 def auction(request, pk):
     auction = Auction.objects.get(pk=pk)
     recharge = False
+    error = ''
 
     if request.method == 'POST':
         bid_form = BidForm(request.POST, user=request.user, auction=auction)
@@ -173,6 +187,7 @@ def auction(request, pk):
             bid.user.offer_points += 1
             bid.user.save()
             bid.auction.winner = bid.user
+            bid.auction.end_date += timedelta(minutes=1)
             bid.auction.save()
             bid.save()
 
@@ -188,7 +203,6 @@ def auction(request, pk):
 
     else:
         bid_form = BidForm()
-        error = ''
 
     ctx = {
         'auction': auction,
@@ -221,7 +235,7 @@ def offer(request, pk):
                 offer.sold = True
                 offer.save()
 
-                return HttpResponseRedirect(reverse('offers'))
+                return HttpResponseRedirect(reverse('success'))
 
         else:
             error = sale_form.errors.as_text().split(' * ')[1]
@@ -238,3 +252,124 @@ def offer(request, pk):
     }
 
     return render(request, 'subastas/offer_detail.html', ctx)
+
+
+@login_required
+def user(request, pk):
+    auction_user = AuctionUser.objects.get(pk=pk)
+
+    if request.method == 'POST':
+        edit_form = UpdateAuctionUserForm(request.POST, request.FILES,
+                                          instance=auction_user,
+                                          initial={
+                                          'description': auction_user.description,
+                                          'interests': auction_user.interests}
+                                          )
+        if edit_form.is_valid():
+            edit_form.save()
+
+            return HttpResponseRedirect(reverse('profile', kwargs={'pk': pk}))
+
+    else:
+        edit_form = UpdateAuctionUserForm(initial={
+                                          'description': auction_user.description,
+                                          'interests': auction_user.interests}
+                                          )
+
+        bids = Bid.objects.filter(user=auction_user)
+        auctions_bid = []
+        for b in bids:
+            if not b.auction in auctions_bid:
+                auctions_bid.append(b.auction)
+
+        auctions_won = Auction.objects.filter(winner=auction_user)
+        offers_won = Offer.objects.filter(winner=auction_user)
+
+    ctx = {
+        'auction_user': auction_user,
+        'edit_form': edit_form,
+        'auctions_bid': auctions_bid,
+        'auctions_won': auctions_won,
+        'offers_won': offers_won,
+    }
+
+    return render(request, 'subastas/profile.html', ctx)
+
+
+@login_required
+def recharge(request):
+    if request.method == 'POST':
+        auction_user = AuctionUser.objects.get(user=request.user)
+        points = request.POST.get('points')
+        auction_user.auction_points += int(points)
+        auction_user.save()
+
+        return HttpResponseRedirect(reverse('success'))
+
+    return render(request, 'subastas/recharge.html')
+
+
+@login_required
+def search(request):
+    QUERY = "searchField"
+    MODEL_MAP = {Item: ["name"]}
+
+    objects = []
+
+    for model, fields in MODEL_MAP.iteritems():
+        objects += generic_search(request, model, fields, QUERY)
+
+    return render_to_response("subastas/search_results.html",
+                              {"objects": objects,
+                               "search_string": request.GET.get(QUERY, ""),
+                               })
+
+
+@login_required
+def poll_auction(request):
+    auction = Auction.objects.get(pk=request.GET["pk"])
+    bids = len(Bid.objects.filter(auction=auction))
+
+    end_date = {
+        "year": auction.end_date.year,
+        "month": auction.end_date.month,
+        "day": auction.end_date.day,
+        "hour": auction.end_date.hour,
+        "minute": auction.end_date.minute,
+        "second": auction.end_date.second,
+    }
+
+    n = timezone.now()
+    now = {
+        "year": n.year,
+        "month": n.month,
+        "day": n.day,
+        "hour": n.hour,
+        "minute": n.minute,
+        "second": n.second,
+    }
+
+    res = {"winner": auction.winner.user.username,
+           "winner_id": auction.winner.user.pk,
+           "bids": bids,
+           "end_date": end_date,
+           "now": now,
+           }
+
+    return HttpResponse(json.dumps(res))
+
+
+@login_required
+def poll_offer(request):
+    offer = Offer.objects.get(pk=request.GET["pk"])
+
+    sold = 'false'
+    if offer.sold:
+        sold = 'true'
+
+    res = {"winner": offer.winner.user.username,
+           "winner_id": offer.winner.user.pk,
+           "sold": sold,
+           }
+
+    return HttpResponse(json.dumps(res))

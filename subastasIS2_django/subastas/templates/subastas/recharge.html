@@ -1,0 +1,96 @@
+{% extends "subastas/base.html" %}
+
+{% block title %}JDLS|Recarga {% endblock %}
+
+{% block content %}
+<script type="text/javascript">
+    <!--
+    var downStrokeField;
+    function autojump(fieldName,nextFieldName,fakeMaxLength)
+    {
+    var myForm=document.forms[document.forms.length - 1];
+    var myField=myForm.elements[fieldName];
+    myField.nextField=myForm.elements[nextFieldName];
+
+    if (myField.maxLength == null)
+       myField.maxLength=fakeMaxLength;
+
+    myField.onkeydown=autojump_keyDown;
+    myField.onkeyup=autojump_keyUp;
+    }
+
+    function autojump_keyDown()
+    {
+    this.beforeLength=this.value.length;
+    downStrokeField=this;
+    }
+
+    function autojump_keyUp()
+    {
+    if (
+       (this == downStrokeField) &&
+       (this.value.length > this.beforeLength) &&
+       (this.value.length >= this.maxLength)
+       )
+       this.nextField.focus();
+    downStrokeField=null;
+    }
+    //-->
+    </script>
+<header>
+    <h2>Recarga de puntos</h2>
+    <p>Selecciona el paquete de puntos que quieres e introduce tu tarjeta de crédito para comprar los puntos de subasta seleccionados.</p>
+</header>
+<form class="form-horizontal" method="post" action="{% url 'recharge' %}">
+    {% csrf_token %}
+    <input class="radiopoints" type="radio" name="points" value="10" checked="checked" />10 Puntos (5€)
+    <input class="radiopoints" type="radio" name="points" value="15" />15 Puntos (7€)
+    <input class="radiopoints" type="radio" name="points" value="30" />30 Puntos (20€)
+    <input class="radiopoints" type="radio" name="points" value="50" />50 Puntos (35€)
+    <input class="radiopoints" type="radio" name="points" value="100" />100 Puntos (60€)
+    <br />
+    <div class="cc">
+        <span>Tarjeta de crédito: </span>
+        <input class="inputCard form-control" type="number" min="1000" max="9999" size="4" maxlength="4" name="creditCard1" id="creditCard1" required /> -
+        <input class="inputCard form-control" type="number" min="1000" max="9999" size="4" maxlength="4" name="creditCard2" id="creditCard2" required /> -
+        <input class="inputCard form-control" type="number" min="1000" max="9999" size="4" maxlength="4" name="creditCard3" id="creditCard3" required /> -
+        <input class="inputCard form-control" type="number" min="1000" max="9999" size="4" maxlength="4" name="creditCard4" id="creditCard4" required />
+        <span id="expiration">Fecha de expiración: </span>
+        <select name='expireMM' id='expireMM'>
+            <option value=''>Mes</option>
+            <option value='01'>Enero</option>
+            <option value='02'>Febrero</option>
+            <option value='03'>Marzo</option>
+            <option value='04'>Abril</option>
+            <option value='05'>Mayo</option>
+            <option value='06'>Junio</option>
+            <option value='07'>Julio</option>
+            <option value='08'>Agosto</option>
+            <option value='09'>Septiembre</option>
+            <option value='10'>Octubre</option>
+            <option value='11'>Noviembre</option>
+            <option value='12'>Diciembre</option>
+        </select>
+        <select name='expireYY' id='expireYY'>
+            <option value=''>Año</option>
+            <option value='13'>2013</option>
+            <option value='14'>2014</option>
+            <option value='15'>2015</option>
+            <option value='16'>2016</option>
+            <option value='17'>2017</option>
+            <option value='18'>2018</option>
+            <option value='19'>2019</option>
+        </select>
+        <input class="inputCard" type="hidden" name="expiry" id="expiry" maxlength="4"/>
+    </div>
+    <input class="button body" type="submit" value="Comprar" />
+</form>
+<script type="text/javascript">
+<!--
+    autojump('creditCard1', 'creditCard2', 4);
+    autojump('creditCard2', 'creditCard3', 4);
+    autojump('creditCard3', 'creditCard4', 4);
+    autojump('creditCard4', 'expireMM', 4);
+    //-->
+</script>
+{% endblock %}
